@@ -162,13 +162,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none" || deletedList.style.display === "") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";  
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
-    });
+deletedList.style.display = "none";
+
+showDeletedBtn.addEventListener("click", () => {
+    if (deletedList.style.display === "none") {
+        deletedList.style.display = "block";
+        showDeletedBtn.textContent = "Hide Deleted";  
+    } else {
+        deletedList.style.display = "none";
+        showDeletedBtn.textContent = "Show Deleted";
+    }
 });
