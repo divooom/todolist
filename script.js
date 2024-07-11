@@ -45,6 +45,29 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
+        // 클릭 시 디테일 입력칸을 추가하는 이벤트
+        span.addEventListener("click", () => {
+            if (!li.querySelector(".detail-input")) {
+                const detailInput = document.createElement("input");
+                detailInput.type = "text";
+                detailInput.className = "detail-input";
+                detailInput.placeholder = "Enter details";
+                
+                detailInput.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        const detailText = document.createElement("p");
+                        detailText.className = "detail-text";
+                        detailText.textContent = detailInput.value;
+                        li.appendChild(detailText);
+                        detailInput.remove();
+                    }
+                });
+
+                li.appendChild(detailInput);
+                detailInput.focus();
+            }
+        });
+
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "🗑";
