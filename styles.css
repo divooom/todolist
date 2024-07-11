@@ -62,7 +62,7 @@ ul {
     align-items: center;
     justify-content: space-between; /* 이 줄 추가 */
     padding: 20px 0;  /* 패딩을 2배로 키움 */
-    cursor: move;  /* 드래그 가능하게 설정 */
+    cursor: default;  /* 기본 커서로 설정 */
 }
 
 .todo-item.completed .text {
@@ -71,7 +71,7 @@ ul {
 }
 
 .drag-handle {
-    cursor: move;
+    cursor: move; /* 드래그 핸들에만 4방향 화살표 커서를 적용 */
     margin-right: 20px;  /* 마진을 2배로 키움 */
     font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
 }
@@ -85,6 +85,7 @@ ul {
 .text {
     flex: 1;
     font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+    cursor: default; /* 텍스트에 기본 커서 적용 */
 }
 
 .delete-btn {
@@ -133,7 +134,7 @@ ul {
 }
 
 /* 추가되는 CSS */.detail-input {
-     display: none; /* 초기에는 숨겨진 상태 */
+    display: none; /* 초기에는 숨겨진 상태 */
     width: calc(100% - 40px); /* 너비를 부모 요소 크기에서 패딩 값만큼 제외한 값으로 설정 */
     padding: 10px;
     margin-top: 10px;
