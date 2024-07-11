@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
-        deleteBtn.textContent = "🗑";
-        deleteBtn.style.marginLeft = "auto";
+        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
+        deleteBtn.style.marginLeft = "10px";
         deleteBtn.addEventListener("click", () => {
             todoList.removeChild(li);
             const deletedItem = createTodoItem(text, true, checkbox.checked);
@@ -107,9 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isDeleted) {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
-            restoreBtn.textContent = "↺";
-            restoreBtn.style.marginLeft = "auto";
-            restoreBtn.style.fontSize = "1.9em"; // 크기를 190%로 설정
+            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
+            restoreBtn.style.marginLeft = "10px";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
