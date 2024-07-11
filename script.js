@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const todoItem = createTodoItem(text);
             todoList.appendChild(todoItem);
             todoInput.value = "";
+            updateTodoNumbers();
         }
     }
 
@@ -32,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCompleted) {
             li.classList.add("completed");
         }
+
+        const number = document.createElement("span");
+        number.className = "todo-number";
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
@@ -102,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
             todoList.removeChild(li);
             const deletedItem = createTodoItem(text, true, checkbox.checked);
             deletedList.appendChild(deletedItem);
+            updateTodoNumbers();
         });
 
         if (isDeleted) {
@@ -112,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
+                updateTodoNumbers();
             });
 
             const spacer = document.createElement("span");
@@ -119,18 +125,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
             li.appendChild(dragHandle);
             li.appendChild(checkbox);
+            li.appendChild(number);
             li.appendChild(span);
             li.appendChild(spacer);
             li.appendChild(restoreBtn);
         } else {
             li.appendChild(dragHandle);
             li.appendChild(checkbox);
+            li.appendChild(number);
             li.appendChild(span);
             li.appendChild(editBtn);
             li.appendChild(deleteBtn);
         }
 
         return li;
+    }
+
+    function updateTodoNumbers() {
+        const items = todoList.querySelectorAll('.todo-item');
+        items.forEach((item, index) => {
+            const number = item.querySelector('.todo-number');
+            number.textContent = `${index + 1}. `;
+        });
     }
 
     let draggedItem = null;
@@ -161,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 targetItem.before(draggedItem);
             }
+            updateTodoNumbers();
         }
     }
 
