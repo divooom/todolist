@@ -7,13 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
+    let currentList = null;
+
     deletedList.style.display = "none"; // 초기 display 설정
 
-    addABtn.addEventListener("click", () => addTodoToList(todoListA));
-    addBBtn.addEventListener("click", () => addTodoToList(todoListB));
+    addABtn.addEventListener("click", () => {
+        currentList = todoListA;
+        addTodoToList(todoListA);
+    });
+
+    addBBtn.addEventListener("click", () => {
+        currentList = todoListB;
+        addTodoToList(todoListB);
+    });
+
     todoInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
-            addTodoToList(todoListA);
+            addTodoToList(currentList || todoListA);
         }
     });
 
@@ -79,4 +89,129 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 input.addEventListener("keypress", (e) => {
                     if (e.key === "Enter") {
-                        const detailText =
+                        const detailText = document.createElement("p");
+                        detailText.className = "detail-text";
+                        detailText.textContent = input.value;
+                        li.appendChild(detailText);
+                        input.remove();
+                    }
+                });
+
+                li.appendChild(input);
+                input.focus();
+            }
+        });
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
+        editBtn.addEventListener("click", () => {
+            const newText = prompt("Edit your todo:", span.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                span.textContent = newText.trim();
+            }
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
+        deleteBtn.style.marginLeft = "10px";
+        deleteBtn.addEventListener("click", () => {
+            list.removeChild(li);
+            const deletedItem = createTodoItem(text, list, true, checkbox.checked);
+            deletedList.appendChild(deletedItem);
+            updateTodoNumbers(list);
+        });
+
+        if (isDeleted) {
+            const restoreBtn = document.createElement("button");
+            restoreBtn.className = "restore-btn";
+            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
+            restoreBtn.style.marginLeft = "10px";
+            restoreBtn.addEventListener("click", () => {
+                deletedList.removeChild(li);
+                list.appendChild(createTodoItem(text, list, false, checkbox.checked));
+                updateTodoNumbers(list);
+            });
+
+            const spacer = document.createElement("span");
+            spacer.style.flexGrow = "1";
+
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(number);
+            li.appendChild(span);
+            li.appendChild(spacer);
+            li.appendChild(restoreBtn);
+        } else {
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(number);
+            li.appendChild(span);
+            li.appendChild(editBtn);
+            li.appendChild(deleteBtn);
+        }
+
+        return li;
+    }
+
+    function updateTodoNumbers(list) {
+        const items = list.querySelectorAll('.todo-item');
+        items.forEach((item, index) => {
+            const number = item.querySelector('.todo-number');
+            number.textContent = `${index + 1}. `;
+        });
+    }
+
+    let draggedItem = null;
+    let dragging = false;
+
+    function handleDragStart(e) {
+        draggedItem = this.closest(".todo-item");
+        dragging = true;
+        setTimeout(() => {
+            draggedItem.style.display = 'none';
+        }, 0);
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        const targetItem = this.closest(".todo-item");
+        const targetList = targetItem.closest("ul");
+
+        if (targetItem !== draggedItem) {
+            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+            let draggedIndex = allItems.indexOf(draggedItem);
+            let droppedIndex = allItems.indexOf(targetItem);
+
+            if (draggedIndex < droppedIndex) {
+                targetItem.after(draggedItem);
+            } else {
+                targetItem.before(draggedItem);
+            }
+            updateTodoNumbers(targetList);
+        }
+    }
+
+    function handleDragEnd() {
+        setTimeout(() => {
+            draggedItem.style.display = 'flex';
+            dragging = false;
+            draggedItem = null;
+        }, 0);
+    }
+
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+            showDeletedBtn.textContent = "Hide Deleted";
+        } else {
+            deletedList.style.display = "none";
+            showDeletedBtn.textContent = "Show Deleted";
+        }
+    });
+});
