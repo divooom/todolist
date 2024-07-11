@@ -34,23 +34,16 @@ ul {
 
 li {
     padding: 10px;
-    padding-right: 10px; /* 우측 여백을 동일하게 설정 */
-    background: #444; /* 연한 회색 */
+    background: #444;
     margin-bottom: 5px;
     border-radius: 3px;
     display: flex;
     align-items: center;
+    justify-content: space-between; /* 요소들을 양 끝에 배치 */
     font-size: 1.8em;
     width: calc(100% - 20px); /* 좌우 여백을 고려한 width 설정 */
     box-sizing: border-box; /* padding과 border를 width에 포함시킴 */
     color: #ccc; /* 결과 텍스트 색상 연한 회색 */
-}
-
-li span {
-    
-    flex-grow: 1;
-    margin-left: 10px;
-    text-align: left;
 }
 
 li.completed span {
@@ -63,9 +56,7 @@ li.completed span {
     border: none;
     cursor: pointer;
     font-size: 2.0em;
-    margin-left: 10px;
     color: red;
-    order: 3; /* 삭제 버튼을 세 번째로 위치 */
 }
 
 .delete-btn:hover {
@@ -73,7 +64,6 @@ li.completed span {
 }
 
 .checkbox {
-    margin-left: 10px; /* 체크박스를 쓰레기통 바로 좌측에 위치하도록 설정 */
-    transform: scale(3.0); /* 체크박스 크기를 1.5배 키움 */
-   
+    margin-right: 10px; /* 체크박스를 삭제 버튼 우측에 위치하도록 설정 */
+    transform: scale(1.5); /* 체크박스 크기를 1.5배 키움 */
 }
