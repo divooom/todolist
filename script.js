@@ -119,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteBtn.addEventListener("click", () => {
             list.removeChild(li);
             const deletedItem = createTodoItem(text, list, true, checkbox.checked);
+            deletedItem.dataset.originalList = list.id;
             deletedList.appendChild(deletedItem);
             updateTodoNumbers(list);
         });
@@ -130,8 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.style.marginLeft = "10px";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
-                list.appendChild(createTodoItem(text, list, false, checkbox.checked));
-                updateTodoNumbers(list);
+                const originalListId = li.dataset.originalList;
+                const originalList = document.getElementById(originalListId);
+                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked));
+                updateTodoNumbers(originalList);
             });
 
             const spacer = document.createElement("span");
