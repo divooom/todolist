@@ -62,6 +62,7 @@ ul {
     align-items: center;
     padding: 20px 0;  /* 패딩을 2배로 키움 */
     cursor: move;  /* 드래그 가능하게 설정 */
+    justify-content: space-between; /* 아이템 사이 공간을 고르게 분배 */
 }
 
 .todo-item.completed .text {
@@ -131,7 +132,7 @@ ul {
     font-size: 0.65em; /* 크기를 65%로 줄임 */
 }
 
-/* 추가되는 CSS */.detail-input {
+.detail-input {
     display: none;
     width: 100%;
     padding: 10px;
