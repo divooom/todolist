@@ -1,75 +1,65 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    background-color: #000; /* 배경 검정색 */
-    color: white; /* 텍스트 흰색 */
+    background-color: #f0f0f0;
+    text-align: center;
 }
 
-#todo-app {
-    background: #333;
+.todo-container {
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #fff;
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 900px; /* 원래 크기로 조정 */
-    margin-top: 20px;
 }
 
-input {
-    
+h1 {
+    color: #333;
+}
+
+input[type="text"], button {
     padding: 10px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 1.2em;
-    box-sizing: border-box;
+    width: calc(100% - 22px);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
 }
 
 ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
 }
 
 li {
-    display: flex; /* Flexbox 사용 */
-    align-items: center; /* 세로 중앙 정렬 */
+    background-color: #f9f9f9;
     padding: 10px;
-    background: #444;
     margin-bottom: 5px;
-    border-radius: 3px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* 요소들을 양 끝에 배치 */
-    font-size: 1.8em;
-    width: calc(100% - 20px); /* 좌우 여백을 고려한 width 설정 */
-    box-sizing: border-box; /* padding과 border를 width에 포함시킴 */
-    color: #ccc; /* 결과 텍스트 색상 연한 회색 */
-}
-
-li span {
-    flex-grow: 1; 
-
-li.completed span {
-    color: #888;
-    text-decoration: line-through;
+    border-radius: 4px;
+    text-align: left;
 }
 
 .delete-btn {
-    background: none;
+    float: right;
+    background-color: #f44336;
+    color: white;
     border: none;
-    margin-left: 10px; /* 쓰레기통 아이콘과 체크박스 사이 여백 */
+    padding: 5px 10px;
     cursor: pointer;
-    font-size: 1.5em;
-    color: red;
 }
 
 .delete-btn:hover {
-    color: darkred;
-}
-
-.checkbox {
-    margin-left: auto; /* 체크박스를 오른쪽으로 이동 */
-    transform: scale(1.5); /* 체크박스 크기를 1.5배 키움 */
+    background-color: #cc0000;
 }
