@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
             dragHandle.addEventListener("mousedown", (e) => {
                 e.stopPropagation();
             });
+            dragHandle.addEventListener("dragstart", handleDragStart);
+            dragHandle.addEventListener("dragover", handleDragOver);
+            dragHandle.addEventListener("drop", handleDrop);
+            dragHandle.addEventListener("dragend", handleDragEnd);
         }
 
         const checkbox = document.createElement("input");
@@ -126,13 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(deleteBtn);
         }
 
-        if (!isDeleted) {
-            li.addEventListener("dragstart", handleDragStart);
-            li.addEventListener("dragover", handleDragOver);
-            li.addEventListener("drop", handleDrop);
-            li.addEventListener("dragend", handleDragEnd);
-        }
-
         return li;
     }
 
@@ -140,10 +137,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let dragging = false;
 
     function handleDragStart(e) {
-        draggedItem = this;
+        draggedItem = this.closest(".todo-item");
         dragging = true;
         setTimeout(() => {
-            this.style.display = 'none';
+            draggedItem.style.display = 'none';
         }, 0);
     }
 
@@ -153,56 +150,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function handleDrop(e) {
         e.preventDefault();
-        if (this !== draggedItem) {
+        const targetItem = this.closest(".todo-item");
+        if (targetItem !== draggedItem) {
             let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
             let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(this);
+            let droppedIndex = allItems.indexOf(targetItem);
 
             if (draggedIndex < droppedIndex) {
-                this.after(draggedItem);
+                targetItem.after(draggedItem);
             } else {
-                this.before(draggedItem);
+                targetItem.before(draggedItem);
             }
         }
     }
 
     function handleDragEnd() {
         setTimeout(() => {
-            this.style.display = 'flex';
+            draggedItem.style.display = 'flex';
             dragging = false;
             draggedItem = null;
         }, 0);
     }
-
-    todoList.addEventListener("click", (e) => {
-        if (e.target.classList.contains("drag-handle")) {
-            return;
-        }
-
-        const listItem = e.target.closest(".todo-item");
-        if (listItem) {
-            const detailInput = listItem.querySelector(".detail-input");
-            if (!detailInput && !dragging) {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.className = "detail-input";
-                input.placeholder = "Enter details";
-
-                input.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") {
-                        const detailText = document.createElement("p");
-                        detailText.className = "detail-text";
-                        detailText.textContent = input.value;
-                        listItem.appendChild(detailText);
-                        input.remove();
-                    }
-                });
-
-                listItem.appendChild(input);
-                input.focus();
-            }
-        }
-    });
 
     showDeletedBtn.addEventListener("click", () => {
         console.log("Button clicked. Current display:", deletedList.style.display);
