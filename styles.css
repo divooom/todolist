@@ -1,81 +1,78 @@
-body {
-    background-color: black;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('todo-input');
+    const addButton = document.getElementById('add-button');
+    const todoList = document.getElementById('todo-list');
+    const showDeletedButton = document.getElementById('show-deleted');
+    const deletedTodos = document.getElementById('deleted-todos');
+    const deletedList = document.getElementById('deleted-list');
+    let deletedItems = [];
 
-.container {
-    width: 900px;
-    margin-top: 20px;
-}
+    function addTodoItem() {
+        const todoText = input.value.trim();
+        if (todoText === '') return;
 
-.input-section {
-    display: flex;
-    align-items: center;
-}
+        const todoItem = document.createElement('li');
+        todoItem.className = 'todo-item';
 
-#todo-input {
-    width: 100%;
-    padding: 10px;
-    border: 2px solid #eaaa56;
-    box-sizing: border-box;
-    font-size: 16px;
-    color: grey;
-}
+        const dragIcon = document.createElement('span');
+        dragIcon.className = 'drag-icon';
+        dragIcon.innerHTML = '&#9776;';
 
-#add-button {
-    padding: 10px;
-    background-color: #eaaa56;
-    border: none;
-    color: black;
-    font-size: 18px;
-    cursor: pointer;
-}
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'checkbox';
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                todoItem.classList.add('checked');
+            } else {
+                todoItem.classList.remove('checked');
+            }
+        });
 
-.separator {
-    border: 1px solid #eaaa56;
-    margin: 10px 0;
-}
+        const text = document.createElement('span');
+        text.className = 'text';
+        text.textContent = todoText;
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete-button';
+        deleteButton.innerHTML = '&#128465;';
+        deleteButton.addEventListener('click', () => {
+            todoItem.remove();
+            deletedItems.push(todoItem);
+        });
 
-.todo-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-}
+        todoItem.appendChild(dragIcon);
+        todoItem.appendChild(checkbox);
+        todoItem.appendChild(text);
+        todoItem.appendChild(deleteButton);
 
-.todo-item .drag-icon {
-    cursor: move;
-}
+        todoList.appendChild(todoItem);
+        input.value = '';
+    }
 
-.todo-item .checkbox {
-    margin-right: 10px;
-    cursor: pointer;
-}
+    addButton.addEventListener('click', addTodoItem);
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addTodoItem();
+        }
+    });
 
-.todo-item .delete-button {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-
-.checked .text {
-    color: grey;
-    text-decoration: line-through;
-}
-
-.checked .checkbox {
-    background-color: #4acc26;
-}
+    showDeletedButton.addEventListener('click', () => {
+        if (deletedTodos.style.display === 'none') {
+            deletedTodos.style.display = 'block';
+            deletedList.innerHTML = '';
+            deletedItems.forEach(item => {
+                const restoreButton = document.createElement('button');
+                restoreButton.textContent = 'Restore';
+                restoreButton.addEventListener('click', () => {
+                    todoList.appendChild(item);
+                    deletedItems = deletedItems.filter(i => i !== item);
+                });
+                item.appendChild(restoreButton);
+                deletedList.appendChild(item);
+            });
+        } else {
+            deletedTodos.style.display = 'none';
+        }
+    });
+});
