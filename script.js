@@ -29,9 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
-        dragHandle.addEventListener("mousedown", (e) => {
-            e.stopPropagation(); // Prevent drag handle click from triggering detail input
-        });
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -50,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // 클릭 시 디테일 입력칸을 추가하는 이벤트
         span.addEventListener("click", (e) => {
-            if (!li.querySelector(".detail-input")) {
+            if (!li.querySelector(".detail-input") && !dragging) {
                 const detailInput = document.createElement("input");
                 detailInput.type = "text";
                 detailInput.className = "detail-input";
@@ -94,9 +91,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let draggedItem = null;
+    let dragging = false; // 드래그 상태를 추적하기 위한 변수
 
     function handleDragStart(e) {
         draggedItem = this;
+        dragging = true;
         setTimeout(() => {
             this.style.display = 'none';
         }, 0);
@@ -124,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleDragEnd() {
         setTimeout(() => {
             this.style.display = 'flex';
+            dragging = false;
             draggedItem = null;
         }, 0);
     }
