@@ -82,12 +82,14 @@ ul {
 }
 
 .todo-item + .todo-item::before {
-    content: "";
+     content: "";
     position: absolute;
-    left: 40px;  /* 햄버거 아이콘 끝에 정렬 */
-    right: 40px;  /* 쓰레기통 아이콘 끝에 정렬 */
+    left: 0;  /* 햄버거 아이콘의 왼쪽 끝에 정렬 */
+    right: 0;  /* 쓰레기통 아이콘의 오른쪽 끝에 정렬 */
     top: 0;
     border-top: 1px solid #717171;  /* 얇은 회색 선 */
+    margin-left: 40px;  /* 왼쪽 마진 */
+    margin-right: 60px;  /* 오른쪽 마진 */
 }
 
 .todo-item.completed .text {
