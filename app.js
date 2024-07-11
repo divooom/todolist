@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 restoreButton.textContent = 'Restore';
                 restoreButton.addEventListener('click', () => {
                     todoList.appendChild(item);
+                    item.removeChild(item.lastChild);
                     deletedItems = deletedItems.filter(i => i !== item);
                 });
                 item.appendChild(restoreButton);
