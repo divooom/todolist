@@ -7,13 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="todo-container">
-        <h1>Todo List</h1>
-        <input type="text" id="todo-input" placeholder="할 일을 입력하세요">
-        <button id="add-btn">추가</button>
+    <div class="container">
+        <div class="input-section">
+            <input type="text" id="todo-input" placeholder="Enter List">
+            <button id="add-button">+</button>
+        </div>
+        <hr class="separator">
         <ul id="todo-list"></ul>
+        <hr class="separator">
+        <button id="show-deleted">🗑️</button>
+        <div id="deleted-todos" style="display:none;">
+            <h3>Deleted Items</h3>
+            <ul id="deleted-list"></ul>
+        </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
