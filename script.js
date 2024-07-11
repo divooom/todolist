@@ -96,8 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
+            restoreBtn.style.marginLeft = "auto";
             restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
-            restoreBtn.style.marginLeft = "auto"; // 오른쪽 정렬
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
@@ -110,6 +110,8 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(span);
         if (!isDeleted) {
             li.appendChild(deleteBtn);
+        } else {
+            li.appendChild(restoreBtn); // restoreBtn을 맨 마지막에 추가합니다
         }
 
         if (!isDeleted) {
