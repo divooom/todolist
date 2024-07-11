@@ -47,7 +47,7 @@ li {
 }
 
 li span {
-    order: 1; /* 텍스트를 첫 번째로 위치 */
+    
     flex-grow: 1;
     margin-left: 10px;
     text-align: left;
