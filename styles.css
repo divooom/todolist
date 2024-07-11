@@ -40,8 +40,9 @@ li {
     border-radius: 3px;
     display: flex;
     align-items: center;
-    font-size: 1.2em;
+    font-size: 1.8em;
     width: calc(100% - 20px); /* 좌우 여백을 고려한 width 설정 */
+    box-sizing: border-box; /* padding과 border를 width에 포함시킴 */
     color: #ccc; /* 결과 텍스트 색상 연한 회색 */
 }
 
@@ -60,11 +61,16 @@ li.completed span {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.2em;
+    font-size: 2.0em;
     margin-left: 10px;
     color: red;
 }
 
 .delete-btn:hover {
     color: darkred;
+}
+
+.checkbox {
+    margin-left: 10px; /* 체크박스를 쓰레기통 바로 좌측에 위치하도록 설정 */
+    transform: scale(1.5); /* 체크박스 크기를 1.5배 키움 */
 }
