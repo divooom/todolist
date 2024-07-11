@@ -4,17 +4,17 @@ body {
     justify-content: center;
     align-items: flex-start;
     height: 100vh;
-    background-color: #000; /* 검정색 배경 */
-    color: white; /* 텍스트 색상 */
+    background-color: #000;
+    color: white;
 }
 
 #todo-app {
-    background: #333; /* 어두운 회색 배경 */
+    background: #333;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
-    margin-top: 20px; /* 상단 여백 추가 */
+    margin-top: 20px;
 }
 
 input {
@@ -23,8 +23,8 @@ input {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    font-size: 1.2em; /* 텍스트 크기 */
-    box-sizing: border-box; /* 오른쪽 여백 문제 해결 */
+    font-size: 1.2em;
+    box-sizing: border-box;
 }
 
 ul {
@@ -34,19 +34,19 @@ ul {
 
 li {
     padding: 10px;
-    background: #444; /* 어두운 회색 배경 */
+    background: #444;
     margin-bottom: 5px;
     border-radius: 3px;
     display: flex;
     align-items: center;
-    font-size: 1.2em; /* 텍스트 크기 */
-    width: 100%; /* 넉넉한 폭 */
+    font-size: 1.2em;
+    width: 100%;
 }
 
 li span {
-    flex-grow: 1; /* 글자가 넉넉히 들어가도록 설정 */
-    margin-left: 10px; /* 왼쪽 여백 추가 */
-    text-align: left; /* 왼쪽 정렬 */
+    flex-grow: 1;
+    margin-left: 10px;
+    text-align: left;
 }
 
 li.completed span {
@@ -60,7 +60,7 @@ li.completed span {
     color: red;
     cursor: pointer;
     font-size: 1.2em;
-    margin-left: 10px; /* 삭제 버튼과 텍스트 사이 여백 */
+    margin-left: 10px;
 }
 
 .delete-btn:hover {
