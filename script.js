@@ -109,6 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(dragHandle);
         li.appendChild(checkbox);
         li.appendChild(span);
+        // deleteBtn을 맨 마지막에 추가합니다
+        if (!isDeleted) {
+            li.appendChild(deleteBtn);
+        }
 
         // 드래그 이벤트 리스너 추가
         if (!isDeleted) {
