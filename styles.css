@@ -48,8 +48,7 @@ li {
 }
 
 li span {
-    flex-grow: 1; /* 남은 공간을 텍스트가 채우도록 설정 */
-}
+    flex-grow: 1; 
 
 li.completed span {
     color: #888;
@@ -70,6 +69,6 @@ li.completed span {
 }
 
 .checkbox {
-    margin-left: 10px; /* 체크박스와 텍스트 사이 여백 */
+    margin-left: auto; /* 체크박스를 오른쪽으로 이동 */
     transform: scale(1.5); /* 체크박스 크기를 1.5배 키움 */
 }
