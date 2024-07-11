@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
+    deletedList.style.display = "none"; // 초기 display 설정
+
     addBtn.addEventListener("click", addTodo);
     todoInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
@@ -162,15 +164,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
-deletedList.style.display = "none";
-
-showDeletedBtn.addEventListener("click", () => {
-    if (deletedList.style.display === "none") {
-        deletedList.style.display = "block";
-        showDeletedBtn.textContent = "Hide Deleted";  
-    } else {
-        deletedList.style.display = "none";
-        showDeletedBtn.textContent = "Show Deleted";
-    }
-});
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+            showDeletedBtn.textContent = "Hide Deleted";  
+        } else {
+            deletedList.style.display = "none";
+            showDeletedBtn.textContent = "Show Deleted";
+        }
+    });
 });
