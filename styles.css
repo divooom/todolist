@@ -133,8 +133,8 @@ ul {
 }
 
 /* 추가되는 CSS */.detail-input {
-    display: none;
-    width: 100%;
+     display: none; /* 초기에는 숨겨진 상태 */
+    width: calc(100% - 40px); /* 너비를 부모 요소 크기에서 패딩 값만큼 제외한 값으로 설정 */
     padding: 10px;
     margin-top: 10px;
     border: 2px solid #eaaa56;
