@@ -98,6 +98,18 @@ ul {
     color: darkred; /* hover 효과 */
 }
 
+.restore-btn {
+    background-color: transparent;
+    border: none;
+    color: green; /* 기본 초록색 */
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.restore-btn:hover {
+    color: darkgreen; /* hover 효과 */
+}
+
 #show-deleted-btn {
     background-color: #eaaa56;
     border: none;
