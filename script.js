@@ -29,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
+        dragHandle.addEventListener("mousedown", (e) => {
+            e.stopPropagation(); // Prevent drag handle click from triggering detail input
+        });
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -46,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         span.textContent = text;
 
         // 클릭 시 디테일 입력칸을 추가하는 이벤트
-        span.addEventListener("click", () => {
+        span.addEventListener("click", (e) => {
             if (!li.querySelector(".detail-input")) {
                 const detailInput = document.createElement("input");
                 detailInput.type = "text";
