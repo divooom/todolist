@@ -24,9 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createTodoItem(text, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
-        li.style.display = "flex"; // 추가
-        li.style.alignItems = "center"; // 추가
-        li.style.justifyContent = "space-between"; // 추가
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+        li.style.justifyContent = "space-between";
         if (isCompleted) {
             li.classList.add("completed");
         }
@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
         if (isDeleted) {
-            dragHandle.style.display = "none"; // 삭제된 목록에서는 드래그 핸들 숨김
+            dragHandle.style.display = "none";
         } else {
             dragHandle.addEventListener("mousedown", (e) => {
-                e.stopPropagation(); // Prevent drag handle click from triggering detail input
+                e.stopPropagation();
             });
         }
 
@@ -61,14 +61,13 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
-        // 클릭 시 디테일 입력칸을 추가하는 이벤트
         span.addEventListener("click", (e) => {
             if (!li.querySelector(".detail-input") && !dragging) {
                 const detailInput = document.createElement("input");
                 detailInput.type = "text";
                 detailInput.className = "detail-input";
                 detailInput.placeholder = "Enter details";
-                
+
                 detailInput.addEventListener("keypress", (e) => {
                     if (e.key === "Enter") {
                         const detailText = document.createElement("p");
@@ -97,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
-            restoreBtn.style.marginLeft = "auto";
             restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
@@ -111,9 +109,10 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(span);
         if (!isDeleted) {
             li.appendChild(deleteBtn);
+        } else {
+            li.appendChild(restoreBtn); // restoreBtn을 맨 마지막에 추가합니다
         }
 
-        // 드래그 이벤트 리스너 추가
         if (!isDeleted) {
             li.addEventListener("dragstart", handleDragStart);
             li.addEventListener("dragover", handleDragOver);
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let draggedItem = null;
-    let dragging = false; // 드래그 상태를 추적하기 위한 변수
+    let dragging = false;
 
     function handleDragStart(e) {
         draggedItem = this;
