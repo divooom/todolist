@@ -84,4 +84,81 @@ ul {
 
 .text {
     flex: 1;
-    font-size: 1em;  /* 폰트 크기를 기본값
+    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+    cursor: default; /* 텍스트에 기본 커서 적용 */
+}
+
+.edit-btn {
+    background-color: transparent;
+    border: none;
+    color: #007bff; /* 파란색 */
+    cursor: pointer;
+    font-size: 1.2em; /* 크기를 120%로 키움 */
+    margin-left: 10px;
+}
+
+.edit-btn:hover {
+    color: #0056b3; /* hover 효과 */
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: red; /* 기본 빨간색 */
+    cursor: pointer;
+    font-size: 1.2em; /* 크기를 120%로 키움 */
+    margin-left: 10px;
+}
+
+.delete-btn:hover {
+    color: darkred; /* hover 효과 */
+}
+
+.restore-btn {
+    background-color: transparent;
+    border: none;
+    color: green; /* 기본 초록색 */
+    cursor: pointer;
+    font-size: 1.4em; /* 크기를 140%로 키움 */
+    margin-left: 10px; /* 오른쪽으로 정렬 */
+}
+
+.restore-btn:hover {
+    color: darkgreen; /* hover 효과 */
+}
+
+#show-deleted-btn {
+    background-color: #eaaa56;
+    border: none;
+    color: black;
+    padding: 20px 40px;  /* 패딩을 2배로 키움 */
+    cursor: pointer;
+    margin-top: 20px;  /* 마진을 2배로 키움 */
+    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+}
+
+#show-deleted-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
+}
+
+#deleted-list {
+    display: none;
+    font-size: 1em; /* 크기를 기본값으로 설정 */
+}
+
+/* 추가되는 CSS */.detail-input {
+    display: none; /* 초기에는 숨겨진 상태 */
+    width: calc(100% - 40px); /* 너비를 부모 요소 크기에서 패딩 값만큼 제외한 값으로 설정 */
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
+}
