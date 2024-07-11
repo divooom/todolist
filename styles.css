@@ -13,6 +13,8 @@ body {
 .container {
     width: 1200px;
     margin-top: 25px;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-area {
