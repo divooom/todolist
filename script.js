@@ -196,7 +196,18 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 targetItem.before(draggedItem);
             }
+            
             updateTodoNumbers(targetList);
+            
+            // Re-attach delete button event listener
+            const deleteBtn = draggedItem.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', () => {
+                targetList.removeChild(draggedItem);
+                const deletedItem = createTodoItem(draggedItem.querySelector('.text').textContent, targetList, true, draggedItem.querySelector('.checkbox').checked);
+                deletedItem.dataset.originalList = targetList.id;
+                deletedList.appendChild(deletedItem);
+                updateTodoNumbers(targetList);
+            });
         }
     }
 
