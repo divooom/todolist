@@ -7,7 +7,7 @@ body {
     align-items: start;
     height: 100vh;
     margin: 0;
-    font-size: 2em;  /* 폰트 크기 2배로 키움 */
+    font-size: 1.7em;  /* 폰트 크기 1.7배로 키움 */
 }
 
 .container {
