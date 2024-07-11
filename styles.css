@@ -119,4 +119,31 @@ ul {
     padding: 20px 40px;  /* 패딩을 2배로 키움 */
     cursor: pointer;
     margin-top: 20px;  /* 마진을 2배로 키움 */
-    font-size: 0
+    font-size: 0.65em;  /* 폰트 크기를 65%로 줄임 */
+}
+
+#show-deleted-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
+}
+
+#deleted-list {
+    display: none;
+    font-size: 0.65em; /* 크기를 65%로 줄임 */
+}
+
+/* 추가되는 CSS */.detail-input {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
+}
