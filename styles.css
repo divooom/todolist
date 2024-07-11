@@ -131,7 +131,7 @@ ul {
     background-color: #eaaa56;
     border: none;
     color: black;
-    padding: 20px 40px;  /* 패딩을 2배로 키움 */
+    padding: 10px 20px;  /* 패딩을 2배로 키움 */
     cursor: pointer;
     margin-top: 20px;  /* 마진을 2배로 키움 */
     font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
@@ -143,7 +143,7 @@ ul {
 
 #deleted-list {
     display: none;
-    font-size: 1em; /* 크기를 기본값으로 설정 */
+    font-size: 0.7em; /* 크기를 0.7배로 설정 */
 }
 
 /* 추가되는 CSS */.detail-input {
