@@ -9,17 +9,19 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
             taskText.textContent = task;
             taskText.style.flexGrow = '1';
 
-            // 체크박스 생성
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.style.marginLeft = '10px';
-            checkbox.addEventListener('change', function () {
-                if (checkbox.checked) {
-                    li.classList.add('completed');
-                } else {
-                    li.classList.remove('completed');
-                }
-            });
+           // 체크박스 생성
+const checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.classList.add('checkbox'); // 클래스 추가
+checkbox.style.marginLeft = '10px'; // 기존 스타일 유지
+checkbox.addEventListener('change', function () {
+    if (checkbox.checked) {
+        li.classList.add('completed');
+    } else {
+        li.classList.remove('completed');
+    }
+});
+
 
             // 삭제 버튼 생성
             const deleteBtn = document.createElement('button');
@@ -38,18 +40,5 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
             document.getElementById('todo-list').appendChild(li);
             e.target.value = ''; // 입력란 초기화
         }
-    }
-});
-
-// 체크박스 생성
-const checkbox = document.createElement('input');
-checkbox.type = 'checkbox';
-checkbox.classList.add('checkbox'); // 클래스 추가
-checkbox.style.marginLeft = '10px'; // 기존 스타일 유지
-checkbox.addEventListener('change', function () {
-    if (checkbox.checked) {
-        li.classList.add('completed');
-    } else {
-        li.classList.remove('completed');
     }
 });
