@@ -1,12 +1,12 @@
 body {
     background-color: black;
     color: white;
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: start;
     height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
 }
 
 .container {
@@ -14,36 +14,37 @@ body {
     margin-top: 20px;
 }
 
-.input-section {
+.input-area {
     display: flex;
     align-items: center;
 }
 
 #todo-input {
-    width: 100%;
+    flex: 1;
     padding: 10px;
     border: 2px solid #eaaa56;
-    box-sizing: border-box;
-    font-size: 16px;
-    color: grey;
+    color: #eaaa56;
+    background-color: black;
 }
 
-#add-button {
-    padding: 10px;
+#todo-input::placeholder {
+    color: gray;
+}
+
+#add-btn {
     background-color: #eaaa56;
     border: none;
     color: black;
-    font-size: 18px;
+    padding: 10px 20px;
     cursor: pointer;
 }
 
-.separator {
+.divider {
     border: 1px solid #eaaa56;
-    margin: 10px 0;
 }
 
 ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -54,28 +55,40 @@ ul {
     padding: 10px 0;
 }
 
-.todo-item .drag-icon {
-    cursor: move;
-}
-
-.todo-item .checkbox {
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.todo-item .delete-button {
-    margin-left: auto;
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-}
-
-.checked .text {
-    color: grey;
+.todo-item.completed .text {
     text-decoration: line-through;
+    color: gray;
 }
 
-.checked .checkbox {
-    background-color: #4acc26;
+.drag-handle {
+    cursor: move;
+    margin-right: 10px;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.text {
+    flex: 1;
+}
+
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #eaaa56;
+    cursor: pointer;
+}
+
+#show-deleted-btn {
+    background-color: #eaaa56;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#deleted-list {
+    display: none;
 }
