@@ -173,7 +173,8 @@ ul {
     cursor: pointer;
     margin-top: 30px; /* 기존 간격의 1.5배로 증가 */
     font-size: 1em;
-    align-self: flex-end;
+    margin-left: auto; /* 오른쪽 정렬 */
+    margin-right: 25px; /* 오른쪽 패딩 값 */
 }
 
 #show-deleted-btn:hover {
