@@ -21,21 +21,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function createTodoItem(text, isDeleted = false) {
+    function createTodoItem(text, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
-        li.setAttribute("draggable", "true");
+        if (isCompleted) {
+            li.classList.add("completed");
+        }
+        if (!isDeleted) {
+            li.setAttribute("draggable", "true");
+        }
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
-        dragHandle.addEventListener("mousedown", (e) => {
-            e.stopPropagation(); // Prevent drag handle click from triggering detail input
-        });
+        if (isDeleted) {
+            dragHandle.style.display = "none"; // 삭제된 목록에서는 드래그 핸들 숨김
+        } else {
+            dragHandle.addEventListener("mousedown", (e) => {
+                e.stopPropagation(); // Prevent drag handle click from triggering detail input
+            });
+        }
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
+        checkbox.checked = isCompleted;
         checkbox.addEventListener("change", () => {
             if (checkbox.checked) {
                 li.classList.add("completed");
@@ -77,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.textContent = "↺";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
-                todoList.appendChild(createTodoItem(text));
+                todoList.appendChild(createTodoItem(text, false, checkbox.checked));
             });
             li.appendChild(restoreBtn);
         } else {
@@ -86,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteBtn.textContent = "🗑";
             deleteBtn.addEventListener("click", () => {
                 todoList.removeChild(li);
-                deletedList.appendChild(createTodoItem(text, true));
+                deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
             });
             li.appendChild(deleteBtn);
         }
@@ -96,10 +106,12 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(span);
 
         // 드래그 이벤트 리스너 추가
-        li.addEventListener("dragstart", handleDragStart);
-        li.addEventListener("dragover", handleDragOver);
-        li.addEventListener("drop", handleDrop);
-        li.addEventListener("dragend", handleDragEnd);
+        if (!isDeleted) {
+            li.addEventListener("dragstart", handleDragStart);
+            li.addEventListener("dragover", handleDragOver);
+            li.addEventListener("drop", handleDrop);
+            li.addEventListener("dragend", handleDragEnd);
+        }
 
         return li;
     }
@@ -125,28 +137,3 @@ document.addEventListener("DOMContentLoaded", () => {
             let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
             let draggedIndex = allItems.indexOf(draggedItem);
             let droppedIndex = allItems.indexOf(this);
-
-            if (draggedIndex < droppedIndex) {
-                this.after(draggedItem);
-            } else {
-                this.before(draggedItem);
-            }
-        }
-    }
-
-    function handleDragEnd() {
-        setTimeout(() => {
-            this.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
-
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-        } else {
-            deletedList.style.display = "none";
-        }
-    });
-});
