@@ -165,8 +165,10 @@ document.addEventListener("DOMContentLoaded", () => {
     showDeletedBtn.addEventListener("click", () => {
         if (deletedList.style.display === "none" || deletedList.style.display === "") {
             deletedList.style.display = "block";
+            showDeletedBtn.textContent = "Hide Deleted";  
         } else {
             deletedList.style.display = "none";
+            showDeletedBtn.textContent = "Show Deleted";
         }
     });
 });
