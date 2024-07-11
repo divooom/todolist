@@ -7,6 +7,7 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
             // 체크박스 생성
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
+            checkbox.style.marginRight = '10px'; // 체크박스와 텍스트 사이의 간격 조정
             checkbox.addEventListener('change', function () {
                 if (checkbox.checked) {
                     li.classList.add('completed');
@@ -21,14 +22,14 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
 
             // 삭제 버튼 생성
             const deleteBtn = document.createElement('button');
-            deleteBtn.innerHTML = '&#10060;'; // X 아이콘으로 변경
+            deleteBtn.innerHTML = '&#10060;';
             deleteBtn.className = 'delete-btn';
             deleteBtn.addEventListener('click', function () {
                 li.remove();
             });
 
             // li에 요소 추가
-            li.appendChild(checkbox);
+            li.appendChild(checkbox); // 체크박스를 맨 앞에 추가
             li.appendChild(taskText);
             li.appendChild(deleteBtn);
 
