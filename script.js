@@ -201,14 +201,19 @@ document.addEventListener("DOMContentLoaded", () => {
             
             // Re-attach delete button event listener
             const deleteBtn = draggedItem.querySelector('.delete-btn');
-            deleteBtn.addEventListener('click', () => {
-                targetList.removeChild(draggedItem);
-                const deletedItem = createTodoItem(draggedItem.querySelector('.text').textContent, targetList, true, draggedItem.querySelector('.checkbox').checked);
-                deletedItem.dataset.originalList = targetList.id;
-                deletedList.appendChild(deletedItem);
-                updateTodoNumbers(targetList);
-            });
+            deleteBtn.removeEventListener("click", handleDelete);
+            deleteBtn.addEventListener('click', handleDelete);
         }
+    }
+
+    function handleDelete() {
+        const list = this.closest("ul");
+        const li = this.closest(".todo-item");
+        list.removeChild(li);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked);
+        deletedItem.dataset.originalList = list.id;
+        deletedList.appendChild(deletedItem);
+        updateTodoNumbers(list);
     }
 
     function handleDragEnd() {
