@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function createTodoItem(text, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
-        li.className = isDeleted ? "" : "todo-item"; // 삭제된 항목에 클래스 제거
+        li.className = "todo-item";
         li.style.display = "flex";
         li.style.alignItems = "center";
         li.style.justifyContent = "space-between";
