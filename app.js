@@ -21,7 +21,7 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
 
             // 삭제 버튼 생성
             const deleteBtn = document.createElement('button');
-            deleteBtn.textContent = '삭제';
+            deleteBtn.innerHTML = '&#10060;'; // X 아이콘으로 변경
             deleteBtn.className = 'delete-btn';
             deleteBtn.addEventListener('click', function () {
                 li.remove();
@@ -37,3 +37,4 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
         }
     }
 });
+이제 이 파
