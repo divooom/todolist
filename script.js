@@ -103,19 +103,26 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
             restoreBtn.style.marginLeft = "auto";
-            restoreBtn.style.fontSize = "1.4em";
+            restoreBtn.style.fontSize = "1.5em"; // 크기를 150%로 설정
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
                 console.log("Item restored from deleted list");
             });
+            
+            // 스팬과 체크박스 뒤에, 그리고 restoreBtn 앞에 빈 공간을 추가하여 오른쪽 정렬을 보장
+            const spacer = document.createElement("span");
+            spacer.style.flexGrow = "1";
+            
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(span);
+            li.appendChild(spacer); // 새로 추가된 부분
             li.appendChild(restoreBtn);
-        }
-
-        li.appendChild(dragHandle);
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        if (!isDeleted) {
+        } else {
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(span);
             li.appendChild(deleteBtn);
         }
 
