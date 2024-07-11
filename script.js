@@ -1,30 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
     const todoInput = document.getElementById("todo-input");
-    const addBtn = document.getElementById("add-btn");
-    const todoList = document.getElementById("todo-list");
+    const addABtn = document.getElementById("add-a-btn");
+    const addBBtn = document.getElementById("add-b-btn");
+    const todoListA = document.getElementById("todo-list-a");
+    const todoListB = document.getElementById("todo-list-b");
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
     deletedList.style.display = "none"; // 초기 display 설정
 
-    addBtn.addEventListener("click", addTodo);
+    addABtn.addEventListener("click", () => addTodoToList(todoListA));
+    addBBtn.addEventListener("click", () => addTodoToList(todoListB));
     todoInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
-            addTodo();
+            addTodoToList(todoListA);
         }
     });
 
-    function addTodo() {
+    function addTodoToList(list) {
         const text = todoInput.value.trim();
         if (text !== "") {
-            const todoItem = createTodoItem(text);
-            todoList.appendChild(todoItem);
+            const todoItem = createTodoItem(text, list);
+            list.appendChild(todoItem);
             todoInput.value = "";
-            updateTodoNumbers();
+            updateTodoNumbers(list);
         }
     }
 
-    function createTodoItem(text, isDeleted = false, isCompleted = false) {
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
         li.style.display = "flex";
@@ -76,127 +79,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 input.addEventListener("keypress", (e) => {
                     if (e.key === "Enter") {
-                        const detailText = document.createElement("p");
-                        detailText.className = "detail-text";
-                        detailText.textContent = input.value;
-                        li.appendChild(detailText);
-                        input.remove();
-                    }
-                });
-
-                li.appendChild(input);
-                input.focus();
-            }
-        });
-
-        const editBtn = document.createElement("button");
-        editBtn.className = "edit-btn";
-        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
-        editBtn.addEventListener("click", () => {
-            const newText = prompt("Edit your todo:", span.textContent);
-            if (newText !== null && newText.trim() !== "") {
-                span.textContent = newText.trim();
-            }
-        });
-
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
-        deleteBtn.style.marginLeft = "10px";
-        deleteBtn.addEventListener("click", () => {
-            todoList.removeChild(li);
-            const deletedItem = createTodoItem(text, true, checkbox.checked);
-            deletedList.appendChild(deletedItem);
-            updateTodoNumbers();
-        });
-
-        if (isDeleted) {
-            const restoreBtn = document.createElement("button");
-            restoreBtn.className = "restore-btn";
-            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
-            restoreBtn.style.marginLeft = "10px";
-            restoreBtn.addEventListener("click", () => {
-                deletedList.removeChild(li);
-                todoList.appendChild(createTodoItem(text, false, checkbox.checked));
-                updateTodoNumbers();
-            });
-
-            const spacer = document.createElement("span");
-            spacer.style.flexGrow = "1";
-
-            li.appendChild(dragHandle);
-            li.appendChild(checkbox);
-            li.appendChild(number);
-            li.appendChild(span);
-            li.appendChild(spacer);
-            li.appendChild(restoreBtn);
-        } else {
-            li.appendChild(dragHandle);
-            li.appendChild(checkbox);
-            li.appendChild(number);
-            li.appendChild(span);
-            li.appendChild(editBtn);
-            li.appendChild(deleteBtn);
-        }
-
-        return li;
-    }
-
-    function updateTodoNumbers() {
-        const items = todoList.querySelectorAll('.todo-item');
-        items.forEach((item, index) => {
-            const number = item.querySelector('.todo-number');
-            number.textContent = `${index + 1}. `;
-        });
-    }
-
-    let draggedItem = null;
-    let dragging = false;
-
-    function handleDragStart(e) {
-        draggedItem = this.closest(".todo-item");
-        dragging = true;
-        setTimeout(() => {
-            draggedItem.style.display = 'none';
-        }, 0);
-    }
-
-    function handleDragOver(e) {
-        e.preventDefault();
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        const targetItem = this.closest(".todo-item");
-        if (targetItem !== draggedItem) {
-            let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(targetItem);
-
-            if (draggedIndex < droppedIndex) {
-                targetItem.after(draggedItem);
-            } else {
-                targetItem.before(draggedItem);
-            }
-            updateTodoNumbers();
-        }
-    }
-
-    function handleDragEnd() {
-        setTimeout(() => {
-            draggedItem.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
-
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
-    });
-});
+                        const detailText =
