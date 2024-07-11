@@ -103,3 +103,22 @@ ul {
 #deleted-list {
     display: none;
 }
+
+
+/* 추가되는 CSS */
+.detail-input {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
+}
