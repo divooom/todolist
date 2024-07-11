@@ -92,7 +92,7 @@ ul {
     color: red; /* 기본 빨간색 */
     cursor: pointer;
     font-size: 1.2em; /* 크기를 120%로 키움 */
-    margin-left: auto; /* 우측 정렬 */
+    margin-left: auto;
 }
 
 .delete-btn:hover {
@@ -105,7 +105,7 @@ ul {
     color: green; /* 기본 초록색 */
     cursor: pointer;
     font-size: 1em;
-    margin-left: auto; /* 우측 정렬 */
+    margin-left: auto;
 }
 
 .restore-btn:hover {
