@@ -135,30 +135,4 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         if (this !== draggedItem) {
             let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(this);
-
-            if (draggedIndex < droppedIndex) {
-                this.after(draggedItem);
-            } else {
-                this.before(draggedItem);
-            }
-        }
-    }
-
-    function handleDragEnd() {
-        setTimeout(() => {
-            this.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
-
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-        } else {
-            deletedList.style.display = "none";
-        }
-    });
-});
+            let draggedIndex
