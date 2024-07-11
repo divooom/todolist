@@ -37,4 +37,3 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
         }
     }
 });
-이제 이 파
