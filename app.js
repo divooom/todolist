@@ -40,3 +40,14 @@ document.getElementById('new-todo').addEventListener('keypress', function (e) {
         }
     }
 });
+
+// 체크박스 생성const checkbox = document.createElement('input');
+checkbox.type = 'checkbox';
+checkbox.className = 'checkbox'; // 클래스 추가
+checkbox.addEventListener('change', function () {
+    if (checkbox.checked) {
+        li.classList.add('completed');
+    } else {
+        li.classList.remove('completed');
+    }
+});
