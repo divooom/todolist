@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
+    console.log("Initial deletedList display:", deletedList.style.display);
     deletedList.style.display = "none"; // 초기 display 설정
 
     addBtn.addEventListener("click", addTodo);
@@ -20,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const todoItem = createTodoItem(text);
             todoList.appendChild(todoItem);
             todoInput.value = "";
+            console.log("Todo item added");
         }
     }
 
@@ -91,7 +93,9 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteBtn.style.marginLeft = "auto";
         deleteBtn.addEventListener("click", () => {
             todoList.removeChild(li);
-            deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
+            const deletedItem = createTodoItem(text, true, checkbox.checked);
+            deletedList.appendChild(deletedItem);
+            console.log("Item deleted and added to deleted list. Current deletedList children:", deletedList.children.length);
         });
 
         if (isDeleted) {
@@ -99,10 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
             restoreBtn.style.marginLeft = "auto";
-            restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
+            restoreBtn.style.fontSize = "1.4em";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
+                console.log("Item restored from deleted list");
             });
             li.appendChild(restoreBtn);
         }
@@ -112,8 +117,6 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(span);
         if (!isDeleted) {
             li.appendChild(deleteBtn);
-        } else {
-            li.appendChild(restoreBtn); // restoreBtn을 맨 마지막에 추가합니다
         }
 
         if (!isDeleted) {
@@ -166,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     todoList.addEventListener("click", (e) => {
         if (e.target.classList.contains("drag-handle")) {
-            return; // 햄버거 아이콘이 클릭된 경우에는 아무 동작도 하지 않음
+            return;
         }
 
         const listItem = e.target.closest(".todo-item");
@@ -194,22 +197,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-showDeletedBtn.addEventListener("click", () => {
-    console.log("Button clicked"); // 디버깅용 로그
-    if (deletedList.style.display === "none") {
-        deletedList.style.display = "block";
-        console.log("Showing deleted items"); // 디버깅용 로그
-        showDeletedBtn.textContent = "Hide Deleted";  
-    } else {
-        deletedList.style.display = "none";
-        console.log("Hiding deleted items"); // 디버깅용 로그
-        showDeletedBtn.textContent = "Show Deleted";
-    }
-});
-
-deleteBtn.addEventListener("click", () => {
-    todoList.removeChild(li);
-    deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
-    console.log("Item deleted and added to deleted list"); // 디버깅용 로그
-});
+    showDeletedBtn.addEventListener("click", () => {
+        console.log("Button clicked. Current display:", deletedList.style.display);
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+            showDeletedBtn.textContent = "Hide Deleted";
+        } else {
+            deletedList.style.display = "none";
+            showDeletedBtn.textContent = "Show Deleted";
+        }
+        console.log("After click. New display:", deletedList.style.display);
+        console.log("Current deletedList children:", deletedList.children.length);
+    });
 });
