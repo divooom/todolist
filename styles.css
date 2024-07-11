@@ -18,6 +18,7 @@ body {
 }
 
 input {
+    width: 100%; /* 현재 설정된 너비 */
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
