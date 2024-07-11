@@ -34,13 +34,14 @@ ul {
 
 li {
     padding: 10px;
+    padding-right: 10px; /* 우측 여백을 동일하게 설정 */
     background: #444; /* 연한 회색 */
     margin-bottom: 5px;
     border-radius: 3px;
     display: flex;
     align-items: center;
     font-size: 1.2em;
-    width: 100%;
+    width: calc(100% - 20px); /* 좌우 여백을 고려한 width 설정 */
     color: #ccc; /* 결과 텍스트 색상 연한 회색 */
 }
 
