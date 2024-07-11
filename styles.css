@@ -21,7 +21,7 @@ body {
     border: 4px solid #eaaa56;
     border-radius: 20px;
     padding: 10px;
-    margin-bottom: 60px; /* Enter List 박스와 할일 목록 박스 간격 */
+    margin-bottom: 40px; /* Enter List 박스와 할일 목록 박스 간격 */
 }
 
 #todo-input {
