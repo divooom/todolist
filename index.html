@@ -1,26 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css"></head><body>
     <div class="container">
-        <div class="input-section">
+        <div class="input-area">
             <input type="text" id="todo-input" placeholder="Enter List">
-            <button id="add-button">+</button>
+            <button id="add-btn">+</button>
         </div>
-        <hr class="separator">
+        <hr class="divider">
         <ul id="todo-list"></ul>
-        <hr class="separator">
-        <button id="show-deleted">🗑️</button>
-        <div id="deleted-todos" style="display:none;">
-            <h3>Deleted Items</h3>
-            <ul id="deleted-list"></ul>
-        </div>
+        <hr class="divider">
+        <button id="show-deleted-btn">Show Deleted</button>
+        <ul id="deleted-list"></ul>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script src="script.js"></script></body></html>
