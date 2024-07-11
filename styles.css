@@ -84,11 +84,4 @@ ul {
 
 .text {
     flex: 1;
-    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
-    cursor: default; /* 텍스트에 기본 커서 적용 */
-}
-
-.edit-btn {
-    background-color: transparent;
-    border: none;
-    color
+    font-size: 1em;  /* 폰트 크기를 기본값
