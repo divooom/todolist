@@ -57,7 +57,7 @@ body {
 }
 
 #add-a-btn {
-    background-color: #f00cfb8;
+    background-color: #00cfb8;
 }
 
 #add-b-btn {
@@ -73,7 +73,7 @@ body {
 }
 
 #todo-list-wrapper-a {
-    border-color: #f00cfb8;
+    border-color: #00cfb8;
 }
 
 #todo-list-wrapper-b {
@@ -178,6 +178,14 @@ body {
 
 #show-deleted-btn:hover {
     background-color: #d49b40;
+}
+
+.divider {
+    border: 2px solid #eaaa56;
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 35px; /* Show Deleted 버튼과 간격 설정 */
 }
 
 #deleted-list {
