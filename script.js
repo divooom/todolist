@@ -98,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
             restoreBtn.style.marginLeft = "auto";
+            restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
