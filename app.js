@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const deletedList = document.getElementById('deleted-list');
     let deletedItems = [];
 
+    console.log("JavaScript file loaded successfully");
+
     function addTodoItem() {
         const todoText = input.value.trim();
         if (todoText === '') return;
