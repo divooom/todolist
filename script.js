@@ -24,10 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function createTodoItem(text) {
         const li = document.createElement("li");
         li.className = "todo-item";
+        li.setAttribute("draggable", "true");
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
-        dragHandle.textContent = "☰";
+        dragHandle.innerHTML = "&#9776;";
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -57,7 +58,48 @@ document.addEventListener("DOMContentLoaded", () => {
         li.appendChild(span);
         li.appendChild(deleteBtn);
 
+        // 드래그 이벤트 리스너 추가
+        li.addEventListener("dragstart", handleDragStart);
+        li.addEventListener("dragover", handleDragOver);
+        li.addEventListener("drop", handleDrop);
+        li.addEventListener("dragend", handleDragEnd);
+
         return li;
+    }
+
+    let draggedItem = null;
+
+    function handleDragStart(e) {
+        draggedItem = this;
+        setTimeout(() => {
+            this.style.display = 'none';
+        }, 0);
+    }
+
+    function handleDragOver(e) {
+        e.preventDefault();
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        if (this !== draggedItem) {
+            let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
+            let draggedIndex = allItems.indexOf(draggedItem);
+            let droppedIndex = allItems.indexOf(this);
+
+            if (draggedIndex < droppedIndex) {
+                this.after(draggedItem);
+            } else {
+                this.before(draggedItem);
+            }
+        }
+    }
+
+    function handleDragEnd() {
+        setTimeout(() => {
+            this.style.display = 'flex';
+            draggedItem = null;
+        }, 0);
     }
 
     showDeletedBtn.addEventListener("click", () => {
