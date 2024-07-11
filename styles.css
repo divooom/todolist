@@ -1,170 +1,150 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const todoInput = document.getElementById("todo-input");
-    const addBtn = document.getElementById("add-btn");
-    const todoList = document.getElementById("todo-list");
-    const showDeletedBtn = document.getElementById("show-deleted-btn");
-    const deletedList = document.getElementById("deleted-list");
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh;
+    margin: 0;
+    font-size: 2em;  /* 폰트 크기 2배로 키움 */
+}
 
-    addBtn.addEventListener("click", addTodo);
-    todoInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            addTodo();
-        }
-    });
+.container {
+    width: 900px;
+    margin-top: 20px;
+}
 
-    function addTodo() {
-        const text = todoInput.value.trim();
-        if (text !== "") {
-            const todoItem = createTodoItem(text);
-            todoList.appendChild(todoItem);
-            todoInput.value = "";
-        }
-    }
+.input-area {
+    display: flex;
+    align-items: center;
+}
 
-    function createTodoItem(text, isDeleted = false, isCompleted = false) {
-        const li = document.createElement("li");
-        li.className = "todo-item";
-        li.style.display = "flex";
-        li.style.alignItems = "center";
-        li.style.justifyContent = "space-between";
-        if (isCompleted) {
-            li.classList.add("completed");
-        }
-        if (!isDeleted) {
-            li.setAttribute("draggable", "true");
-        }
+#todo-input {
+    flex: 1;
+    padding: 20px;  /* 패딩을 2배로 키움 */
+    border: 4px solid #eaaa56;  /* 테두리 두께를 2배로 키움 */
+    color: #eaaa56;
+    background-color: black;
+    font-size: 0.65em;  /* 폰트 크기를 65%로 줄임 */
+}
 
-        const dragHandle = document.createElement("span");
-        dragHandle.className = "drag-handle";
-        dragHandle.innerHTML = "&#9776;";
-        if (isDeleted) {
-            dragHandle.style.display = "none";
-        } else {
-            dragHandle.addEventListener("mousedown", (e) => {
-                e.stopPropagation();
-            });
-        }
+#todo-input::placeholder {
+    color: gray;
+    font-size: 0.65em;  /* 폰트 크기를 65%로 줄임 */
+}
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.className = "checkbox";
-        checkbox.checked = isCompleted;
-        checkbox.addEventListener("change", () => {
-            if (checkbox.checked) {
-                li.classList.add("completed");
-            } else {
-                li.classList.remove("completed");
-            }
-        });
+#add-btn {
+    background-color: #eaaa56;
+    border: none;
+    color: black;
+    padding: 20px 40px;  /* 패딩을 2배로 키움 */
+    cursor: pointer;
+    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+}
 
-        const span = document.createElement("span");
-        span.className = "text";
-        span.textContent = text;
+#add-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
+}
 
-        span.addEventListener("click", (e) => {
-            if (!li.querySelector(".detail-input") && !dragging) {
-                const detailInput = document.createElement("input");
-                detailInput.type = "text";
-                detailInput.className = "detail-input";
-                detailInput.placeholder = "Enter details";
+.divider {
+    border: 2px solid #eaaa56;  /* 줄 두께를 2배로 키움 */
+}
 
-                detailInput.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") {
-                        const detailText = document.createElement("p");
-                        detailText.className = "detail-text";
-                        detailText.textContent = detailInput.value;
-                        li.appendChild(detailText);
-                        detailInput.remove();
-                    }
-                });
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
 
-                li.appendChild(detailInput);
-                detailInput.focus();
-            }
-        });
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 이 줄 추가 */
+    padding: 20px 0;  /* 패딩을 2배로 키움 */
+    cursor: move;  /* 드래그 가능하게 설정 */
+}
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-btn";
-        deleteBtn.textContent = "🗑";
-        deleteBtn.style.marginLeft = "auto";
-        deleteBtn.addEventListener("click", () => {
-            todoList.removeChild(li);
-            deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
-        });
+.todo-item.completed .text {
+    text-decoration: line-through;
+    color: gray;
+}
 
-        if (isDeleted) {
-            const restoreBtn = document.createElement("button");
-            restoreBtn.className = "restore-btn";
-            restoreBtn.textContent = "↺";
-            restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
-            restoreBtn.style.marginLeft = "auto"; // 오른쪽 정렬
-            restoreBtn.addEventListener("click", () => {
-                deletedList.removeChild(li);
-                todoList.appendChild(createTodoItem(text, false, checkbox.checked));
-            });
-            li.appendChild(restoreBtn);
-        }
+.drag-handle {
+    cursor: move;
+    margin-right: 20px;  /* 마진을 2배로 키움 */
+    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+}
 
-        li.appendChild(dragHandle);
-        li.appendChild(checkbox);
-        li.appendChild(span);
-        if (!isDeleted) {
-            li.appendChild(deleteBtn);
-        }
+.checkbox {
+    margin-right: 20px;  /* 마진을 2배로 키움 */
+    width: 2em;  /* 체크박스 크기 2배로 키움 */
+    height: 2em;  /* 체크박스 크기 2배로 키움 */
+}
 
-        if (!isDeleted) {
-            li.addEventListener("dragstart", handleDragStart);
-            li.addEventListener("dragover", handleDragOver);
-            li.addEventListener("drop", handleDrop);
-            li.addEventListener("dragend", handleDragEnd);
-        }
+.text {
+    flex: 1;
+    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+}
 
-        return li;
-    }
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: red; /* 기본 빨간색 */
+    cursor: pointer;
+    font-size: 1.2em; /* 크기를 120%로 키움 */
+    margin-left: auto;
+}
 
-    let draggedItem = null;
-    let dragging = false;
+.delete-btn:hover {
+    color: darkred; /* hover 효과 */
+}
 
-    function handleDragStart(e) {
-        draggedItem = this;
-        dragging = true;
-        setTimeout(() => {
-            this.style.display = 'none';
-        }, 0);
-    }
+.restore-btn {
+    background-color: transparent;
+    border: none;
+    color: green; /* 기본 초록색 */
+    cursor: pointer;
+    font-size: 1.4em; /* 크기를 140%로 키움 */
+    margin-left: auto; /* 오른쪽으로 정렬 */
+}
 
-    function handleDragOver(e) {
-        e.preventDefault();
-    }
+.restore-btn:hover {
+    color: darkgreen; /* hover 효과 */
+}
 
-    function handleDrop(e) {
-        e.preventDefault();
-        if (this !== draggedItem) {
-            let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(this);
+#show-deleted-btn {
+    background-color: #eaaa56;
+    border: none;
+    color: black;
+    padding: 20px 40px;  /* 패딩을 2배로 키움 */
+    cursor: pointer;
+    margin-top: 20px;  /* 마진을 2배로 키움 */
+    font-size: 0.65em;  /* 폰트 크기를 65%로 줄임 */
+}
 
-            if (draggedIndex < droppedIndex) {
-                this.after(draggedItem);
-            } else {
-                this.before(draggedItem);
-            }
-        }
-    }
+#show-deleted-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
+}
 
-    function handleDragEnd() {
-        setTimeout(() => {
-            this.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
+#deleted-list {
+    display: none;
+    font-size: 0.65em; /* 크기를 65%로 줄임 */
+}
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none" || deletedList.style.display === "") {
-            deletedList.style.display = "block";
-        } else {
-            deletedList.style.display = "none";
-        }
-    });
-});
+/* 추가되는 CSS */.detail-input {
+    display: none;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
+}
