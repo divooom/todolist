@@ -47,6 +47,7 @@ li {
 }
 
 li span {
+    order: 1; /* 텍스트를 첫 번째로 위치 */
     flex-grow: 1;
     margin-left: 10px;
     text-align: left;
@@ -64,6 +65,7 @@ li.completed span {
     font-size: 2.0em;
     margin-left: 10px;
     color: red;
+    order: 3; /* 삭제 버튼을 세 번째로 위치 */
 }
 
 .delete-btn:hover {
@@ -73,4 +75,5 @@ li.completed span {
 .checkbox {
     margin-left: 10px; /* 체크박스를 쓰레기통 바로 좌측에 위치하도록 설정 */
     transform: scale(1.5); /* 체크박스 크기를 1.5배 키움 */
+    order: 2; /* 체크박스를 두 번째로 위치 */
 }
