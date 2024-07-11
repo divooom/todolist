@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
-        // 클릭 시 디테일 입력칸을 추가하는 이벤트
-        span.addEventListener("click", (e) => {
+        // 더블 클릭 시 디테일 입력칸을 추가하는 이벤트
+        span.addEventListener("dblclick", (e) => {
             if (!li.querySelector(".detail-input") && !dragging) {
                 const detailInput = document.createElement("input");
                 detailInput.type = "text";
@@ -137,3 +137,28 @@ document.addEventListener("DOMContentLoaded", () => {
             let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
             let draggedIndex = allItems.indexOf(draggedItem);
             let droppedIndex = allItems.indexOf(this);
+
+            if (draggedIndex < droppedIndex) {
+                this.after(draggedItem);
+            } else {
+                this.before(draggedItem);
+            }
+        }
+    }
+
+    function handleDragEnd() {
+        setTimeout(() => {
+            this.style.display = 'flex';
+            dragging = false;
+            draggedItem = null;
+        }, 0);
+    }
+
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+        } else {
+            deletedList.style.display = "none";
+        }
+    });
+});
