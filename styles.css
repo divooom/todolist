@@ -43,6 +43,10 @@ body {
     font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
 }
 
+#add-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
+}
+
 .divider {
     border: 2px solid #eaaa56;  /* 줄 두께를 2배로 키움 */
 }
@@ -85,9 +89,13 @@ ul {
 .delete-btn {
     background-color: transparent;
     border: none;
-    color: #eaaa56;
+    color: red; /* 기본 빨간색 */
     cursor: pointer;
-    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+    font-size: 1.2em; /* 크기를 120%로 키움 */
+}
+
+.delete-btn:hover {
+    color: darkred; /* hover 효과 */
 }
 
 #show-deleted-btn {
@@ -97,16 +105,19 @@ ul {
     padding: 20px 40px;  /* 패딩을 2배로 키움 */
     cursor: pointer;
     margin-top: 20px;  /* 마진을 2배로 키움 */
-    font-size: 1em;  /* 폰트 크기를 기본값으로 설정 */
+    font-size: 0.65em;  /* 폰트 크기를 65%로 줄임 */
+}
+
+#show-deleted-btn:hover {
+    background-color: #d49b40; /* hover 효과 */
 }
 
 #deleted-list {
     display: none;
+    font-size: 0.65em; /* 크기를 65%로 줄임 */
 }
 
-
-/* 추가되는 CSS */
-.detail-input {
+/* 추가되는 CSS */.detail-input {
     display: none;
     width: 100%;
     padding: 10px;
