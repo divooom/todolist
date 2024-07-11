@@ -132,4 +132,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.before(draggedItem);
             }
         }
-   
+    }
+
+    function handleDragEnd() {
+        setTimeout(() => {
+            this.style.display = 'flex';
+            dragging = false;
+            draggedItem = null;
+        }, 0);
+    }
+
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+        } else {
+            deletedList.style.display = "none";
+        }
+    });
+});
