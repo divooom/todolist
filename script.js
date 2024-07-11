@@ -84,6 +84,16 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
+        editBtn.addEventListener("click", () => {
+            const newText = prompt("Edit your todo:", span.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                span.textContent = newText.trim();
+            }
+        });
+
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "🗑";
@@ -117,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(dragHandle);
             li.appendChild(checkbox);
             li.appendChild(span);
+            li.appendChild(editBtn);
             li.appendChild(deleteBtn);
         }
 
