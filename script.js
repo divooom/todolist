@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function createTodoItem(text) {
+    function createTodoItem(text, isDeleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
         li.setAttribute("draggable", "true");
@@ -29,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
+        dragHandle.addEventListener("mousedown", (e) => {
+            e.stopPropagation(); // Prevent drag handle click from triggering detail input
+        });
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
@@ -68,18 +71,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-btn";
-        deleteBtn.textContent = "🗑";
-        deleteBtn.addEventListener("click", () => {
-            todoList.removeChild(li);
-            deletedList.appendChild(li);
-        });
+        if (isDeleted) {
+            const restoreBtn = document.createElement("button");
+            restoreBtn.className = "restore-btn";
+            restoreBtn.textContent = "↺";
+            restoreBtn.addEventListener("click", () => {
+                deletedList.removeChild(li);
+                todoList.appendChild(createTodoItem(text));
+            });
+            li.appendChild(restoreBtn);
+        } else {
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.textContent = "🗑";
+            deleteBtn.addEventListener("click", () => {
+                todoList.removeChild(li);
+                deletedList.appendChild(createTodoItem(text, true));
+            });
+            li.appendChild(deleteBtn);
+        }
 
         li.appendChild(dragHandle);
         li.appendChild(checkbox);
         li.appendChild(span);
-        li.appendChild(deleteBtn);
 
         // 드래그 이벤트 리스너 추가
         li.addEventListener("dragstart", handleDragStart);
@@ -118,21 +132,4 @@ document.addEventListener("DOMContentLoaded", () => {
                 this.before(draggedItem);
             }
         }
-    }
-
-    function handleDragEnd() {
-        setTimeout(() => {
-            this.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
-
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-        } else {
-            deletedList.style.display = "none";
-        }
-    });
-});
+   
