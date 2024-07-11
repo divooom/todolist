@@ -57,6 +57,7 @@ ul {
     display: flex;
     align-items: center;
     padding: 20px 0;  /* 패딩을 2배로 키움 */
+    cursor: move;  /* 드래그 가능하게 설정 */
 }
 
 .todo-item.completed .text {
