@@ -63,28 +63,28 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
-        span.addEventListener("click", (e) => {
-            if (!li.querySelector(".detail-input") && !dragging) {
-                const detailInput = document.createElement("input");
-                detailInput.type = "text";
-                detailInput.className = "detail-input";
-                detailInput.placeholder = "Enter details";
+span.addEventListener("click", (e) => {
+    const detailInput = li.querySelector(".detail-input");
+    if (!detailInput && !dragging) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "detail-input";
+        input.placeholder = "Enter details";
 
-                detailInput.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") {
-                        const detailText = document.createElement("p");
-                        detailText.className = "detail-text";
-                        detailText.textContent = detailInput.value;
-                        li.appendChild(detailText);
-                        detailInput.remove();
-                    }
-                });
-
-                li.appendChild(detailInput);
-                detailInput.focus();
+        input.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                const detailText = document.createElement("p");
+                detailText.className = "detail-text";
+                detailText.textContent = input.value;
+                li.appendChild(detailText);
+                input.remove();
             }
         });
 
+        li.appendChild(input);
+        input.focus();
+    }
+});
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "🗑";
