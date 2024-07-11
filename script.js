@@ -41,10 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         dragHandle.innerHTML = "&#9776;";
         if (isDeleted) {
             dragHandle.style.display = "none";
-        } else {
-            dragHandle.addEventListener("mousedown", (e) => {
-                e.stopPropagation();
-            });
         }
 
         const checkbox = document.createElement("input");
@@ -63,35 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
-span.addEventListener("click", (e) => {
-    const detailInput = li.querySelector(".detail-input");
-    if (!detailInput && !dragging) {
-        const input = document.createElement("input");
-        input.type = "text";
-        input.className = "detail-input";
-        input.placeholder = "Enter details";
+        span.addEventListener("click", (e) => {
+            const detailInput = li.querySelector(".detail-input");
+            if (!detailInput && !dragging) {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "detail-input";
+                input.placeholder = "Enter details";
 
-        input.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") {
-                const detailText = document.createElement("p");
-                detailText.className = "detail-text";
-                detailText.textContent = input.value;
-                li.appendChild(detailText);
-                input.remove();
+                input.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        const detailText = document.createElement("p");
+                        detailText.className = "detail-text";
+                        detailText.textContent = input.value;
+                        li.appendChild(detailText);
+                        input.remove();
+                    }
+                });
+
+                li.appendChild(input);
+                input.focus();
             }
         });
 
-        li.appendChild(input);
-        input.focus();
-    }
-});
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
         deleteBtn.textContent = "🗑";
         deleteBtn.style.marginLeft = "auto";
         deleteBtn.addEventListener("click", () => {
-            todoList.removeChild(li);
-            deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
+            if (!isDeleted) {
+                todoList.removeChild(li);
+                deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
+            } else {
+                deletedList.removeChild(li);
+            }
         });
 
         if (isDeleted) {
@@ -99,21 +100,19 @@ span.addEventListener("click", (e) => {
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
             restoreBtn.style.marginLeft = "auto";
-            restoreBtn.style.fontSize = "1.4em"; // 크기 140%로 설정
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
             });
             li.appendChild(restoreBtn);
+        } else {
+            li.appendChild(dragHandle);
         }
 
-        li.appendChild(dragHandle);
         li.appendChild(checkbox);
         li.appendChild(span);
         if (!isDeleted) {
             li.appendChild(deleteBtn);
-        } else {
-            li.appendChild(restoreBtn); // restoreBtn을 맨 마지막에 추가합니다
         }
 
         if (!isDeleted) {
@@ -130,11 +129,13 @@ span.addEventListener("click", (e) => {
     let dragging = false;
 
     function handleDragStart(e) {
-        draggedItem = this;
-        dragging = true;
-        setTimeout(() => {
-            this.style.display = 'none';
-        }, 0);
+        if (e.target.classList.contains("drag-handle")) {
+            draggedItem = this;
+            dragging = true;
+            setTimeout(() => {
+                this.style.display = "none";
+            }, 0);
+        }
     }
 
     function handleDragOver(e) {
@@ -144,7 +145,7 @@ span.addEventListener("click", (e) => {
     function handleDrop(e) {
         e.preventDefault();
         if (this !== draggedItem) {
-            let allItems = Array.from(todoList.querySelectorAll('.todo-item'));
+            let allItems = Array.from(todoList.querySelectorAll(".todo-item"));
             let draggedIndex = allItems.indexOf(draggedItem);
             let droppedIndex = allItems.indexOf(this);
 
@@ -158,7 +159,7 @@ span.addEventListener("click", (e) => {
 
     function handleDragEnd() {
         setTimeout(() => {
-            this.style.display = 'flex';
+            this.style.display = "flex";
             dragging = false;
             draggedItem = null;
         }, 0);
@@ -167,7 +168,7 @@ span.addEventListener("click", (e) => {
     showDeletedBtn.addEventListener("click", () => {
         if (deletedList.style.display === "none") {
             deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";  
+            showDeletedBtn.textContent = "Hide Deleted";
         } else {
             deletedList.style.display = "none";
             showDeletedBtn.textContent = "Show Deleted";
