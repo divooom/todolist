@@ -194,13 +194,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";  
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
-    });
+showDeletedBtn.addEventListener("click", () => {
+    console.log("Button clicked"); // 디버깅용 로그
+    if (deletedList.style.display === "none") {
+        deletedList.style.display = "block";
+        console.log("Showing deleted items"); // 디버깅용 로그
+        showDeletedBtn.textContent = "Hide Deleted";  
+    } else {
+        deletedList.style.display = "none";
+        console.log("Hiding deleted items"); // 디버깅용 로그
+        showDeletedBtn.textContent = "Show Deleted";
+    }
+});
+
+deleteBtn.addEventListener("click", () => {
+    todoList.removeChild(li);
+    deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
+    console.log("Item deleted and added to deleted list"); // 디버깅용 로그
+});
 });
