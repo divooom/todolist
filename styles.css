@@ -1,35 +1,10 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    background-color: #000;
-    color: white;
-}
-
 #todo-app {
     background: #333;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 900px; /* 좌우로 3배 늘리기 */
     margin-top: 20px;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 1.2em;
-    box-sizing: border-box;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
 }
 
 li {
@@ -41,6 +16,7 @@ li {
     align-items: center;
     font-size: 1.2em;
     width: 100%;
+    word-break: break-word; /* 줄바꿈 문제 해결 */
 }
 
 li span {
@@ -57,10 +33,10 @@ li.completed span {
 .delete-btn {
     background: none;
     border: none;
-    color: red;
     cursor: pointer;
     font-size: 1.2em;
     margin-left: 10px;
+    color: red;
 }
 
 .delete-btn:hover {
