@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
-    deletedList.style.display = "none"; // 초기 display 설정
+    
 
     addBtn.addEventListener("click", addTodo);
     todoInput.addEventListener("keypress", (e) => {
