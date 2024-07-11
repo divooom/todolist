@@ -1,81 +1,70 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const input = document.getElementById('todo-input');
-    const addButton = document.getElementById('add-button');
-    const todoList = document.getElementById('todo-list');
-    const showDeletedButton = document.getElementById('show-deleted');
-    const deletedTodos = document.getElementById('deleted-todos');
-    const deletedList = document.getElementById('deleted-list');
-    let deletedItems = [];
+document.addEventListener("DOMContentLoaded", () => {
+    const todoInput = document.getElementById("todo-input");
+    const addBtn = document.getElementById("add-btn");
+    const todoList = document.getElementById("todo-list");
+    const showDeletedBtn = document.getElementById("show-deleted-btn");
+    const deletedList = document.getElementById("deleted-list");
 
-    console.log("JavaScript file loaded successfully");
-
-    function addTodoItem() {
-        const todoText = input.value.trim();
-        if (todoText === '') return;
-
-        const todoItem = document.createElement('li');
-        todoItem.className = 'todo-item';
-
-        const dragIcon = document.createElement('span');
-        dragIcon.className = 'drag-icon';
-        dragIcon.innerHTML = '&#9776;';
-
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.className = 'checkbox';
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                todoItem.classList.add('checked');
-            } else {
-                todoItem.classList.remove('checked');
-            }
-        });
-
-        const text = document.createElement('span');
-        text.className = 'text';
-        text.textContent = todoText;
-
-        const deleteButton = document.createElement('button');
-        deleteButton.className = 'delete-button';
-        deleteButton.innerHTML = '&#128465;';
-        deleteButton.addEventListener('click', () => {
-            todoItem.remove();
-            deletedItems.push(todoItem);
-        });
-
-        todoItem.appendChild(dragIcon);
-        todoItem.appendChild(checkbox);
-        todoItem.appendChild(text);
-        todoItem.appendChild(deleteButton);
-
-        todoList.appendChild(todoItem);
-        input.value = '';
-    }
-
-    addButton.addEventListener('click', addTodoItem);
-    input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            addTodoItem();
+    addBtn.addEventListener("click", addTodo);
+    todoInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            addTodo();
         }
     });
 
-    showDeletedButton.addEventListener('click', () => {
-        if (deletedTodos.style.display === 'none') {
-            deletedTodos.style.display = 'block';
-            deletedList.innerHTML = '';
-            deletedItems.forEach(item => {
-                const restoreButton = document.createElement('button');
-                restoreButton.textContent = 'Restore';
-                restoreButton.addEventListener('click', () => {
-                    todoList.appendChild(item);
-                    item.removeChild(item.lastChild);
-                    deletedItems = deletedItems.filter(i => i !== item);
-                });
-                item.appendChild(restoreButton);
-                deletedList.appendChild(item);
-            });
+    function addTodo() {
+        const text = todoInput.value.trim();
+        if (text !== "") {
+            const todoItem = createTodoItem(text);
+            todoList.appendChild(todoItem);
+            todoInput.value = "";
+        }
+    }
+
+    function createTodoItem(text) {
+        const li = document.createElement("li");
+        li.className = "todo-item";
+
+        const dragHandle = document.createElement("span");
+        dragHandle.className = "drag-handle";
+        dragHandle.textContent = "☰";
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "checkbox";
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                li.classList.add("completed");
+            } else {
+                li.classList.remove("completed");
+            }
+        });
+
+        const span = document.createElement("span");
+        span.className = "text";
+        span.textContent = text;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.textContent = "🗑";
+        deleteBtn.addEventListener("click", () => {
+            todoList.removeChild(li);
+            deletedList.appendChild(li);
+        });
+
+        li.appendChild(dragHandle);
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+
+        return li;
+    }
+
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
         } else {
-            deletedTodos.style.display = 'none';
+            deletedList.style.display = "none";
         }
     });
 });
