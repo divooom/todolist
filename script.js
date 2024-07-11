@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
             restoreBtn.textContent = "↺";
+            restoreBtn.style.marginLeft = "auto"; // 추가
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 todoList.appendChild(createTodoItem(text, false, checkbox.checked));
@@ -94,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const deleteBtn = document.createElement("button");
             deleteBtn.className = "delete-btn";
             deleteBtn.textContent = "🗑";
+            deleteBtn.style.marginLeft = "auto"; // 추가
             deleteBtn.addEventListener("click", () => {
                 todoList.removeChild(li);
                 deletedList.appendChild(createTodoItem(text, true, checkbox.checked));
