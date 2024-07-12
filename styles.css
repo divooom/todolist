@@ -1,256 +1,274 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // 새로운 Title 입력란 생성 및 설정
-    const titleInput = document.createElement("textarea");
-    titleInput.id = "title-input";
-    titleInput.placeholder = "Title";
-    titleInput.classList.add("title-area");
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100vh;
+    margin: 0;
+    font-size: 1.7em;
+}
 
-    const titleDivider = document.createElement("hr");
-    titleDivider.classList.add("title-divider");
+.container {
+    width: 1200px;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+}
 
-    const container = document.querySelector(".container");
-    container.insertBefore(titleInput, container.firstChild);
-    container.insertBefore(titleDivider, titleInput.nextSibling);
+.title-area {
+    background-color: black;
+    color: #fee140; /* 텍스트 색상 설정 */
+    padding: 20px 46px 20px 40px; /* 패딩 값 설정 */
+    font-size: 1em; /* 텍스트 크기 설정 */
+    border: none;
+    outline: none;
+    resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
+    white-space: pre-wrap; /* 줄바꿈을 허용 */
+    overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
+    height: 100px; /* 초기 높이 설정 */
+}
 
-    // 기존 코드...
-    const todoInput = document.getElementById("todo-input");
-    const addABtn = document.getElementById("add-a-btn");
-    const addBBtn = document.getElementById("add-b-btn");
-    const todoListA = document.getElementById("todo-list-a");
-    const todoListB = document.getElementById("todo-list-b");
-    const showDeletedBtn = document.getElementById("show-deleted-btn");
-    const deletedList = document.getElementById("deleted-list");
+.input-area {
+    display: flex;
+    align-items: center;
+    border: 4px solid #eaaa56;
+    border-radius: 20px;
+    padding: 20px 40px 20px 20px;
+    margin-bottom: 40px; /* Enter List 박스와 할일 목록 박스 간격 */
+}
 
-    let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
+#title-input::placeholder {
+    color: gray;
+    font-size: 0.65em;
+}
 
-    // 초기 상태를 "Hide Deleted"로 설정
-    deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
-    showDeletedBtn.textContent = "Hide Deleted"; // 버튼 텍스트 변경
+.title-text {
+    color: yellow;
+    font-size: 1em; /* A, B 박스 할일 목록과 동일한 글자 크기 */
+}
 
-    addABtn.addEventListener("click", () => {
-        currentList = todoListA;
-        addTodoToList(todoListA);
-    });
+.divider {
+    border: 2px solid #eaaa56;
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 35px; /* Show Deleted 버튼과 간격 설정 */
+}
 
-    addBBtn.addEventListener("click", () => {
-        currentList = todoListB;
-        addTodoToList(todoListB);
-    });
+.title-divider {
+    border: none; /* 기존 선 제거 */
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 10px; /* 위쪽 간격 설정 */
+    margin-bottom: 40px; /* 두 번째 선과 Enter List 라운드 박스 사이의 간격 설정 */
+    position: relative; /* 자식 요소의 위치를 기준으로 설정 */
+}
 
-    todoInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-            addTodoToList(todoListA);
-            e.preventDefault(); // 기본 Enter 동작 방지
-        } else if (e.key === "Enter" && e.shiftKey) {
-            addTodoToList(todoListB);
-            e.preventDefault(); // 기본 Enter 동작 방지
-        }
-    });
+.title-divider::before,
+.title-divider::after {
+    content: "";
+    display: block;
+    border-top: 4px solid #fee140; /* 기존 테두리와 동일한 두께 */
+    width: 100%; /* 좌우 끝에 이어지지 않도록 설정 */
+}
 
-    function addTodoToList(list) {
-        const text = todoInput.value.trim();
-        if (text !== "") {
-            const todoItem = createTodoItem(text, list);
-            list.appendChild(todoItem);
-            todoInput.value = "";
-            updateTodoNumbers(list);
-        }
-    }
+.title-divider::before {
+    margin-bottom: 13px; /* 두 선 사이의 간격 설정 */
+}
 
-    function createTodoItem(text, list, isDeleted = false, isCompleted = false) {
-        const li = document.createElement("li");
-        li.className = "todo-item";
-        li.style.display = "flex";
-        li.style.alignItems = "center";
-        li.style.justifyContent = "space-between";
-        if (isCompleted) {
-            li.classList.add("completed");
-        }
+.title-divider::after {
+    margin-bottom: 0; /* 마지막 선의 간격 설정 */
+}
 
-        const number = document.createElement("span");
-        number.className = "todo-number";
-        number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
+#todo-input {
+    flex: 1;
+    padding: 20px;
+    border: none;
+    border-radius: 20px;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 0.65em;
+    outline: none;
+}
 
-        const dragHandle = document.createElement("span");
-        dragHandle.className = "drag-handle";
-        dragHandle.innerHTML = "&#9776;";
-        if (isDeleted) {
-            dragHandle.style.display = "none";
-        } else {
-            dragHandle.setAttribute("draggable", "true");
-            dragHandle.addEventListener("dragstart", handleDragStart);
-            dragHandle.addEventListener("dragover", handleDragOver);
-            dragHandle.addEventListener("drop", handleDrop);
-            dragHandle.addEventListener("dragend", handleDragEnd);
-        }
+#todo-input::placeholder {
+    color: gray;
+    font-size: 0.65em;
+}
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.className = "checkbox";
-        checkbox.checked = isCompleted;
-        checkbox.addEventListener("change", () => {
-            if (checkbox.checked) {
-                li.classList.add("completed");
-            } else {
-                li.classList.remove("completed");
-            }
-        });
+#add-a-btn, #add-b-btn {
+    border: none;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        const span = document.createElement("span");
-        span.className = "text";
-        span.textContent = text;
+#add-a-btn {
+    background-color: #00cfb8;
+}
 
-        span.addEventListener("click", (e) => {
-            if (!li.querySelector(".detail-input") && !dragging) {
-                const input = document.createElement("input");
-                input.type = "text";
-                input.className = "detail-input";
-                input.placeholder = "Enter details";
+#add-b-btn {
+    background-color: #6873eb;
+}
 
-                input.addEventListener("keypress", (e) => {
-                    if (e.key === "Enter") {
-                        const detailText = document.createElement("p");
-                        detailText.className = "detail-text";
-                        detailText.textContent = input.value;
-                        li.appendChild(detailText);
-                        input.remove();
-                    }
-                });
+#add-a-btn:hover {
+    background-color: #00b3a0;
+}
 
-                li.appendChild(input);
-                input.focus();
-            }
-        });
+#add-b-btn:hover {
+    background-color: #5966d4;
+}
 
-        const editBtn = document.createElement("button");
-        editBtn.className = "edit-btn";
-        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
-        editBtn.addEventListener("click", () => {
-            const newText = prompt("Edit your todo:", span.textContent);
-            if (newText !== null && newText.trim() !== "") {
-                span.textContent = newText.trim();
-            }
-        });
+.todo-list-wrapper {
+    border: 4px solid;
+    border-radius: 20px;
+    padding: 10px;
+    background-color: #333;
+    margin-bottom: 30px;
+}
 
-        const deleteBtn = document.createElement("button");
-        deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
-        deleteBtn.style.marginLeft = "10px";
-        deleteBtn.addEventListener("click", () => {
-            list.removeChild(li);
-            const deletedItem = createTodoItem(text, list, true, checkbox.checked);
-            deletedItem.dataset.originalList = list.id;
-            deletedList.appendChild(deletedItem);
-            updateTodoNumbers(list);
-        });
+#todo-list-wrapper-a {
+    border-color: #00cfb8;
+}
 
-        if (isDeleted) {
-            const restoreBtn = document.createElement("button");
-            restoreBtn.className = "restore-btn";
-            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
-            restoreBtn.style.marginLeft = "10px";
-            restoreBtn.addEventListener("click", () => {
-                deletedList.removeChild(li);
-                const originalListId = li.dataset.originalList;
-                const originalList = document.getElementById(originalListId);
-                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked));
-                updateTodoNumbers(originalList);
-            });
+#todo-list-wrapper-b {
+    border-color: #6873eb;
+}
 
-            const spacer = document.createElement("span");
-            spacer.style.flexGrow = "1";
+#todo-list-a, #todo-list-b {
+    padding: 0; /* ul 요소의 패딩을 제거 */
+}
 
-            li.appendChild(dragHandle);
-            li.appendChild(checkbox);
-            li.appendChild(number);
-            li.appendChild(span);
-            li.appendChild(spacer);
-            li.appendChild(restoreBtn);
-        } else {
-            li.appendChild(dragHandle);
-            li.appendChild(checkbox);
-            li.appendChild(number);
-            li.appendChild(span);
-            li.appendChild(editBtn);
-            li.appendChild(deleteBtn);
-        }
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 40px; /* 좌측 여백을 20px 줄이고, 우측 여백을 20px 늘림 */
+    margin: 0;
+    position: relative;
+}
 
-        return li;
-    }
+.todo-item + .todo-item::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    border-top: 1px solid #717171;
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
-    function updateTodoNumbers(list) {
-        const items = list.querySelectorAll('.todo-item');
-        items.forEach((item, index) => {
-            const number = item.querySelector('.todo-number');
-            number.textContent = `${index + 1}. `;
-        });
-    }
+.todo-item.completed .text {
+    text-decoration: line-through;
+    color: gray;
+}
 
-    let draggedItem = null;
-    let dragging = false;
+.drag-handle {
+    cursor: move;
+    margin-right: 20px;
+    font-size: 1.5em;
+    color: #eaaa56;
+}
 
-    function handleDragStart(e) {
-        draggedItem = this.closest(".todo-item");
-        dragging = true;
-        setTimeout(() => {
-            draggedItem.style.display = 'none';
-        }, 0);
-    }
+.checkbox {
+    margin-right: 20px;
+    width: 2em;
+    height: 2em;
+}
 
-    function handleDragOver(e) {
-        e.preventDefault();
-    }
+.text {
+    flex: 1;
+    font-size: 1em;
+    cursor: default;
+}
 
-    function handleDrop(e) {
-        e.preventDefault();
-        const targetItem = this.closest(".todo-item");
-        const targetList = targetItem.closest("ul");
+.edit-btn {
+    background-color: transparent;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 10px;
+}
 
-        if (targetItem !== draggedItem) {
-            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(targetItem);
+.edit-btn:hover {
+    color: #0056b3;
+}
 
-            if (draggedIndex < droppedIndex) {
-                targetItem.after(draggedItem);
-            } else {
-                targetItem.before(draggedItem);
-            }
-            
-            updateTodoNumbers(targetList);
-            
-            // Re-attach delete button event listener
-            const deleteBtn = draggedItem.querySelector('.delete-btn');
-            deleteBtn.removeEventListener("click", handleDelete);
-            deleteBtn.addEventListener('click', handleDelete);
-        }
-    }
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 10px;
+}
 
-    function handleDelete() {
-        const list = this.closest("ul");
-        const li = this.closest(".todo-item");
-        list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked);
-        deletedItem.dataset.originalList = list.id;
-        deletedList.appendChild(deletedItem);
-        updateTodoNumbers(list);
-    }
+.delete-btn:hover {
+    color: darkred;
+}
 
-    function handleDragEnd() {
-        setTimeout(() => {
-            draggedItem.style.display = 'flex';
-            dragging = false;
-            draggedItem = null;
-        }, 0);
-    }
+.restore-btn {
+    background-color: transparent;
+    border: none;
+    color: green;
+    cursor: pointer;
+    font-size: 1.4em;
+    margin-left: 10px;
+}
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
-    });
-});
+.restore-btn:hover {
+    color: darkgreen;
+}
+
+#show-deleted-btn {
+    background-color: #eaaa56;
+    border: none;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 30px;
+    font-size: 1em;
+    align-self: flex-end;
+    margin-right: 25px;
+}
+
+#show-deleted-btn:hover {
+    background-color: #d49b40;
+}
+
+#deleted-list {
+    display: none;
+    font-size: 0.7em;
+    padding: 0 20px; /* 좌우 20px 패딩 설정 */
+}
+
+.detail-input {
+    display: none;
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+    border-radius: 10px;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
+}
