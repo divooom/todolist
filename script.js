@@ -183,28 +183,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkEmptyPlaceholder(list) {
-        if (list.children.length === 0) {
-            const placeholder = document.createElement("li");
-            placeholder.className = "todo-item placeholder";
-            placeholder.setAttribute("draggable", "true");
+        const placeholder = list.querySelector(".placeholder");
+        if (!placeholder) {
+            const newPlaceholder = document.createElement("li");
+            newPlaceholder.className = "todo-item placeholder";
+            newPlaceholder.setAttribute("draggable", "true");
 
             // A와 B 목록에 따라 텍스트 설정
             if (list.id === "todo-list-a") {
-                placeholder.textContent = "A - List";
+                newPlaceholder.textContent = "A - List";
             } else if (list.id === "todo-list-b") {
-                placeholder.textContent = "B - List";
+                newPlaceholder.textContent = "B - List";
             }
 
-            placeholder.addEventListener("dragstart", handleDragStart);
-            placeholder.addEventListener("dragover", handleDragOver);
-            placeholder.addEventListener("drop", handleDrop);
-            placeholder.addEventListener("dragend", handleDragEnd);
-            list.appendChild(placeholder);
-        } else {
-            const placeholder = list.querySelector(".placeholder");
-            if (placeholder) {
-                placeholder.remove();
-            }
+            newPlaceholder.addEventListener("dragstart", handleDragStart);
+            newPlaceholder.addEventListener("dragover", handleDragOver);
+            newPlaceholder.addEventListener("drop", handleDrop);
+            newPlaceholder.addEventListener("dragend", handleDragEnd);
+            list.appendChild(newPlaceholder);
         }
     }
 
