@@ -19,12 +19,15 @@ body {
 
 .title-area {
     background-color: black;
-    color: gray;
-    padding: 20px;
-    font-size: 0.65em;
+    color: #fee140; /* 텍스트 색상 설정 */
+    padding: 20px 46px 20px 20px; /* 패딩 값 설정 */
+    font-size: 1em; /* 텍스트 크기 설정 */
     border: none;
     outline: none;
     resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
+    white-space: pre-wrap; /* 줄바꿈을 허용 */
+    overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
+    height: 100px; /* 초기 높이 설정 */
 }
 
 .input-area {
@@ -34,20 +37,6 @@ body {
     border-radius: 20px;
     padding: 20px 40px 20px 20px;
     margin-bottom: 40px; /* Enter List 박스와 할일 목록 박스 간격 */
-}
-
-#title-input {
-    width: 100%;
-    background-color: black;
-    color: gray;
-    padding: 20px;
-    font-size: 0.65em;
-    border: none;
-    outline: none;
-    resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
-    height: 100px; /* 초기 높이 설정 */
-    white-space: pre-wrap; /* 줄바꿈을 허용 */
-    overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
 }
 
 #title-input::placeholder {
