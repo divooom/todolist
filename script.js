@@ -1,16 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 새로운 Title 입력란 생성 및 설정
-    const titleInput = document.createElement("textarea");
-    titleInput.id = "title-input";
-    titleInput.placeholder = "Title";
-    titleInput.classList.add("title-area");
-
-    const titleDivider = document.createElement("hr");
-    titleDivider.classList.add("title-divider");
-
-    const container = document.querySelector(".container");
-    container.insertBefore(titleInput, container.firstChild);
-    container.insertBefore(titleDivider, titleInput.nextSibling);
 
     // 기존 코드...
     const todoInput = document.getElementById("todo-input");
