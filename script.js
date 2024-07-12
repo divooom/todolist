@@ -12,20 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
     container.insertBefore(titleInput, container.firstChild);
     container.insertBefore(titleDivider, titleInput.nextSibling);
 
-    // 화살표 아이콘 추가
-    const scrollToTop = document.createElement("div");
-    scrollToTop.id = "scroll-to-top";
-    scrollToTop.innerHTML = '<i class="fas fa-arrow-up"></i>';
-    document.body.appendChild(scrollToTop);
-
-    // 화살표 아이콘 클릭 시 페이지 상단으로 스크롤
-    scrollToTop.addEventListener("click", () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-
     // 기존 코드...
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
