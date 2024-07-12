@@ -143,6 +143,10 @@ body {
 
 #todo-list-wrapper-b {
     border-color: #6873eb;
+    background-color: #1c1c1c; /* 배경색 변경 */
+    border-radius: 20px;
+    padding: 10px;
+    margin-bottom: 30px;
 }
 
 #todo-list-a, #todo-list-b {
