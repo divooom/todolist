@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentList = null;
 
-    deletedList.style.display = "none"; // 초기 display 설정
+    // 초기 상태를 "Hide Deleted"로 설정
+    deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
+    showDeletedBtn.textContent = "Hide Deleted"; // 버튼 텍스트 변경
 
     addABtn.addEventListener("click", () => {
         currentList = todoListA;
