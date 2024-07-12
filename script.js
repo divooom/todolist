@@ -54,6 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
             list.appendChild(todoItem);
             todoInput.value = "";
             updateTodoNumbers(list);
+            checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
         }
     }
 
@@ -142,6 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             deletedItem.dataset.originalList = list.id;
             deletedList.appendChild(deletedItem);
             updateTodoNumbers(list);
+            checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
         });
 
         if (isDeleted) {
@@ -155,6 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const originalList = document.getElementById(originalListId);
                 originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked));
                 updateTodoNumbers(originalList);
+                checkEmptyPlaceholder(originalList); // 빈 항목(플레이스홀더) 확인
             });
 
             const spacer = document.createElement("span");
@@ -184,6 +187,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const number = item.querySelector('.todo-number');
             number.textContent = `${index + 1}. `;
         });
+    }
+
+    function checkEmptyPlaceholder(list) {
+        if (list.children.length === 0) {
+            const placeholder = document.createElement("li");
+            placeholder.className = "todo-item placeholder";
+            placeholder.textContent = "Drag items here";
+            list.appendChild(placeholder);
+        } else {
+            const placeholder = list.querySelector(".placeholder");
+            if (placeholder) {
+                placeholder.remove();
+            }
+        }
     }
 
     let draggedItem = null;
@@ -234,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deletedItem.dataset.originalList = list.id;
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
+        checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
     }
 
     function handleDragEnd() {
@@ -241,6 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
             draggedItem.style.display = 'flex';
             dragging = false;
             draggedItem = null;
+            checkEmptyPlaceholder(todoListA); // 빈 항목(플레이스홀더) 확인
+            checkEmptyPlaceholder(todoListB); // 빈 항목(플레이스홀더) 확인
         }, 0);
     }
 
@@ -253,4 +273,8 @@ document.addEventListener("DOMContentLoaded", () => {
             showDeletedBtn.textContent = "Show Deleted";
         }
     });
+
+    // 초기 빈 항목(플레이스홀더) 추가
+    checkEmptyPlaceholder(todoListA);
+    checkEmptyPlaceholder(todoListB);
 });
