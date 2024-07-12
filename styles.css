@@ -24,6 +24,7 @@ body {
     font-size: 0.65em;
     border: none;
     outline: none;
+    resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
 }
 
 .input-area {
@@ -43,6 +44,10 @@ body {
     font-size: 0.65em;
     border: none;
     outline: none;
+    resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
+    height: 100px; /* 초기 높이 설정 */
+    white-space: pre-wrap; /* 줄바꿈을 허용 */
+    overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
 }
 
 #title-input::placeholder {
@@ -64,12 +69,12 @@ body {
 }
 
 .title-divider {
-    border: 1px solid white;
-    width: calc(100% - 50px);
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    border: 2px solid white; /* 선의 굵기를 2배로 증가 */
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 10px; /* 간격 설정 */
+    margin-bottom: 40px; /* Enter List 라운드 박스와의 간격 */
 }
 
 #todo-input {
