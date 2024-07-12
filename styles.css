@@ -80,6 +80,10 @@ body {
     border-color: #6873eb;
 }
 
+#todo-list-a, #todo-list-b {
+    padding: 0; /* ul 요소의 패딩을 제거 */
+}
+
 .todo-item {
     display: flex;
     align-items: center;
