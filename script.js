@@ -226,16 +226,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function handleDelete() {
-        const list = this.closest("ul");
-        const li = this.closest(".todo-item");
-        list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked);
-        deletedItem.dataset.originalList = list.id;
-        deletedList.appendChild(deletedItem);
-        updateTodoNumbers(list);
-    }
-
     function handleDragEnd() {
         setTimeout(() => {
             draggedItem.style.display = 'flex';
@@ -244,13 +234,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
-    });
-});
+    function handleDragEnter(e) {
+        e.preventDefault();
+        const targetList = this;
+        targetList.classList.add('drag-over');
+    }
+
+    function handleDragLeave(e) {
+        e.preventDefault();
+        const targetList = this;
+        targetList.classList.remove('drag-over');
+    }
+
+    function handleDropOnList(e) {
+        e.preventDefault();
+        const targetList = this;
+        targetList.classList.remove('drag-over');
+        if (draggedItem) {
+            targetList.appendChild(draggedItem);
+            updateTodoNumbers(targetList);
+            draggedItem.style.display = '
