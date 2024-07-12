@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleDrop(e) {
         e.preventDefault();
         const targetItem = this.closest(".todo-item");
-        const targetList = targetItem ? targetItem.closest("ul") : this.closest("ul");
+        const targetList = targetItem.closest("ul");
 
         if (targetItem !== draggedItem) {
             let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
@@ -244,23 +244,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
-    // 빈 리스트에서도 드롭을 처리하기 위한 이벤트 리스너 추가
-[todoListA, todoListB].forEach(list => {
-    list.addEventListener("dragover", handleDragOver);
-    list.addEventListener("drop", (e) => {
-        e.preventDefault();
-        if (!draggedItem) return;
-        list.appendChild(draggedItem);
-        updateTodoNumbers(list);
+    showDeletedBtn.addEventListener("click", () => {
+        if (deletedList.style.display === "none") {
+            deletedList.style.display = "block";
+            showDeletedBtn.textContent = "Hide Deleted";
+        } else {
+            deletedList.style.display = "none";
+            showDeletedBtn.textContent = "Show Deleted";
+        }
     });
-});
-
-showDeletedBtn.addEventListener("click", () => {
-    if (deletedList.style.display === "none") {
-        deletedList.style.display = "block";
-        showDeletedBtn.textContent = "Hide Deleted";
-    } else {
-        deletedList.style.display = "none";
-        showDeletedBtn.textContent = "Show Deleted";
-    }
 });
