@@ -58,13 +58,19 @@ body {
 }
 
 .title-divider {
-    border: none; /* 기존 선 제거 */
-    border-top: 3px double #fee140; /* 더블라인으로 변경 및 색상 설정 */
+    border: 2px solid #fee140; /* 기존 선과 동일한 굵기 및 색상 설정 */
     width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
     margin-left: 25px; /* 왼쪽 여백 */
     margin-right: 25px; /* 오른쪽 여백 */
-    margin-top: 10px; /* 간격 설정 */
-    margin-bottom: 40px; /* Enter List 라운드 박스와의 간격 */
+    margin-top: 10px; /* 위쪽 간격 설정 */
+}
+
+.title-divider::after {
+    content: "";
+    display: block;
+    border: 2px solid #fee140; /* 동일한 선 추가 */
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-top: 13px; /* 두 선 사이의 간격 설정 */
 }
 
 #todo-input {
