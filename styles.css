@@ -195,6 +195,7 @@ body {
 #deleted-list {
     display: none;
     font-size: 0.7em;
+    padding: 0 20px; /* 좌우 20px 패딩 설정 */
 }
 
 .detail-input {
