@@ -64,6 +64,14 @@ body {
     background-color: #6873eb;
 }
 
+#add-a-btn:hover {
+    background-color: #00b3a0;
+}
+
+#add-b-btn:hover {
+    background-color: #5966d4;
+}
+
 .todo-list-wrapper {
     border: 4px solid;
     border-radius: 20px;
