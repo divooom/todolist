@@ -17,7 +17,8 @@ body {
     background-color: black;
     z-index: 1000;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center; /* 가로 정렬을 가운데로 */
 }
 
 .title-area {
@@ -35,6 +36,13 @@ body {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
     line-height: 1.5;
+    margin-bottom: 0; /* 여백을 없애서 붙게 함 */
+}
+
+.title-divider {
+    width: 1150px; /* 가로 크기 맞춤 */
+    height: 21px; /* 높이 설정 */
+    background: linear-gradient(to bottom, #7e6e19, transparent); /* 그라데이션 설정 */
 }
 
 .container {
