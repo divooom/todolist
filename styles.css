@@ -25,7 +25,7 @@ body {
     display: flex;
     justify-content: flex-end;
     width: 1150px;
-    padding: 10px 0;
+    padding: 0; /* 패딩 값을 0으로 설정 */
 }
 
 .top-btn, .description-btn {
@@ -55,6 +55,7 @@ body {
     color: white;
     padding: 0 15px;
     font-size: 1em;
+    margin-left: 10px; /* 좌측 마진으로 위치 조정 */
 }
 
 .description-btn:hover {
