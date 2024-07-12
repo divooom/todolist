@@ -189,19 +189,23 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function checkEmptyPlaceholder(list) {
-        if (list.children.length === 0) {
-            const placeholder = document.createElement("li");
-            placeholder.className = "todo-item placeholder";
-            placeholder.textContent = "Drag items here";
-            list.appendChild(placeholder);
-        } else {
-            const placeholder = list.querySelector(".placeholder");
-            if (placeholder) {
-                placeholder.remove();
-            }
+function checkEmptyPlaceholder(list) {
+    if (list.children.length === 0) {
+        const placeholder = document.createElement("li");
+        placeholder.className = "todo-item placeholder";
+        placeholder.setAttribute("draggable", "true");
+        placeholder.addEventListener("dragstart", handleDragStart);
+        placeholder.addEventListener("dragover", handleDragOver);
+        placeholder.addEventListener("drop", handleDrop);
+        placeholder.addEventListener("dragend", handleDragEnd);
+        list.appendChild(placeholder);
+    } else {
+        const placeholder = list.querySelector(".placeholder");
+        if (placeholder) {
+            placeholder.remove();
         }
     }
+}
 
     let draggedItem = null;
     let dragging = false;
