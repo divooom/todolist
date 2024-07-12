@@ -17,13 +17,70 @@ body {
     flex-direction: column;
 }
 
+.title-area {
+    background-color: black;
+    color: #fee140; /* 텍스트 색상 설정 */
+    padding: 20px 46px 20px 40px; /* 패딩 값 설정 */
+    font-size: 1em; /* 텍스트 크기 설정 */
+    border: none;
+    outline: none;
+    resize: none; /* 입력란의 크기를 조정하지 못하게 함 */
+    white-space: pre-wrap; /* 줄바꿈을 허용 */
+    overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
+    height: 100px; /* 초기 높이 설정 */
+}
+
 .input-area {
     display: flex;
     align-items: center;
     border: 4px solid #eaaa56;
     border-radius: 20px;
     padding: 20px 40px 20px 20px;
-    margin-bottom: 40px;
+    margin-bottom: 40px; /* Enter List 박스와 할일 목록 박스 간격 */
+}
+
+#title-input::placeholder {
+    color: gray;
+    font-size: 0.65em;
+}
+
+.title-text {
+    color: yellow;
+    font-size: 1em; /* A, B 박스 할일 목록과 동일한 글자 크기 */
+}
+
+.divider {
+    border: 2px solid #eaaa56;
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 35px; /* Show Deleted 버튼과 간격 설정 */
+}
+
+.title-divider {
+    border: none; /* 기존 선 제거 */
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 10px; /* 위쪽 간격 설정 */
+    margin-bottom: 40px; /* 두 번째 선과 Enter List 라운드 박스 사이의 간격 설정 */
+    position: relative; /* 자식 요소의 위치를 기준으로 설정 */
+}
+
+.title-divider::before,
+.title-divider::after {
+    content: "";
+    display: block;
+    border-top: 4px solid #fee140; /* 기존 테두리와 동일한 두께 */
+    width: 100%; /* 좌우 끝에 이어지지 않도록 설정 */
+}
+
+.title-divider::before {
+    margin-bottom: 13px; /* 두 선 사이의 간격 설정 */
+}
+
+.title-divider::after {
+    margin-bottom: 0; /* 마지막 선의 간격 설정 */
 }
 
 #todo-input {
@@ -78,7 +135,6 @@ body {
     padding: 10px;
     background-color: #333;
     margin-bottom: 30px;
-    min-height: 50px; /* 최소 높이 설정 */
 }
 
 #todo-list-wrapper-a {
@@ -90,14 +146,14 @@ body {
 }
 
 #todo-list-a, #todo-list-b {
-    padding: 0;
+    padding: 0; /* ul 요소의 패딩을 제거 */
 }
 
 .todo-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 40px;
+    padding: 20px 40px; /* 좌측 여백을 20px 줄이고, 우측 여백을 20px 늘림 */
     margin: 0;
     position: relative;
 }
@@ -196,5 +252,23 @@ body {
 #deleted-list {
     display: none;
     font-size: 0.7em;
-    padding: 0 20px;
+    padding: 0 20px; /* 좌우 20px 패딩 설정 */
+}
+
+.detail-input {
+    display: none;
+    width: calc(100% - 40px);
+    padding: 10px;
+    margin-top: 10px;
+    border: 2px solid #eaaa56;
+    color: #eaaa56;
+    background-color: black;
+    font-size: 1em;
+    border-radius: 10px;
+}
+
+.detail-text {
+    color: blue;
+    margin-top: 10px;
+    font-size: 1em;
 }
