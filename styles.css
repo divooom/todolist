@@ -84,7 +84,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    padding: 20px 40px; /* 좌측 여백을 20px 줄이고, 우측 여백을 20px 늘림 */
     margin: 0;
     position: relative;
 }
