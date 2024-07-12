@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     descriptionButton.addEventListener("click", () => {
-        alert("This is the description of the website.");
+        alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.");
     });
 
     // 초기 빈 항목(플레이스홀더) 추가
