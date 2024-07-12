@@ -6,10 +6,18 @@
     <title>Todo List</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap"> <!-- 구글 폰트 추가 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap">
 </head>
 <body>
     <div class="container">
+        <div class="input-area">
+            <textarea id="title-input" class="title-area" placeholder="Title"></textarea>
+            <hr class="title-divider">
+        </div>
+        <!-- 화살표 아이콘 추가 -->
+        <div id="scroll-to-top">
+            <i class="fas fa-arrow-up"></i>
+        </div>
         <div class="input-area">
             <input type="text" id="todo-input" placeholder="Enter List">
             <button id="add-a-btn">A</button>
