@@ -1,4 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // 새로운 Title 입력란 생성 및 설정
+    const titleInput = document.createElement("textarea");
+    titleInput.id = "title-input";
+    titleInput.placeholder = "Title";
+    titleInput.classList.add("title-area");
+
+    const titleDivider = document.createElement("hr");
+    titleDivider.classList.add("title-divider");
+
+    const container = document.querySelector(".container");
+    container.insertBefore(titleInput, container.firstChild);
+    container.insertBefore(titleDivider, titleInput.nextSibling);
+
+    // 기존 코드...
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
     const addBBtn = document.getElementById("add-b-btn");
@@ -7,7 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
-    let currentList = todoListA;
+    let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
+
+    // 초기 상태를 "Hide Deleted"로 설정
+    deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
+    showDeletedBtn.textContent = "Hide Deleted"; // 버튼 텍스트 변경
 
     addABtn.addEventListener("click", () => {
         currentList = todoListA;
@@ -20,36 +38,45 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     todoInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            addTodoToList(currentList);
-            e.preventDefault();
+        if (e.key === "Enter" && !e.shiftKey) {
+            addTodoToList(todoListA);
+            e.preventDefault(); // 기본 Enter 동작 방지
+        } else if (e.key === "Enter" && e.shiftKey) {
+            addTodoToList(todoListB);
+            e.preventDefault(); // 기본 Enter 동작 방지
         }
     });
 
     function addTodoToList(list) {
         const text = todoInput.value.trim();
         if (text !== "") {
-            const todoItem = createTodoItem(text);
+            const todoItem = createTodoItem(text, list);
             list.appendChild(todoItem);
             todoInput.value = "";
             updateTodoNumbers(list);
         }
     }
 
-    function createTodoItem(text, isDeleted = false, isCompleted = false) {
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
+        li.style.display = "flex";
+        li.style.alignItems = "center";
+        li.style.justifyContent = "space-between";
         if (isCompleted) {
             li.classList.add("completed");
         }
 
         const number = document.createElement("span");
         number.className = "todo-number";
+        number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
-        if (!isDeleted) {
+        if (isDeleted) {
+            dragHandle.style.display = "none";
+        } else {
             dragHandle.setAttribute("draggable", "true");
             dragHandle.addEventListener("dragstart", handleDragStart);
             dragHandle.addEventListener("dragover", handleDragOver);
@@ -73,9 +100,31 @@ document.addEventListener("DOMContentLoaded", () => {
         span.className = "text";
         span.textContent = text;
 
+        span.addEventListener("click", (e) => {
+            if (!li.querySelector(".detail-input") && !dragging) {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "detail-input";
+                input.placeholder = "Enter details";
+
+                input.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        const detailText = document.createElement("p");
+                        detailText.className = "detail-text";
+                        detailText.textContent = input.value;
+                        li.appendChild(detailText);
+                        input.remove();
+                    }
+                });
+
+                li.appendChild(input);
+                input.focus();
+            }
+        });
+
         const editBtn = document.createElement("button");
         editBtn.className = "edit-btn";
-        editBtn.innerHTML = "&#9998;";
+        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
         editBtn.addEventListener("click", () => {
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
@@ -85,10 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = "&#128465;";
+        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
+        deleteBtn.style.marginLeft = "10px";
         deleteBtn.addEventListener("click", () => {
             list.removeChild(li);
-            const deletedItem = createTodoItem(text, true, checkbox.checked);
+            const deletedItem = createTodoItem(text, list, true, checkbox.checked);
             deletedItem.dataset.originalList = list.id;
             deletedList.appendChild(deletedItem);
             updateTodoNumbers(list);
@@ -97,12 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isDeleted) {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
-            restoreBtn.innerHTML = "&#8635;";
+            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
+            restoreBtn.style.marginLeft = "10px";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 const originalListId = li.dataset.originalList;
                 const originalList = document.getElementById(originalListId);
-                originalList.appendChild(createTodoItem(text, false, checkbox.checked));
+                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked));
                 updateTodoNumbers(originalList);
             });
 
@@ -153,24 +204,36 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleDrop(e) {
         e.preventDefault();
         const targetItem = this.closest(".todo-item");
-        const targetList = targetItem ? targetItem.closest("ul") : e.target.closest(".todo-list-wrapper").querySelector("ul");
+        const targetList = targetItem ? targetItem.closest("ul") : this.closest("ul");
 
-        if (targetList) {
-            if (targetItem && targetItem !== draggedItem) {
-                let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-                let draggedIndex = allItems.indexOf(draggedItem);
-                let droppedIndex = allItems.indexOf(targetItem);
+        if (targetItem !== draggedItem) {
+            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+            let draggedIndex = allItems.indexOf(draggedItem);
+            let droppedIndex = allItems.indexOf(targetItem);
 
-                if (draggedIndex < droppedIndex) {
-                    targetItem.after(draggedItem);
-                } else {
-                    targetItem.before(draggedItem);
-                }
+            if (draggedIndex < droppedIndex) {
+                targetItem.after(draggedItem);
             } else {
-                targetList.appendChild(draggedItem);
+                targetItem.before(draggedItem);
             }
+            
             updateTodoNumbers(targetList);
+            
+            // Re-attach delete button event listener
+            const deleteBtn = draggedItem.querySelector('.delete-btn');
+            deleteBtn.removeEventListener("click", handleDelete);
+            deleteBtn.addEventListener('click', handleDelete);
         }
+    }
+
+    function handleDelete() {
+        const list = this.closest("ul");
+        const li = this.closest(".todo-item");
+        list.removeChild(li);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked);
+        deletedItem.dataset.originalList = list.id;
+        deletedList.appendChild(deletedItem);
+        updateTodoNumbers(list);
     }
 
     function handleDragEnd() {
@@ -181,19 +244,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
-    showDeletedBtn.addEventListener("click", () => {
-        if (deletedList.style.display === "none") {
-            deletedList.style.display = "block";
-            showDeletedBtn.textContent = "Hide Deleted";
-        } else {
-            deletedList.style.display = "none";
-            showDeletedBtn.textContent = "Show Deleted";
-        }
+    // 빈 리스트에서도 드롭을 처리하기 위한 이벤트 리스너 추가
+[todoListA, todoListB].forEach(list => {
+    list.addEventListener("dragover", handleDragOver);
+    list.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (!draggedItem) return;
+        list.appendChild(draggedItem);
+        updateTodoNumbers(list);
     });
+});
 
-    // 빈 영역 드래그 가능하도록 설정
-    document.querySelectorAll('.todo-list-wrapper').forEach(wrapper => {
-        wrapper.addEventListener('dragover', handleDragOver);
-        wrapper.addEventListener('drop', handleDrop);
-    });
+showDeletedBtn.addEventListener("click", () => {
+    if (deletedList.style.display === "none") {
+        deletedList.style.display = "block";
+        showDeletedBtn.textContent = "Hide Deleted";
+    } else {
+        deletedList.style.display = "none";
+        showDeletedBtn.textContent = "Show Deleted";
+    }
 });
