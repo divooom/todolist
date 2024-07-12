@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    // 기존 코드...
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
     const addBBtn = document.getElementById("add-b-btn");
@@ -8,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const todoListB = document.getElementById("todo-list-b");
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
+    const topButton = document.getElementById("top-button");
+    const descriptionButton = document.getElementById("description-button");
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
 
@@ -263,6 +263,14 @@ document.addEventListener("DOMContentLoaded", () => {
             deletedList.style.display = "none";
             showDeletedBtn.textContent = "Show Deleted";
         }
+    });
+
+    topButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    descriptionButton.addEventListener("click", () => {
+        alert("This is the description of the website.");
     });
 
     // 초기 빈 항목(플레이스홀더) 추가
