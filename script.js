@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
 
-    let currentList = null;
+    let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
 
     // 초기 상태를 "Hide Deleted"로 설정
     deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
@@ -38,8 +38,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     todoInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            addTodoToList(currentList || todoListA);
+        if (e.key === "Enter" && !e.shiftKey) {
+            addTodoToList(todoListA);
+            e.preventDefault(); // 기본 Enter 동작 방지
+        } else if (e.key === "Enter" && e.shiftKey) {
+            addTodoToList(todoListB);
+            e.preventDefault(); // 기본 Enter 동작 방지
         }
     });
 
