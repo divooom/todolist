@@ -137,14 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteBtn.className = "delete-btn";
         deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
         deleteBtn.style.marginLeft = "10px";
-        deleteBtn.addEventListener("click", () => {
-            list.removeChild(li);
-            const deletedItem = createTodoItem(text, list, true, checkbox.checked);
-            deletedItem.dataset.originalList = list.id;
-            deletedList.appendChild(deletedItem);
-            updateTodoNumbers(list);
-            checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
-        });
+        deleteBtn.addEventListener("click", handleDelete);
 
         if (isDeleted) {
             const restoreBtn = document.createElement("button");
@@ -247,6 +240,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             updateTodoNumbers(targetList);
+            checkEmptyPlaceholder(todoListA);
+            checkEmptyPlaceholder(todoListB);
             
             // Re-attach delete button event listener
             const deleteBtn = draggedItem.querySelector('.delete-btn');
