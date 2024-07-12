@@ -3,16 +3,24 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: start;
+    flex-direction: column;
+    align-items: center;
     height: 100vh;
     margin: 0;
     font-size: 1.7em;
 }
 
+.fixed-top-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: black;
+    z-index: 1000;
+}
+
 .container {
     width: 1200px;
-    margin-top: 25px;
+    margin-top: 150px; /* 상단 고정 영역 높이만큼 여백 추가 */
     display: flex;
     flex-direction: column;
 }
@@ -61,14 +69,14 @@ body {
 }
 
 .title-divider {
-    border: none;
-    width: calc(100% - 50px);
-    margin-left: 25px;
-    margin-right: 25px;
-    margin-top: 10px;
-    margin-bottom: 40px;
-    height: 21px;
-    background: linear-gradient(to bottom, #7e6e19, transparent);
+    border: none; /* 기존 선 제거 */
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 10px; /* 위쪽 간격 설정 */
+    margin-bottom: 0; /* 아래쪽 간격 설정 */
+    height: 21px; /* 높이 설정 */
+    background: linear-gradient(to bottom, #7e6e19, transparent); /* 그라데이션 설정 */
 }
 
 #todo-input {
