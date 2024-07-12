@@ -17,6 +17,15 @@ body {
     flex-direction: column;
 }
 
+.title-area {
+    background-color: black;
+    color: gray;
+    padding: 20px;
+    font-size: 0.65em;
+    border: none;
+    outline: none;
+}
+
 .input-area {
     display: flex;
     align-items: center;
@@ -24,6 +33,43 @@ body {
     border-radius: 20px;
     padding: 20px 40px 20px 20px;
     margin-bottom: 40px; /* Enter List 박스와 할일 목록 박스 간격 */
+}
+
+#title-input {
+    width: 100%;
+    background-color: black;
+    color: gray;
+    padding: 20px;
+    font-size: 0.65em;
+    border: none;
+    outline: none;
+}
+
+#title-input::placeholder {
+    color: gray;
+    font-size: 0.65em;
+}
+
+.title-text {
+    color: yellow;
+    font-size: 1em; /* A, B 박스 할일 목록과 동일한 글자 크기 */
+}
+
+.divider {
+    border: 2px solid #eaaa56;
+    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
+    margin-left: 25px; /* 왼쪽 여백 */
+    margin-right: 25px; /* 오른쪽 여백 */
+    margin-top: 35px; /* Show Deleted 버튼과 간격 설정 */
+}
+
+.title-divider {
+    border: 1px solid white;
+    width: calc(100% - 50px);
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #todo-input {
@@ -190,14 +236,6 @@ body {
 
 #show-deleted-btn:hover {
     background-color: #d49b40;
-}
-
-.divider {
-    border: 2px solid #eaaa56;
-    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
-    margin-left: 25px; /* 왼쪽 여백 */
-    margin-right: 25px; /* 오른쪽 여백 */
-    margin-top: 35px; /* Show Deleted 버튼과 간격 설정 */
 }
 
 #deleted-list {
