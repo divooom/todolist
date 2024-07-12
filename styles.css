@@ -264,6 +264,7 @@ body {
     color: red;
     cursor: pointer;
     font-size: 1.5em;
+    transform: scale(0.85); /* 크기를 85%로 줄이기 */
     margin-left: 10px;
 }
 
