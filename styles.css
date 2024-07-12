@@ -34,8 +34,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 10px;
+    margin-left: 13px; /* 간격을 13px로 설정 */
     transform: scale(0.85); /* 크기를 85%로 줄이기 */
+    border: none; /* 테두리 제거 */
 }
 
 .top-btn {
@@ -56,7 +57,6 @@ body {
     color: white;
     padding: 0 15px;
     font-size: 1em;
-    margin-left: 10px; /* 좌측 마진으로 위치 조정 */
 }
 
 .description-btn:hover {
