@@ -1,8 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 새로운 Title 입력란 생성 및 설정
-    const titleInput = document.createElement("input");
+    const titleInput = document.createElement("textarea");
     titleInput.id = "title-input";
-    titleInput.type = "text";
     titleInput.placeholder = "Title";
     titleInput.classList.add("title-area");
 
@@ -13,18 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     container.insertBefore(titleInput, container.firstChild);
     container.insertBefore(titleDivider, titleInput.nextSibling);
 
-    titleInput.addEventListener("input", () => {
-        const titleText = document.querySelector(".title-text");
-        if (titleText) {
-            titleText.textContent = titleInput.value;
-        } else {
-            const newTitleText = document.createElement("div");
-            newTitleText.className = "title-text";
-            newTitleText.textContent = titleInput.value;
-            container.insertBefore(newTitleText, titleDivider.nextSibling);
-        }
-    });
-
+    // 기존 코드...
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
     const addBBtn = document.getElementById("add-b-btn");
