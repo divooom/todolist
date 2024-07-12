@@ -28,6 +28,9 @@ body {
     white-space: pre-wrap; /* 줄바꿈을 허용 */
     overflow-wrap: break-word; /* 단어가 길 때 줄바꿈 처리 */
     height: 100px; /* 초기 높이 설정 */
+    font-family: 'Noto Sans KR', sans-serif; /* 폰트 변경 */
+    font-weight: 500; /* 폰트 굵기 설정 */
+    line-height: 1.5; /* 줄간격 설정 */
 }
 
 .input-area {
