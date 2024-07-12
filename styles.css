@@ -35,6 +35,7 @@ body {
     align-items: center;
     justify-content: center;
     margin-left: 10px;
+    transform: scale(0.85); /* 크기를 85%로 줄이기 */
 }
 
 .top-btn {
