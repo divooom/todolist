@@ -61,29 +61,14 @@ body {
 }
 
 .title-divider {
-    border: none; /* 기존 선 제거 */
-    width: calc(100% - 50px); /* 좌우 padding을 고려하여 너비 설정 */
-    margin-left: 25px; /* 왼쪽 여백 */
-    margin-right: 25px; /* 오른쪽 여백 */
-    margin-top: 10px; /* 위쪽 간격 설정 */
-    margin-bottom: 40px; /* 두 번째 선과 Enter List 라운드 박스 사이의 간격 설정 */
-    position: relative; /* 자식 요소의 위치를 기준으로 설정 */
-}
-
-.title-divider::before,
-.title-divider::after {
-    content: "";
-    display: block;
-    border-top: 4px solid #fee140; /* 기존 테두리와 동일한 두께 */
-    width: 100%; /* 좌우 끝에 이어지지 않도록 설정 */
-}
-
-.title-divider::before {
-    margin-bottom: 13px; /* 두 선 사이의 간격 설정 */
-}
-
-.title-divider::after {
-    margin-bottom: 0; /* 마지막 선의 간격 설정 */
+    border: none;
+    width: calc(100% - 50px);
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 10px;
+    margin-bottom: 40px;
+    height: 21px;
+    background: linear-gradient(to bottom, #7e6e19, transparent);
 }
 
 #todo-input {
