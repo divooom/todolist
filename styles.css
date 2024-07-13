@@ -350,8 +350,10 @@ body {
     }
 
     .container {
-        width: 95%;
-        margin-top: 400px; /* 상단 고정 영역 여백 추가 */
+        width: 100%; /* 모바일 화면에서 너비를 100%로 설정 */
+        margin-top: 200px; /* 상단 고정 영역 여백 추가 */
+        padding: 0 20px; /* 좌우 여백을 주어 내용이 화면에 딱 맞지 않도록 함 */
+        box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
     }
 
     .button-container {
