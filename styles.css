@@ -28,7 +28,7 @@ body {
     padding: 0; /* 패딩 값을 0으로 설정 */
 }
 
-.top-btn, .description-btn {
+.top-btn, .description-btn, .cpalink-btn {
     height: 45px;
     cursor: pointer;
     display: flex;
@@ -63,6 +63,19 @@ body {
 
 .description-btn:hover {
     background-color: #c6344e;
+}
+
+.cpalink-btn {
+    background-color: #00de88;
+    border-radius: 0 0 8px 8px;
+    color: white;
+    padding: 0 13px;
+    margin-right: -2px; /* 간격을 -2px로 설정 */
+    font-size: 0.8em;
+}
+
+.cpalink-btn:hover {
+    background-color: #2fba84;
 }
 
 .title-area {
