@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cpalinkButton.addEventListener("click", () => {
-        window.location.href = "https://iryan.kr/t7rbs8lqau";
+        window.open("https://iryan.kr/t7rbs8lqau", "_blank");
     });
 
     // 초기 빈 항목(플레이스홀더) 추가
