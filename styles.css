@@ -344,6 +344,11 @@ body {
 
 /* 모바일 최적화 */
 @media only screen and (max-width: 768px) {
+    body {
+        transform: scale(0.8); /* 전체 비율을 80%로 줄이기 */
+        transform-origin: top left; /* 스케일 기준을 왼쪽 상단으로 설정 */
+    }
+
     .container {
         width: 95%;
         margin-top: 200px; /* 상단 고정 영역 여백 추가 */
@@ -356,22 +361,28 @@ body {
     }
 
     .button-container button {
-        width: 100%;
+        width: 90%;
         margin: 5px 0;
     }
 
     .title-area {
         width: calc(100% - 40px); /* 양쪽 여백 고려한 너비 */
+        height: auto; /* 높이를 자동으로 조정 */
+        margin: 10px 0; /* 상하 여백 추가 */
     }
 
     .title-divider {
         width: calc(100% - 40px); /* 양쪽 여백 고려한 너비 */
+        margin-top: 10px; /* 위쪽 간격 설정 */
+        margin-bottom: 10px; /* 아래쪽 간격 설정 */
     }
 
     .input-area {
         flex-direction: column;
         align-items: stretch;
-        width: 100%;
+        width: calc(100% - 40px);
+        margin-top: 20px; /* 상단 고정 영역과 간격 추가 */
+        margin-bottom: 20px; /* 할 일 목록 박스와 간격 추가 */
     }
 
     .input-area input,
@@ -381,6 +392,20 @@ body {
     }
 
     .todo-list-wrapper {
-        width: 100%;
+        width: calc(100% - 40px);
+    }
+
+    .todo-item {
+        padding: 10px 20px; /* 패딩을 줄여서 공간 확보 */
+    }
+
+    .divider {
+        width: calc(100% - 40px); /* 좌우 padding을 고려하여 너비 설정 */
+        margin: 20px 0; /* 간격 조정 */
+    }
+
+    #show-deleted-btn {
+        width: calc(100% - 40px); /* 너비 조정 */
+        margin-right: 0; /* 오른쪽 여백 제거 */
     }
 }
