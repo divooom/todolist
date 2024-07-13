@@ -66,16 +66,16 @@ body {
 }
 
 .cpalink-btn {
-    background-color: #00de88;
+    background-color: #f44448;
     border-radius: 0 0 8px 8px;
     color: white;
     padding: 0 13px;
-    margin-right: -2px; /* 간격을 -2px로 설정 */
+    margin-right: -12px; /* 간격을 -2px로 설정 */
     font-size: 0.8em;
 }
 
 .cpalink-btn:hover {
-    background-color: #2fba84;
+    background-color: #c73f42;
 }
 
 .title-area {
