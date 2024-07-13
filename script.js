@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const deletedList = document.getElementById("deleted-list");
     const topButton = document.getElementById("top-button");
     const descriptionButton = document.getElementById("description-button");
+    const cpalinkButton = document.getElementById("cpalink-button");
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
 
@@ -271,6 +272,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     descriptionButton.addEventListener("click", () => {
         alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.");
+    });
+
+    cpalinkButton.addEventListener("click", () => {
+        window.location.href = "https://iryan.kr/t7rbs8lqau";
     });
 
     // 초기 빈 항목(플레이스홀더) 추가
