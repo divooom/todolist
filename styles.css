@@ -357,7 +357,7 @@ body {
     color: #eaaa56; /* 버튼 텍스트 색상을 설정 */
     cursor: pointer;
     font-size: 1.5em;
-    margin-left: 10px;
+    margin-left: 0px;
 }
 
 .stopwatch-btn:hover {
@@ -368,8 +368,8 @@ body {
     background-color: #797979; /* 기본 상태 배경 색상 */
     color: black;
     padding: 5px 10px;
-    margin-left: 6px; /* 간격을 60%로 줄임 */
-    margin-right: 6px; /* 간격을 60%로 줄임 */
+    margin-left: 5px; /* 간격을 60%로 줄임 */
+    margin-right: 5px; /* 간격을 60%로 줄임 */
     border-radius: 5px;
     font-size: 1em;
 }
