@@ -309,8 +309,9 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteBtn.addEventListener('click', handleDelete);
 
               // Drag된 리스트에서도 숫자 재정렬
-        if (draggedItem.closest('ul') !== targetList) {
-            updateTodoNumbers(draggedItem.closest('ul'));
+            if (draggedItem.closest('ul') !== targetList) {
+                updateTodoNumbers(draggedItem.closest('ul'));
+            }
         }
     }
 
