@@ -153,7 +153,8 @@ console.log('number element:', number);
 
     let stopwatchInterval; // 스탑워치 인터벌 변수
     let running = false; // 스탑워치 실행 여부
-    let startTime, elapsedTime = 0; // 시작 시간과 경과 시간 변수
+    let startTime; // ★ 시작 시간 변수
+    let elapsedTime = 0; // ★ 경과 시간 변수
 
     function toggleStopwatch() { // 스탑워치 재생/일시정지 함수
         if (running) {
@@ -412,7 +413,7 @@ function saveTodos() {
     const deletedItems = Array.from(deletedList.querySelectorAll('.todo-item')).map(item => ({
         text: item.querySelector('.text').textContent,
         completed: item.querySelector('.checkbox').checked,
-        originalList: item.dataset.originalList
+        originalList: item.dataset.originalList,
         elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
     }));
     localStorage.setItem('todos', JSON.stringify({ todoA, todoB, deletedItems }));
