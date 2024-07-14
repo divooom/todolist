@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const resetButton = document.createElement("button"); // 리셋 버튼 생성
     resetButton.className = "stopwatch-btn reset-btn"; // 클래스 설정
-    resetButton.innerHTML = "🔄"; // 버튼 텍스트 설정
+    resetButton.innerHTML = "&#x21bb;"; // 리셋 아이콘 (🔄)
     resetButton.addEventListener("click", resetStopwatch); // 클릭 이벤트 설정
 
     const timerDisplay = document.createElement("span"); // 시계 표시 요소 생성
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
             }, 1000);
             running = true; // 실행 상태 true
-            playPauseButton.innerHTML = "⏸️"; // 버튼 텍스트 변경
+            playPauseButton.innerHTML = "&#10074;&#10074;"; // 일시정지 아이콘 (⏸️)
             timerDisplay.style.backgroundColor = "white"; // 돌아가는 상태 배경 색상 유지
             timerDisplay.style.border = "5px solid #0074ff"; // 돌아가는 상태 테두리 설정
         }
