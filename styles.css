@@ -219,11 +219,6 @@ body {
     padding: 0; /* ul 요소의 패딩을 제거 */
 }
 
-/* placeholder 관련 스타일 추가 */
-.placeholder {
-    list-style-type: none; /* 목록 스타일 제거 */
-}
-
 .todo-item {
     display: flex;
     align-items: center;
@@ -231,10 +226,6 @@ body {
     padding: 20px 40px; /* 좌측 여백을 20px 줄이고, 우측 여백을 20px 늘림 */
     margin: 0;
     position: relative;
-}
-
-.todo-number {
-    margin-right: 10px;
 }
 
 .todo-item + .todo-item::before {
