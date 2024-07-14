@@ -112,6 +112,67 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
+
+        // 스탑워치 기능 추가 시작
+    const stopwatchContainer = document.createElement("div"); // 스탑워치 컨테이너 생성
+    stopwatchContainer.className = "stopwatch-container"; // 클래스 설정
+
+    const playPauseButton = document.createElement("button"); // 재생/일시정지 버튼 생성
+    playPauseButton.className = "stopwatch-btn play-pause-btn"; // 클래스 설정
+    playPauseButton.textContent = "▶️"; // 버튼 텍스트 설정
+    playPauseButton.addEventListener("click", toggleStopwatch); // 클릭 이벤트 설정
+
+    const resetButton = document.createElement("button"); // 리셋 버튼 생성
+    resetButton.className = "stopwatch-btn reset-btn"; // 클래스 설정
+    resetButton.textContent = "🔄"; // 버튼 텍스트 설정
+    resetButton.addEventListener("click", resetStopwatch); // 클릭 이벤트 설정
+
+    const timerDisplay = document.createElement("span"); // 시계 표시 요소 생성
+    timerDisplay.className = "timer-display"; // 클래스 설정
+    timerDisplay.textContent = "00:00:00"; // 초기 시계 텍스트 설정
+
+    stopwatchContainer.appendChild(playPauseButton); // 컨테이너에 재생/일시정지 버튼 추가
+    stopwatchContainer.appendChild(timerDisplay); // 컨테이너에 시계 표시 추가
+    stopwatchContainer.appendChild(resetButton); // 컨테이너에 리셋 버튼 추가
+
+    let stopwatchInterval; // 스탑워치 인터벌 변수
+    let running = false; // 스탑워치 실행 여부
+    let startTime, elapsedTime = 0; // 시작 시간과 경과 시간 변수
+
+    function toggleStopwatch() { // 스탑워치 재생/일시정지 함수
+        if (running) {
+            clearInterval(stopwatchInterval); // 실행 중이면 인터벌 해제
+            running = false; // 실행 상태 false
+            playPauseButton.textContent = "▶️"; // 버튼 텍스트 변경
+        } else {
+            startTime = Date.now() - elapsedTime; // 시작 시간 설정
+            stopwatchInterval = setInterval(() => {
+                elapsedTime = Date.now() - startTime; // 경과 시간 계산
+                timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
+            }, 1000);
+            running = true; // 실행 상태 true
+            playPauseButton.textContent = "⏸️"; // 버튼 텍스트 변경
+        }
+    }
+
+    function resetStopwatch() { // 스탑워치 리셋 함수
+        clearInterval(stopwatchInterval); // 인터벌 해제
+        running = false; // 실행 상태 false
+        elapsedTime = 0; // 경과 시간 초기화
+        timerDisplay.textContent = "00:00:00"; // 시계 텍스트 초기화
+        playPauseButton.textContent = "▶️"; // 버튼 텍스트 변경
+    }
+
+    function formatTime(ms) { // 시간 포맷 함수
+        const totalSeconds = Math.floor(ms / 1000); // 총 초 계산
+        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0'); // 시간 계산
+        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0'); // 분 계산
+        const seconds = String(totalSeconds % 60).padStart(2, '0'); // 초 계산
+        return `${hours}:${minutes}:${seconds}`; // 포맷된 시간 반환
+    }
+    // 스탑워치 기능 추가 끝
+        
+
         const editBtn = document.createElement("button");
         editBtn.className = "edit-btn";
         editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
@@ -156,6 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(checkbox);
             li.appendChild(number);
             li.appendChild(span);
+            li.appendChild(stopwatchContainer); // 스탑워치 컨테이너 추가
             li.appendChild(editBtn);
             li.appendChild(deleteBtn);
         }
