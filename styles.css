@@ -360,6 +360,14 @@ body {
     margin-left: 0px;
 }
 
+.play-pause-btn {
+    transform: scale(0.75); /* 재생/멈춤 버튼 크기를 75%로 줄임 */
+}
+
+.reset-btn {
+    transform: scale(0.80); /* 리셋 버튼 크기를 80%로 줄임 */
+}
+
 .stopwatch-btn:hover {
     color: #d49b40; /* 버튼 hover 색상 */
 }
