@@ -239,19 +239,19 @@ console.log('number element:', number);
         return li;
     }
 
-    function updateTodoNumbers(list) {
-        const items = list.querySelectorAll('.todo-item');
-        items.forEach((item, index) => {
-            const number = item.querySelector('.todo-number');
+function updateTodoNumbers(list) {
+    const items = list.querySelectorAll('.todo-item');
+    items.forEach((item, index) => {
+        const number = item.querySelector('.todo-number');
         if (number) {
-            if (index === 0) { // 첫 번째 항목을 '1'로 설정
-                number.textContent = '1. ';
+            if (item.classList.contains('placeholder')) {
+                number.textContent = '0. ';
             } else {
                 number.textContent = `${index + 1}. `;
             }
         }
-        });
-    }
+    });
+}
 
 function checkEmptyPlaceholder(list) {
     let placeholder = list.querySelector(".placeholder");
