@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const number = document.createElement("span");
         number.className = "todo-number";
-        number.textContent = ""; // 번호 초기화
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
 
         const dragHandle = document.createElement("span");
@@ -233,16 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateTodoNumbers(list) {
-    console.log('Updating numbers for list:', list); // 리스트 확인
-    const items = list.querySelectorAll('.todo-item');
-    items.forEach((item, index) => {
-        const number = item.querySelector('.todo-number');
-        if (number) {
-            console.log('Updating number for item:', item, 'Index:', index);
+        const items = list.querySelectorAll('.todo-item');
+        items.forEach((item, index) => {
+            const number = item.querySelector('.todo-number');
             number.textContent = `${index + 1}. `;
-        } else {
-            console.log('Number element not found for item:', item);
-        }
         });
     }
 
@@ -250,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const placeholder = list.querySelector(".placeholder");
         if (!placeholder) {
             const newPlaceholder = document.createElement("li");
-            newPlaceholder.className = "placeholder"; // "todo-item placeholder"에서 "todo-item" 클래스 제외
+            newPlaceholder.className = "todo-item placeholder";
             newPlaceholder.setAttribute("draggable", "true");
 
             // A와 B 목록에 따라 텍스트 설정
@@ -307,11 +300,6 @@ document.addEventListener("DOMContentLoaded", () => {
             const deleteBtn = draggedItem.querySelector('.delete-btn');
             deleteBtn.removeEventListener("click", handleDelete);
             deleteBtn.addEventListener('click', handleDelete);
-
-              // Drag된 리스트에서도 숫자 재정렬
-            if (draggedItem.closest('ul') !== targetList) {
-                updateTodoNumbers(draggedItem.closest('ul'));
-            }
         }
     }
 
