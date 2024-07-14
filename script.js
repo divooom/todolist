@@ -53,8 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-     function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0) { // ★ elapsedTime 추가
+     function createTodoItem(text, list, isDeleted = false, isCompleted = false, initialElapsedTime = 0) { // ★ 변수 이름 변경
         const li = document.createElement("li");
+        let elapsedTime = initialElapsedTime; // 함수 내부에서 사용할 elapsedTime
         li.className = "todo-item";
         li.style.display = "flex";
         li.style.alignItems = "center";
