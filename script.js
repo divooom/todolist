@@ -324,6 +324,16 @@ document.addEventListener("DOMContentLoaded", () => {
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
 
+        // 플레이스홀더를 항상 상단에 고정
+        const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
+        const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
+        if (placeholderA) {
+            todoListA.prepend(placeholderA);
+        }
+        if (placeholderB) {
+            todoListB.prepend(placeholderB);
+        }
+        
     }
 
     function handleDragEnd() {
