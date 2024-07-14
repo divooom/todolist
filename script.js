@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-     function createTodoItem(text, list, isDeleted = false, isCompleted = false, initialElapsedTime = 0) { // ★ 변수 이름 변경
+     function createTodoItem(text, list, isDeleted = false, isCompleted = false, initialElapsedTime = 0) {
         const li = document.createElement("li");
         li.className = "todo-item";
         li.style.display = "flex";
@@ -68,6 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
             li.classList.add("completed");
         }
 
+        let elapsedTime = initialElapsedTime;
+         
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
@@ -166,7 +168,7 @@ console.log('number element:', number);
             timerDisplay.setAttribute("data-time", elapsedTime); // ★ 경과 시간 저장
             saveTodos(); // ★ 추가
         } else {
-            startTime = Date.now() - elapsedTime; // 시작 시간 설정
+            startTime = Date.now() - parseInt(timerDisplay.getAttribute("data-time"));
             stopwatchInterval = setInterval(() => {
                 elapsedTime = Date.now() - startTime; // 경과 시간 계산
                 timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
