@@ -259,8 +259,7 @@ function checkEmptyPlaceholder(list) {
     }
 }
 
-let draggedItem = null;
-let dragging = false;
+
 
     function handleDragStart(e) {
         draggedItem = this.closest(".todo-item");
