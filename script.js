@@ -239,62 +239,61 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function checkEmptyPlaceholder(list) {
-        const placeholder = list.querySelector(".placeholder");
-        if (!placeholder) {
-            const newPlaceholder = document.createElement("li");
-            newPlaceholder.className = "todo-item placeholder";
-            newPlaceholder.setAttribute("draggable", "true");
+function checkEmptyPlaceholder(list) {
+    let placeholder = list.querySelector(".placeholder");
+    if (!placeholder) {
+        placeholder = document.createElement("li");
+        placeholder.className = "todo-item placeholder";
+        placeholder.setAttribute("draggable", "true");
 
-            // A와 B 목록에 따라 텍스트 설정
-            if (list.id === "todo-list-a") {
-                newPlaceholder.textContent = "A - List";
-            } else if (list.id === "todo-list-b") {
-                newPlaceholder.textContent = "B - List";
-            }
+        // A와 B 목록에 따라 텍스트 설정
+        placeholder.textContent = list.id === "todo-list-a" ? "A - List" : "B - List";
 
-            newPlaceholder.addEventListener("dragstart", handleDragStart);
-            newPlaceholder.addEventListener("dragover", handleDragOver);
-            newPlaceholder.addEventListener("drop", handleDrop);
-            newPlaceholder.addEventListener("dragend", handleDragEnd);
-            list.appendChild(newPlaceholder);
+        placeholder.addEventListener("dragstart", handleDragStart);
+        placeholder.addEventListener("dragover", handleDragOver);
+        placeholder.addEventListener("drop", handleDrop);
+        placeholder.addEventListener("dragend", handleDragEnd);
+        list.insertBefore(placeholder, list.firstChild); // 항상 첫 번째 자식으로 추가
+    }
+}
+
+let draggedItem = null;
+let dragging = false;
+
+function handleDragStart(e) {
+    draggedItem = this.closest(".todo-item");
+    dragging = true;
+    setTimeout(() => {
+        draggedItem.style.display = 'none';
+    }, 0);
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const targetItem = this.closest(".todo-item");
+    const targetList = targetItem.closest("ul");
+
+    if (targetItem !== draggedItem && !targetItem.classList.contains('placeholder')) {
+        let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+        let draggedIndex = allItems.indexOf(draggedItem);
+        let droppedIndex = allItems.indexOf(targetItem);
+
+        if (draggedIndex < droppedIndex) {
+            targetItem.after(draggedItem);
+        } else {
+            targetItem.before(draggedItem);
         }
+    } else if (targetItem.classList.contains('placeholder')) {
+        targetList.insertBefore(draggedItem, targetItem.nextSibling);
     }
-
-    let draggedItem = null;
-    let dragging = false;
-
-    function handleDragStart(e) {
-        draggedItem = this.closest(".todo-item");
-        dragging = true;
-        setTimeout(() => {
-            draggedItem.style.display = 'none';
-        }, 0);
-    }
-
-    function handleDragOver(e) {
-        e.preventDefault();
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        const targetItem = this.closest(".todo-item");
-        const targetList = targetItem.closest("ul");
-
-        if (targetItem !== draggedItem) {
-            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(targetItem);
-
-            if (draggedIndex < droppedIndex) {
-                targetItem.after(draggedItem);
-            } else {
-                targetItem.before(draggedItem);
-            }
-            
-            updateTodoNumbers(targetList);
-            checkEmptyPlaceholder(todoListA);
-            checkEmptyPlaceholder(todoListB);
+    
+    updateTodoNumbers(targetList);
+    checkEmptyPlaceholder(todoListA);
+    checkEmptyPlaceholder(todoListB);
             
             // Re-attach delete button event listener
             const deleteBtn = draggedItem.querySelector('.delete-btn');
