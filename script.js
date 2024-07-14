@@ -241,13 +241,15 @@ console.log('number element:', number);
 
 function updateTodoNumbers(list) {
     const items = list.querySelectorAll('.todo-item');
-    items.forEach((item, index) => {
+    let actualIndex = 1; // 실제 항목의 번호를 매기기 위한 변수
+    items.forEach((item) => {
         const number = item.querySelector('.todo-number');
         if (number) {
             if (item.classList.contains('placeholder')) {
                 number.textContent = '0. ';
             } else {
-                number.textContent = `${index + 1}. `;
+                number.textContent = `${actualIndex}. `;
+                actualIndex++; // 실제 항목에 대해서만 증가
             }
         }
     });
