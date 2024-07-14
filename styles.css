@@ -228,10 +228,6 @@ body {
     position: relative;
 }
 
-.todo-number {
-    margin-right: 10px;
-}
-
 .todo-item + .todo-item::before {
     content: "";
     position: absolute;
