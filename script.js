@@ -1,6 +1,9 @@
 let todoListA, todoListB, deletedList; // ★ 전역 변수 선언
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("DOM fully loaded and parsed"); // 콘솔 로그 추가
+    
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
     const addBBtn = document.getElementById("add-b-btn");
@@ -12,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const descriptionButton = document.getElementById("description-button");
     const cpalinkButton = document.getElementById("cpalink-button");
     const titleInput = document.getElementById("title-input"); // ★ 타이틀 입력 필드 추가
+
+    console.log(todoInput, addABtn, addBBtn, todoListA, todoListB, showDeletedBtn, deletedList); // 콘솔 로그 추가
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
     let draggedItem = null;
