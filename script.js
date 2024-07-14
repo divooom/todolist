@@ -233,10 +233,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateTodoNumbers(list) {
-        const items = list.querySelectorAll('.todo-item');
-        items.forEach((item, index) => {
-            const number = item.querySelector('.todo-number');
+    console.log('Updating numbers for list:', list); // 리스트 확인
+    const items = list.querySelectorAll('.todo-item');
+    items.forEach((item, index) => {
+        const number = item.querySelector('.todo-number');
+        if (number) {
+            console.log('Updating number for item:', item, 'Index:', index);
             number.textContent = `${index + 1}. `;
+        } else {
+            console.log('Number element not found for item:', item);
+        }
         });
     }
 
