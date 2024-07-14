@@ -352,9 +352,9 @@ body {
 }
 
 .stopwatch-btn {
-    background-color: transparent;
+    background-color: transparent; /* 배경 색상을 투명으로 설정하여 아이콘만 표시 */
     border: none;
-    color: #eaaa56; /* 버튼 색상 통일 */
+    color: #eaaa56; /* 버튼 텍스트 색상을 설정 */
     cursor: pointer;
     font-size: 1.5em;
     margin-left: 10px;
