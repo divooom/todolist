@@ -373,7 +373,7 @@ function checkEmptyPlaceholder(list) {
 
 });
 
-javascriptCopy// 맨 아래에 추가
+// 맨 아래에 추가
 function saveTodos() {
     const todoA = Array.from(todoListA.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
         text: item.querySelector('.text').textContent,
