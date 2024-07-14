@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const number = document.createElement("span");
         number.className = "todo-number";
+        number.textContent = ""; // 번호 초기화
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
 
         const dragHandle = document.createElement("span");
