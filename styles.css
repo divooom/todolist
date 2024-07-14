@@ -266,6 +266,7 @@ body {
 .todo-number {
     margin-right: 10px; /* 텍스트와 번호 사이에 간격 추가 */
     color: white; /* 숫자 색상 설정 */
+    flex-shrink: 0; /* ★ 방금 추가한 부분 */
 }
 
 .edit-btn {
