@@ -63,6 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
         number.className = "todo-number";
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
 
+        // 콘솔 로그 추가
+console.log('number element:', number);
+
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
@@ -230,6 +233,9 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(deleteBtn);
         }
 
+    // 콘솔 로그 추가
+    console.log('Added number element:', li);
+        
         return li;
     }
 
@@ -237,7 +243,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const items = list.querySelectorAll('.todo-item');
         items.forEach((item, index) => {
             const number = item.querySelector('.todo-number');
+        if (number) { // 추가된 부분
+            // 콘솔 로그 추가
+            console.log('Updating number element:', number);
             number.textContent = `${index + 1}. `;
+        }
         });
     }
 
