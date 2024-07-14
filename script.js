@@ -243,10 +243,12 @@ console.log('number element:', number);
         const items = list.querySelectorAll('.todo-item');
         items.forEach((item, index) => {
             const number = item.querySelector('.todo-number');
-        if (number) { // 추가된 부분
-            // 콘솔 로그 추가
-            console.log('Updating number element:', number);
-            number.textContent = `${index + 1}. `;
+        if (number) {
+            if (index === 0) { // 첫 번째 항목을 '1'로 설정
+                number.textContent = '1. ';
+            } else {
+                number.textContent = `${index + 1}. `;
+            }
         }
         });
     }
