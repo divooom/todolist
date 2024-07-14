@@ -344,6 +344,32 @@ body {
     font-size: 1em;
 }
 
+
+/* 추가된 스탑워치 버튼 및 시계 스타일 */
+.stopwatch-container {
+    display: flex;
+    align-items: center;
+}
+
+.stopwatch-btn {
+    background-color: transparent;
+    border: none;
+    color: #eaaa56;
+    cursor: pointer;
+    font-size: 1.5em;
+    margin-left: 10px;
+}
+
+.timer-display {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+
 /* 모바일 최적화 */
 @media only screen and (max-width: 768px) {
 
