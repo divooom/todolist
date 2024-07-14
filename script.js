@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             todoInput.value = "";
             updateTodoNumbers(list);
             checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+            saveTodos(); // 추가
         }
     }
 
@@ -89,6 +90,7 @@ console.log('number element:', number);
             } else {
                 li.classList.remove("completed");
             }
+            saveTodos(); // 추가
         });
 
         const span = document.createElement("span");
@@ -191,6 +193,7 @@ console.log('number element:', number);
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
                 span.textContent = newText.trim();
+                saveTodos(); // 추가
             }
         });
 
@@ -326,6 +329,7 @@ function checkEmptyPlaceholder(list) {
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+        saveTodos(); // 추가
     }
 
     function handleDragEnd() {
@@ -363,4 +367,50 @@ function checkEmptyPlaceholder(list) {
     // 초기 빈 항목(플레이스홀더) 추가
     checkEmptyPlaceholder(todoListA);
     checkEmptyPlaceholder(todoListB);
+
+    // 여기에 loadTodos() 함수 호출을 추가합니다
+    loadTodos();
+
 });
+
+javascriptCopy// 맨 아래에 추가
+function saveTodos() {
+    const todoA = Array.from(todoListA.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
+        text: item.querySelector('.text').textContent,
+        completed: item.querySelector('.checkbox').checked
+    }));
+    const todoB = Array.from(todoListB.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
+        text: item.querySelector('.text').textContent,
+        completed: item.querySelector('.checkbox').checked
+    }));
+    const deletedItems = Array.from(deletedList.querySelectorAll('.todo-item')).map(item => ({
+        text: item.querySelector('.text').textContent,
+        completed: item.querySelector('.checkbox').checked,
+        originalList: item.dataset.originalList
+    }));
+    localStorage.setItem('todos', JSON.stringify({ todoA, todoB, deletedItems }));
+}
+
+function loadTodos() {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+        const { todoA, todoB, deletedItems } = JSON.parse(savedTodos);
+        todoA.forEach(item => {
+            const todoItem = createTodoItem(item.text, todoListA, false, item.completed);
+            todoListA.appendChild(todoItem);
+        });
+        todoB.forEach(item => {
+            const todoItem = createTodoItem(item.text, todoListB, false, item.completed);
+            todoListB.appendChild(todoItem);
+        });
+        deletedItems.forEach(item => {
+            const todoItem = createTodoItem(item.text, deletedList, true, item.completed);
+            todoItem.dataset.originalList = item.originalList;
+            deletedList.appendChild(todoItem);
+        });
+        updateTodoNumbers(todoListA);
+        updateTodoNumbers(todoListB);
+        checkEmptyPlaceholder(todoListA);
+        checkEmptyPlaceholder(todoListB);
+    }
+}
