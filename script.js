@@ -113,18 +113,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-        // 스탑워치 기능 추가 시작
+ // 스탑워치 기능 추가 시작
     const stopwatchContainer = document.createElement("div"); // 스탑워치 컨테이너 생성
     stopwatchContainer.className = "stopwatch-container"; // 클래스 설정
 
     const playPauseButton = document.createElement("button"); // 재생/일시정지 버튼 생성
     playPauseButton.className = "stopwatch-btn play-pause-btn"; // 클래스 설정
-    playPauseButton.textContent = "▶️"; // 버튼 텍스트 설정
+    playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 설정
     playPauseButton.addEventListener("click", toggleStopwatch); // 클릭 이벤트 설정
 
     const resetButton = document.createElement("button"); // 리셋 버튼 생성
     resetButton.className = "stopwatch-btn reset-btn"; // 클래스 설정
-    resetButton.textContent = "🔄"; // 버튼 텍스트 설정
+    resetButton.innerHTML = "🔄"; // 버튼 텍스트 설정
     resetButton.addEventListener("click", resetStopwatch); // 클릭 이벤트 설정
 
     const timerDisplay = document.createElement("span"); // 시계 표시 요소 생성
@@ -143,7 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (running) {
             clearInterval(stopwatchInterval); // 실행 중이면 인터벌 해제
             running = false; // 실행 상태 false
-            playPauseButton.textContent = "▶️"; // 버튼 텍스트 변경
+            playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
+            timerDisplay.style.backgroundColor = "#797979"; // 멈춤 상태 배경 색상 수정
+            timerDisplay.style.border = "none"; // 테두리 제거
         } else {
             startTime = Date.now() - elapsedTime; // 시작 시간 설정
             stopwatchInterval = setInterval(() => {
@@ -151,7 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
             }, 1000);
             running = true; // 실행 상태 true
-            playPauseButton.textContent = "⏸️"; // 버튼 텍스트 변경
+            playPauseButton.innerHTML = "⏸️"; // 버튼 텍스트 변경
+            timerDisplay.style.backgroundColor = "white"; // 돌아가는 상태 배경 색상 유지
+            timerDisplay.style.border = "5px solid #0074ff"; // 돌아가는 상태 테두리 설정
         }
     }
 
@@ -160,7 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
         running = false; // 실행 상태 false
         elapsedTime = 0; // 경과 시간 초기화
         timerDisplay.textContent = "00:00:00"; // 시계 텍스트 초기화
-        playPauseButton.textContent = "▶️"; // 버튼 텍스트 변경
+        playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
+        timerDisplay.style.backgroundColor = "#797979"; // 리셋 후 배경 색상 수정
+        timerDisplay.style.border = "none"; // 테두리 제거
     }
 
     function formatTime(ms) { // 시간 포맷 함수
