@@ -240,24 +240,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkEmptyPlaceholder(list) {
-        const placeholder = list.querySelector(".placeholder");
+        let placeholder = list.querySelector(".placeholder");
         if (!placeholder) {
-            const newPlaceholder = document.createElement("li");
-            newPlaceholder.className = "todo-item placeholder";
-            newPlaceholder.setAttribute("draggable", "true");
-
-            // A와 B 목록에 따라 텍스트 설정
+            placeholder = document.createElement("li");
+            placeholder.className = "todo-item placeholder";
+            placeholder.setAttribute("draggable", "false"); // 드래그 불가 설정
+    
+           // A와 B 목록에 따라 텍스트 설정
             if (list.id === "todo-list-a") {
-                newPlaceholder.textContent = "A - List";
+                placeholder.textContent = "A - List";
             } else if (list.id === "todo-list-b") {
-                newPlaceholder.textContent = "B - List";
+                placeholder.textContent = "B - List";
             }
 
-            newPlaceholder.addEventListener("dragstart", handleDragStart);
-            newPlaceholder.addEventListener("dragover", handleDragOver);
-            newPlaceholder.addEventListener("drop", handleDrop);
-            newPlaceholder.addEventListener("dragend", handleDragEnd);
-            list.appendChild(newPlaceholder);
+            list.prepend(placeholder); // 플레이스홀더를 항상 상단에 추가
         }
     }
 
@@ -312,6 +308,16 @@ document.addEventListener("DOMContentLoaded", () => {
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+
+    // 플레이스홀더를 항상 상단에 고정
+    const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
+    const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
+    if (placeholderA) {
+        todoListA.prepend(placeholderA);
+    }
+    if (placeholderB) {
+        todoListB.prepend(placeholderB);
+    }        
     }
 
     function handleDragEnd() {
