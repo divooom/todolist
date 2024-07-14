@@ -375,6 +375,7 @@ function checkEmptyPlaceholder(list) {
 
 // 맨 아래에 추가
 function saveTodos() {
+    console.log("saveTodos 함수 호출됨");
     const todoA = Array.from(todoListA.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
         text: item.querySelector('.text').textContent,
         completed: item.querySelector('.checkbox').checked
@@ -392,7 +393,9 @@ function saveTodos() {
 }
 
 function loadTodos() {
+    console.log("loadTodos 함수 호출됨");
     const savedTodos = localStorage.getItem('todos');
+    console.log("불러온 데이터:", savedTodos);
     if (savedTodos) {
         const { todoA, todoB, deletedItems } = JSON.parse(savedTodos);
         todoA.forEach(item => {
