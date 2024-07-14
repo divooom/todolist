@@ -396,12 +396,12 @@ function saveTodos() {
     console.log("saveTodos 함수 호출됨");
     const todoA = Array.from(todoListA.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
         text: item.querySelector('.text').textContent,
-        completed: item.querySelector('.checkbox').checked
+        completed: item.querySelector('.checkbox').checked,
         elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
     }));
     const todoB = Array.from(todoListB.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
         text: item.querySelector('.text').textContent,
-        completed: item.querySelector('.checkbox').checked
+        completed: item.querySelector('.checkbox').checked,
         elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
     }));
     const deletedItems = Array.from(deletedList.querySelectorAll('.todo-item')).map(item => ({
