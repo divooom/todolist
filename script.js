@@ -240,20 +240,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function checkEmptyPlaceholder(list) {
-        let placeholder = list.querySelector(".placeholder");
+        const placeholder = list.querySelector(".placeholder");
         if (!placeholder) {
-            placeholder = document.createElement("li");
-            placeholder.className = "todo-item placeholder";
-            placeholder.setAttribute("draggable", "false"); // 드래그 불가 설정
-    
-           // A와 B 목록에 따라 텍스트 설정
+            const newPlaceholder = document.createElement("li");
+            newPlaceholder.className = "todo-item placeholder";
+            newPlaceholder.setAttribute("draggable", "true");
+
+            // A와 B 목록에 따라 텍스트 설정
             if (list.id === "todo-list-a") {
-                placeholder.textContent = "A - List";
+                newPlaceholder.textContent = "A - List";
             } else if (list.id === "todo-list-b") {
-                placeholder.textContent = "B - List";
+                newPlaceholder.textContent = "B - List";
             }
 
-            list.prepend(placeholder); // 플레이스홀더를 항상 상단에 추가
+            newPlaceholder.addEventListener("dragstart", handleDragStart);
+            newPlaceholder.addEventListener("dragover", handleDragOver);
+            newPlaceholder.addEventListener("drop", handleDrop);
+            newPlaceholder.addEventListener("dragend", handleDragEnd);
+            list.appendChild(newPlaceholder);
         }
     }
 
@@ -278,18 +282,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetList = targetItem.closest("ul");
 
         if (targetItem !== draggedItem) {
-            if (targetItem.classList.contains('placeholder')) {
-                targetList.prepend(draggedItem); // 플레이스홀더인 경우 리스트 맨 위로 이동
-            } else {
-                let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-                let draggedIndex = allItems.indexOf(draggedItem);
-                let droppedIndex = allItems.indexOf(targetItem);
+            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+            let draggedIndex = allItems.indexOf(draggedItem);
+            let droppedIndex = allItems.indexOf(targetItem);
 
-                if (draggedIndex < droppedIndex) {
-                    targetItem.after(draggedItem);
-                } else {
-                    targetItem.before(draggedItem);
-                }
+            if (draggedIndex < droppedIndex) {
+                targetItem.after(draggedItem);
+            } else {
+                targetItem.before(draggedItem);
             }
             
             updateTodoNumbers(targetList);
@@ -301,17 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteBtn.removeEventListener("click", handleDelete);
             deleteBtn.addEventListener('click', handleDelete);
         }
-
-        // 플레이스홀더를 항상 상단에 고정
-        const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
-        const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
-        if (placeholderA) {
-            todoListA.prepend(placeholderA);
-        }
-        if (placeholderB) {
-            todoListB.prepend(placeholderB);
-        }        
-        
     }
 
     function handleDelete() {
@@ -323,17 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
-
-        // 플레이스홀더를 항상 상단에 고정
-        const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
-        const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
-        if (placeholderA) {
-            todoListA.prepend(placeholderA);
-        }
-        if (placeholderB) {
-            todoListB.prepend(placeholderB);
-        }
-        
     }
 
     function handleDragEnd() {
