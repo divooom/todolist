@@ -278,14 +278,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetList = targetItem.closest("ul");
 
         if (targetItem !== draggedItem) {
-            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-            let draggedIndex = allItems.indexOf(draggedItem);
-            let droppedIndex = allItems.indexOf(targetItem);
-
-            if (draggedIndex < droppedIndex) {
-                targetItem.after(draggedItem);
+            if (targetItem.classList.contains('placeholder')) {
+                targetList.prepend(draggedItem); // 플레이스홀더인 경우 리스트 맨 위로 이동
             } else {
-                targetItem.before(draggedItem);
+                let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+                let draggedIndex = allItems.indexOf(draggedItem);
+                let droppedIndex = allItems.indexOf(targetItem);
+
+                if (draggedIndex < droppedIndex) {
+                    targetItem.after(draggedItem);
+                } else {
+                    targetItem.before(draggedItem);
+                }
             }
             
             updateTodoNumbers(targetList);
@@ -297,6 +301,17 @@ document.addEventListener("DOMContentLoaded", () => {
             deleteBtn.removeEventListener("click", handleDelete);
             deleteBtn.addEventListener('click', handleDelete);
         }
+
+        // 플레이스홀더를 항상 상단에 고정
+        const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
+        const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
+        if (placeholderA) {
+            todoListA.prepend(placeholderA);
+        }
+        if (placeholderB) {
+            todoListB.prepend(placeholderB);
+        }        
+        
     }
 
     function handleDelete() {
@@ -309,15 +324,6 @@ document.addEventListener("DOMContentLoaded", () => {
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
 
-    // 플레이스홀더를 항상 상단에 고정
-    const placeholderA = document.querySelector("#todo-list-wrapper-a .placeholder");
-    const placeholderB = document.querySelector("#todo-list-wrapper-b .placeholder");
-    if (placeholderA) {
-        todoListA.prepend(placeholderA);
-    }
-    if (placeholderB) {
-        todoListB.prepend(placeholderB);
-    }        
     }
 
     function handleDragEnd() {
