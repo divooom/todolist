@@ -303,6 +303,8 @@ function checkEmptyPlaceholder(list) {
         }
         
         updateTodoNumbers(targetList);
+        updateTodoNumbers(todoListA); // 추가된 부분
+        updateTodoNumbers(todoListB); // 추가된 부분
         checkEmptyPlaceholder(todoListA);
         checkEmptyPlaceholder(todoListB);
 
