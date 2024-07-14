@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const cpalinkButton = document.getElementById("cpalink-button");
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
+    let draggedItem = null;
+    let dragging = false;
 
     // 초기 상태를 "Hide Deleted"로 설정
     deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
@@ -260,46 +262,44 @@ function checkEmptyPlaceholder(list) {
 let draggedItem = null;
 let dragging = false;
 
-function handleDragStart(e) {
-    draggedItem = this.closest(".todo-item");
-    dragging = true;
-    setTimeout(() => {
-        draggedItem.style.display = 'none';
-    }, 0);
-}
-
-function handleDragOver(e) {
-    e.preventDefault();
-}
-
-function handleDrop(e) {
-    e.preventDefault();
-    const targetItem = this.closest(".todo-item");
-    const targetList = targetItem.closest("ul");
-
-    if (targetItem !== draggedItem && !targetItem.classList.contains('placeholder')) {
-        let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
-        let draggedIndex = allItems.indexOf(draggedItem);
-        let droppedIndex = allItems.indexOf(targetItem);
-
-        if (draggedIndex < droppedIndex) {
-            targetItem.after(draggedItem);
-        } else {
-            targetItem.before(draggedItem);
-        }
-    } else if (targetItem.classList.contains('placeholder')) {
-        targetList.insertBefore(draggedItem, targetItem.nextSibling);
+    function handleDragStart(e) {
+        draggedItem = this.closest(".todo-item");
+        dragging = true;
+        setTimeout(() => {
+            draggedItem.style.display = 'none';
+        }, 0);
     }
-    
-    updateTodoNumbers(targetList);
-    checkEmptyPlaceholder(todoListA);
-    checkEmptyPlaceholder(todoListB);
-            
-            // Re-attach delete button event listener
-            const deleteBtn = draggedItem.querySelector('.delete-btn');
-            deleteBtn.removeEventListener("click", handleDelete);
-            deleteBtn.addEventListener('click', handleDelete);
+
+    function handleDragOver(e) {
+        e.preventDefault();
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        const targetItem = this.closest(".todo-item");
+        const targetList = targetItem.closest("ul");
+
+        if (targetItem !== draggedItem && !targetItem.classList.contains('placeholder')) {
+            let allItems = Array.from(targetList.querySelectorAll('.todo-item'));
+            let draggedIndex = allItems.indexOf(draggedItem);
+            let droppedIndex = allItems.indexOf(targetItem);
+
+            if (draggedIndex < droppedIndex) {
+                targetItem.after(draggedItem);
+            } else {
+                targetItem.before(draggedItem);
+            }
+        } else if (targetItem.classList.contains('placeholder')) {
+            targetList.insertBefore(draggedItem, targetItem.nextSibling);
         }
+        
+        updateTodoNumbers(targetList);
+        checkEmptyPlaceholder(todoListA);
+        checkEmptyPlaceholder(todoListB);
+
+        const deleteBtn = draggedItem.querySelector('.delete-btn');
+        deleteBtn.removeEventListener("click", handleDelete);
+        deleteBtn.addEventListener('click', handleDelete);
     }
 
     function handleDelete() {
