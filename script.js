@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const placeholder = list.querySelector(".placeholder");
         if (!placeholder) {
             const newPlaceholder = document.createElement("li");
-            newPlaceholder.className = "todo-item placeholder";
+            newPlaceholder.className = "placeholder"; // "todo-item placeholder"에서 "todo-item" 클래스 제외
             newPlaceholder.setAttribute("draggable", "true");
 
             // A와 B 목록에 따라 텍스트 설정
@@ -307,6 +307,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const deleteBtn = draggedItem.querySelector('.delete-btn');
             deleteBtn.removeEventListener("click", handleDelete);
             deleteBtn.addEventListener('click', handleDelete);
+
+              // Drag된 리스트에서도 숫자 재정렬
+        if (draggedItem.closest('ul') !== targetList) {
+            updateTodoNumbers(draggedItem.closest('ul'));
         }
     }
 
