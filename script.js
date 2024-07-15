@@ -404,6 +404,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function deserializeList(list, items) { // ♠
+        const placeholder = list.querySelector(".placeholder"); //●◎
         list.innerHTML = ''; // ♠
         items.forEach(({ text, completed, elapsedTime }) => { // ♠
             const item = createTodoItem(text, list, false, completed, elapsedTime); // ♠
@@ -411,7 +412,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // ♠
         console.log('Deserialized list:', items); //◈
         updateTodoNumbers(list); // ♠
+        if (items.length === 0 && placeholder) { //●◎
+        list.appendChild(placeholder); //●◎
+    } else { //●◎
         checkEmptyPlaceholder(list); // ♠
+    } //●◎
     }
 
     function parseTime(timeString) { // ♠
