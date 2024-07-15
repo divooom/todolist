@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const todoListB = document.getElementById("todo-list-b");
     const showDeletedBtn = document.getElementById("show-deleted-btn");
     const deletedList = document.getElementById("deleted-list");
+    const clearButton = document.getElementById("clear-button");
     const topButton = document.getElementById("top-button");
     const descriptionButton = document.getElementById("description-button");
     const cpalinkButton = document.getElementById("cpalink-button");
@@ -422,6 +423,11 @@ function handlePlaceholderDragStart(e) {
 
     cpalinkButton.addEventListener("click", () => {
         window.open("https://iryan.kr/t7rbs8lqau", "_blank");
+    });
+
+    clearButton.addEventListener("click", () => {
+        localStorage.clear();
+    location.reload();
     });
 
     checkEmptyPlaceholder(todoListA);
