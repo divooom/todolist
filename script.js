@@ -426,8 +426,11 @@ function handlePlaceholderDragStart(e) {
     });
 
     clearButton.addEventListener("click", () => {
+    const isConfirmed = confirm('해당 페이지에 작성한 내용을 모두 "초기화" 하시겠습니까?\nDo you want to "Reset" everything you write on that page?');
+    if (isConfirmed) {
         localStorage.clear();
-    location.reload();
+        location.reload();
+    }
     });
 
     checkEmptyPlaceholder(todoListA);
