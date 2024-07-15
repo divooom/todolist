@@ -452,7 +452,7 @@ function deserializeList(list, items, placeholderText) {
 
     items.forEach(({ text, completed, elapsedTime, originalIndex }) => { //□□□
         const item = createTodoItem(text, list, false, completed, elapsedTime);
-        list.insertBefore(item, list.children[originalIndex + 1]); // 수정된 코드
+        list.insertBefore(item, list.children[originalIndex]); // 수정된 코드
              
     sortedItems.forEach(({ text, completed, elapsedTime, isDeleted, originalList, originalIndex }) => { // 클로드 추가
         console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted, originalList, originalIndex }); // 클로드 추가
