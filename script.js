@@ -52,6 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+    function toggleVisibility(element, isVisible) {
+        element.style.display = isVisible ? "block" : "none";
+    }
+    
     function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
     const li = document.createElement("li");
     li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
@@ -71,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
         toggleVisibility(dragHandle, !isDeleted); //◎◎
-        else {
+        if (!isDeleted) {
             dragHandle.setAttribute("draggable", "true");
             dragHandle.addEventListener("dragstart", handleDragStart);
             dragHandle.addEventListener("dragover", handleDragOver);
