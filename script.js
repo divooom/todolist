@@ -231,6 +231,11 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.innerHTML = "&#8635;";
             restoreBtn.style.marginLeft = "10px";
             restoreBtn.addEventListener("click", () => {
+                console.log('Restoring item:', JSON.stringify({
+        text: text,
+        originalListId: li.dataset.originalList,
+        originalIndex: li.dataset.originalIndex
+    }, null, 2));
                 deletedList.removeChild(li);
                 const originalListId = li.dataset.originalList;
                 const originalIndex = parseInt(li.dataset.originalIndex); // CLAUDE 추가
@@ -266,7 +271,13 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(deleteBtn);
         }
 
-        console.log('Created todo item:', { text, isDeleted }); //◆◇◆
+         console.log('Created todo item:', JSON.stringify({
+        text: text,
+        isDeleted: isDeleted,
+        isCompleted: isCompleted,
+        elapsedTime: elapsedTime,
+        isPlaceholder: isPlaceholder
+    }, null, 2));
         return li;
     }
 
@@ -425,13 +436,15 @@ function handlePlaceholderDragStart(e) {
             placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '',
             placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : ''
         };
-        console.log('Saving to localStorage:', data); // 디버깅용 로그
+        console.log('Saving to localStorage:', JSON.stringify(data, null, 2));
         localStorage.setItem('todoData', JSON.stringify(data));
     }
 
     function loadFromLocalStorage() {
         const data = JSON.parse(localStorage.getItem('todoData'));
         if (data) {
+            // 클로드-추가: 로드된 데이터 로깅
+        console.log('Loading from localStorage:', JSON.stringify(data, null, 2));
             console.log('Loading from localStorage:', data); // 디버깅용 로그
             titleInput.value = data.title;
             deserializeList(todoListA, data.listA, data.placeholderTextA);
