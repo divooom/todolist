@@ -395,9 +395,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function serializeList(list) { // ♠
         return Array.from(list.querySelectorAll('.todo-item')).map(item => ({
-            text: item.querySelector('.text').textContent, // ♠
-            completed: item.querySelector('.checkbox').checked, // ♠
-            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 // ♠
+            text: item.querySelector('.text') ? item.querySelector('.text').textContent : '', //◐
+            completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false, //◐
+            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 //◐
         })); // ♠
         console.log('Serialized list:', serialized); //◈
         return serialized;
