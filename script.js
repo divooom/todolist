@@ -41,224 +41,230 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function addTodoToList(list) {
-    const text = todoInput.value.trim();
-    if (text !== "") {
-        const todoItem = createTodoItem(text, list);
-        list.appendChild(todoItem);
-        todoInput.value = "";
-        updateTodoNumbers(list);
-        checkEmptyPlaceholder(list);
-        saveToLocalStorage();
+        const text = todoInput.value.trim();
+        if (text !== "") {
+            const todoItem = createTodoItem(text, list);
+            list.appendChild(todoItem);
+            todoInput.value = "";
+            updateTodoNumbers(list);
+            checkEmptyPlaceholder(list);
+            saveToLocalStorage();
+        }
     }
-}
 
-function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) {
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
     const li = document.createElement("li");
-    li.className = isPlaceholder ? "todo-item placeholder" : "todo-item";
+    li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
     li.style.display = "flex";
     li.style.alignItems = "center";
     li.style.justifyContent = "space-between";
     if (isCompleted) {
         li.classList.add("completed");
     }
-    
-    const number = document.createElement("span");
-    number.className = "todo-number";
-    number.style.marginRight = "10px";
-    if (isDeleted) {
-        number.style.display = "none";
+  
+        const number = document.createElement("span");
+        number.className = "todo-number";
+        number.style.marginRight = "10px";
+        if (isDeleted) {
+        number.style.display = "none"; //◐△
     }
 
-    const dragHandle = document.createElement("span");
-    dragHandle.className = "drag-handle";
-    dragHandle.innerHTML = "&#9776;";
-    if (!isDeleted) {
-        dragHandle.setAttribute("draggable", "true");
-        dragHandle.addEventListener("dragstart", handleDragStart);
-        dragHandle.addEventListener("dragover", handleDragOver);
-        dragHandle.addEventListener("drop", handleDrop);
-        dragHandle.addEventListener("dragend", handleDragEnd);
-    }
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.className = "checkbox";
-    checkbox.checked = isCompleted;
-    if (isDeleted) {
-        checkbox.style.display = "none";
-    }
-    checkbox.addEventListener("change", () => {
-        if (checkbox.checked) {
-            li.classList.add("completed");
+        const dragHandle = document.createElement("span");
+        dragHandle.className = "drag-handle";
+        dragHandle.innerHTML = "&#9776;";
+        if (isDeleted) {
+            dragHandle.style.display = "none";
         } else {
-            li.classList.remove("completed");
+            dragHandle.setAttribute("draggable", "true");
+            dragHandle.addEventListener("dragstart", handleDragStart);
+            dragHandle.addEventListener("dragover", handleDragOver);
+            dragHandle.addEventListener("drop", handleDrop);
+            dragHandle.addEventListener("dragend", handleDragEnd);
         }
-        saveToLocalStorage();
-    });
 
-    const span = document.createElement("span");
-    span.className = "text";
-    span.textContent = text;
-    span.addEventListener("click", (e) => {
-        if (!li.querySelector(".detail-input") && !dragging) {
-            const input = document.createElement("input");
-            input.type = "text";
-            input.className = "detail-input";
-            input.placeholder = "Enter details";
-            input.addEventListener("keypress", (e) => {
-                if (e.key === "Enter") {
-                    const detailText = document.createElement("p");
-                    detailText.className = "detail-text";
-                    detailText.textContent = input.value;
-                    li.appendChild(detailText);
-                    input.remove();
-                    saveToLocalStorage();
-                }
-            });
-            li.appendChild(input);
-            input.focus();
-        }
-    });
-
-    const stopwatchContainer = document.createElement("div");
-    stopwatchContainer.className = "stopwatch-container";
-    if (isDeleted) {
-        stopwatchContainer.style.display = "none";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "checkbox";
+        checkbox.checked = isCompleted;
+        if (isDeleted) {
+        checkbox.style.display = "none"; //◐△
     }
-
-    const playPauseButton = document.createElement("button");
-    playPauseButton.className = "stopwatch-btn play-pause-btn";
-    playPauseButton.innerHTML = "▶️";
-    if (isDeleted) {
-        playPauseButton.style.display = "none";
-    }
-    playPauseButton.addEventListener("click", toggleStopwatch);
-
-    const resetButton = document.createElement("button");
-    resetButton.className = "stopwatch-btn reset-btn";
-    resetButton.innerHTML = "&#x21bb;";
-    if (isDeleted) {
-        resetButton.style.display = "none";
-    }
-    resetButton.addEventListener("click", resetStopwatch);
-
-    const timerDisplay = document.createElement("span");
-    timerDisplay.className = "timer-display";
-    timerDisplay.textContent = formatTime(elapsedTime);
-    if (isDeleted) {
-        timerDisplay.style.display = "none";
-    }
-
-    stopwatchContainer.appendChild(playPauseButton);
-    stopwatchContainer.appendChild(timerDisplay);
-    stopwatchContainer.appendChild(resetButton);
-
-    let stopwatchInterval;
-    let running = false;
-    let startTime, elapsed = elapsedTime;
-
-    function toggleStopwatch() {
-        if (running) {
-            clearInterval(stopwatchInterval);
-            running = false;
-            playPauseButton.innerHTML = "▶️";
-            timerDisplay.style.backgroundColor = "#797979";
-            timerDisplay.style.border = "none";
-        } else {
-            startTime = Date.now() - elapsed;
-            stopwatchInterval = setInterval(() => {
-                elapsed = Date.now() - startTime;
-                timerDisplay.textContent = formatTime(elapsed);
-            }, 1000);
-            running = true;
-            playPauseButton.innerHTML = "&#10074;&#10074;";
-            timerDisplay.style.backgroundColor = "white";
-            timerDisplay.style.border = "5px solid #0074ff";
-        }
-        saveToLocalStorage();
-    }
-
-    function resetStopwatch() {
-        clearInterval(stopwatchInterval);
-        running = false;
-        elapsed = 0;
-        timerDisplay.textContent = "00:00:00";
-        playPauseButton.innerHTML = "▶️";
-        timerDisplay.style.backgroundColor = "#797979";
-        timerDisplay.style.border = "none";
-        saveToLocalStorage();
-    }
-
-    function formatTime(ms) {
-        const totalSeconds = Math.floor(ms / 1000);
-        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
-        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
-        const seconds = String(totalSeconds % 60).padStart(2, '0');
-        return `${hours}:${minutes}:${seconds}`;
-    }
-
-    const editBtn = document.createElement("button");
-    editBtn.className = "edit-btn";
-    editBtn.innerHTML = "&#9998;";
-    if (isDeleted) {
-        editBtn.style.display = "none";
-    }
-    editBtn.addEventListener("click", () => {
-        const newText = prompt("Edit your todo:", span.textContent);
-        if (newText !== null && newText.trim() !== "") {
-            span.textContent = newText.trim();
-            saveToLocalStorage();
-        }
-    });
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.className = "delete-btn";
-    deleteBtn.innerHTML = "&#128465;";
-    deleteBtn.style.marginLeft = "10px";
-    if (isDeleted) {
-        deleteBtn.style.display = "none";
-    }
-    deleteBtn.addEventListener("click", handleDelete);
-
-    if (isDeleted) {
-        const restoreBtn = document.createElement("button");
-        restoreBtn.className = "restore-btn";
-        restoreBtn.innerHTML = "&#8635;";
-        restoreBtn.style.marginLeft = "10px";
-        restoreBtn.addEventListener("click", () => {
-            deletedList.removeChild(li);
-            const originalListId = li.dataset.originalList;
-            const originalIndex = parseInt(li.dataset.originalIndex);
-            const originalList = document.getElementById(originalListId);
-            const restoredItem = createTodoItem(text, originalList, false, checkbox.checked, elapsed);
-            const insertIndex = Math.min(originalIndex, originalList.children.length);
-            originalList.insertBefore(restoredItem, originalList.children[insertIndex]);
-            updateTodoNumbers(originalList);
-            checkEmptyPlaceholder(originalList);
+        checkbox.addEventListener("change", () => {
+            if (checkbox.checked) {
+                li.classList.add("completed");
+            } else {
+                li.classList.remove("completed");
+            }
             saveToLocalStorage();
         });
 
-        const spacer = document.createElement("span");
-        spacer.style.flexGrow = "1";
+        const span = document.createElement("span");
+        span.className = "text";
+        span.textContent = text;
 
-        li.appendChild(dragHandle);
-        li.appendChild(checkbox);
-        li.appendChild(number);
-        li.appendChild(span);
-        li.appendChild(spacer);
-        li.appendChild(restoreBtn);
-    } else {
-        li.appendChild(dragHandle);
-        li.appendChild(checkbox);
-        li.appendChild(number);
-        li.appendChild(span);
-        li.appendChild(stopwatchContainer);
-        li.appendChild(editBtn);
-        li.appendChild(deleteBtn);
+        span.addEventListener("click", (e) => {
+            if (!li.querySelector(".detail-input") && !dragging) {
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "detail-input";
+                input.placeholder = "Enter details";
+
+                input.addEventListener("keypress", (e) => {
+                    if (e.key === "Enter") {
+                        const detailText = document.createElement("p");
+                        detailText.className = "detail-text";
+                        detailText.textContent = input.value;
+                        li.appendChild(detailText);
+                        input.remove();
+                        saveToLocalStorage();
+                    }
+                });
+
+                li.appendChild(input);
+                input.focus();
+            }
+        });
+
+        const stopwatchContainer = document.createElement("div");
+        stopwatchContainer.className = "stopwatch-container";
+        if (isDeleted) {
+    stopwatchContainer.style.display = "none"; //◆◇◆
+}
+
+        const playPauseButton = document.createElement("button");
+        playPauseButton.className = "stopwatch-btn play-pause-btn";
+        playPauseButton.innerHTML = "▶️";
+        if (isDeleted) {
+        playPauseButton.style.display = "none"; //◐△
+    }
+        playPauseButton.addEventListener("click", toggleStopwatch);
+
+        const resetButton = document.createElement("button");
+        resetButton.className = "stopwatch-btn reset-btn";
+        resetButton.innerHTML = "&#x21bb;";
+        if (isDeleted) {
+        resetButton.style.display = "none"; //◐△
+    }
+        resetButton.addEventListener("click", resetStopwatch);
+
+        const timerDisplay = document.createElement("span");
+        timerDisplay.className = "timer-display";
+        timerDisplay.textContent = formatTime(elapsedTime);
+        if (isDeleted) {
+        timerDisplay.style.display = "none"; //◐△
     }
 
-    return li;
-}
+        stopwatchContainer.appendChild(playPauseButton);
+        stopwatchContainer.appendChild(timerDisplay);
+        stopwatchContainer.appendChild(resetButton);
+
+        let stopwatchInterval;
+        let running = false;
+        let startTime, elapsed = elapsedTime;
+
+        function toggleStopwatch() {
+            if (running) {
+                clearInterval(stopwatchInterval);
+                running = false;
+                playPauseButton.innerHTML = "▶️";
+                timerDisplay.style.backgroundColor = "#797979";
+                timerDisplay.style.border = "none";
+            } else {
+                startTime = Date.now() - elapsed;
+                stopwatchInterval = setInterval(() => {
+                    elapsed = Date.now() - startTime;
+                    timerDisplay.textContent = formatTime(elapsed);
+                }, 1000);
+                running = true;
+                playPauseButton.innerHTML = "&#10074;&#10074;";
+                timerDisplay.style.backgroundColor = "white";
+                timerDisplay.style.border = "5px solid #0074ff";
+            }
+            saveToLocalStorage();
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            running = false;
+            elapsed = 0;
+            timerDisplay.textContent = "00:00:00";
+            playPauseButton.innerHTML = "▶️";
+            timerDisplay.style.backgroundColor = "#797979";
+            timerDisplay.style.border = "none";
+            saveToLocalStorage();
+        }
+
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.innerHTML = "&#9998;";
+        if (isDeleted) {
+        editBtn.style.display = "none"; //◐
+    }
+        editBtn.addEventListener("click", () => {
+            const newText = prompt("Edit your todo:", span.textContent);
+            if (newText !== null && newText.trim() !== "") {
+                span.textContent = newText.trim();
+                saveToLocalStorage();
+            }
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.innerHTML = "&#128465;";
+        deleteBtn.style.marginLeft = "10px";
+        if (isDeleted) {
+        deleteBtn.style.display = "none"; //◐
+    }
+        deleteBtn.addEventListener("click", handleDelete);
+
+        if (isDeleted) {
+            const restoreBtn = document.createElement("button");
+            restoreBtn.className = "restore-btn";
+            restoreBtn.innerHTML = "&#8635;";
+            restoreBtn.style.marginLeft = "10px";
+            restoreBtn.addEventListener("click", () => {
+                deletedList.removeChild(li);
+                const originalListId = li.dataset.originalList;
+                const originalIndex = parseInt(li.dataset.originalIndex); // CLAUDE 추가
+                const originalList = document.getElementById(originalListId);
+                const restoredItem = createTodoItem(text, originalList, false, checkbox.checked, elapsed);
+                const insertIndex = Math.min(originalIndex, originalList.children.length); // CLAUDE 추가
+                originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // CLAUDE 수정
+                updateTodoNumbers(originalList);
+                checkEmptyPlaceholder(originalList);
+                saveToLocalStorage();
+            });
+
+            const spacer = document.createElement("span");
+            spacer.style.flexGrow = "1";
+
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(number);
+            li.appendChild(span);
+            li.appendChild(spacer);
+            li.appendChild(restoreBtn);
+        } else {
+            li.appendChild(dragHandle);
+            li.appendChild(checkbox);
+            li.appendChild(number);
+            li.appendChild(span);
+            li.appendChild(stopwatchContainer);
+            li.appendChild(editBtn);
+            li.appendChild(deleteBtn);
+        }
+
+        console.log('Created todo item:', { text, isDeleted }); //◆◇◆
+        return li;
+    }
 
     function updateTodoNumbers(list) {
         const items = list.querySelectorAll('.todo-item');
@@ -362,7 +368,7 @@ function handlePlaceholderDragStart(e) {
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
         deletedItem.dataset.originalIndex = originalIndex; // CLAUDE 추가
         deletedList.appendChild(deletedItem);
@@ -407,58 +413,94 @@ function handlePlaceholderDragStart(e) {
     checkEmptyPlaceholder(todoListB);
 
     function saveToLocalStorage() {
-    const data = {
-        title: titleInput.value,
-        listA: serializeList(todoListA),
-        listB: serializeList(todoListB),
-        deleted: serializeList(deletedList)
-    };
-    localStorage.setItem('todoData', JSON.stringify(data));
-}
-
-function loadFromLocalStorage() {
-    const data = JSON.parse(localStorage.getItem('todoData'));
-    if (data) {
-        titleInput.value = data.title;
-        deserializeList(todoListA, data.listA);
-        deserializeList(todoListB, data.listB);
-        deserializeList(deletedList, data.deleted);
+        const data = {
+            title: titleInput.value,
+            listA: serializeList(todoListA),
+            listB: serializeList(todoListB),
+            deleted: serializeList(deletedList),
+            placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '',
+            placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : ''
+        };
+        console.log('Saving to localStorage:', data); // 디버깅용 로그
+        localStorage.setItem('todoData', JSON.stringify(data));
     }
-}
 
-function serializeList(list) {
-    return Array.from(list.querySelectorAll('.todo-item'))
-        .filter(item => !item.classList.contains('placeholder'))
-        .map((item, index) => ({
-            text: item.querySelector('.text').textContent,
-            completed: item.querySelector('.checkbox').checked,
-            elapsedTime: parseTime(item.querySelector('.timer-display').textContent),
-            originalIndex: index,
+    function loadFromLocalStorage() {
+        const data = JSON.parse(localStorage.getItem('todoData'));
+        if (data) {
+            console.log('Loading from localStorage:', data); // 디버깅용 로그
+            titleInput.value = data.title;
+            deserializeList(todoListA, data.listA, data.placeholderTextA);
+            deserializeList(todoListB, data.listB, data.placeholderTextB);
+            deserializeList(deletedList, data.deleted);
+        }
+    }
+
+    function serializeList(list) {
+        return Array.from(list.querySelectorAll('.todo-item')).filter(item => !item.classList.contains('placeholder')).map((item, index) => ({ // 클로드 수정
+            text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
+            completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
+            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
+            isDeleted: item.closest('#deleted-list') ? true : false,
+            originalIndex: index, // 클로드 추가
             originalList: list.id
         }));
-}
+    }
 
-function deserializeList(list, items) {
+function deserializeList(list, items, placeholderText) {
     list.innerHTML = '';
-    items.forEach(({ text, completed, elapsedTime, originalList, originalIndex }) => {
-        const item = createTodoItem(text, list, list.id === 'deleted-list', completed, elapsedTime);
-        if (list.id === 'deleted-list') {
-            item.dataset.originalList = originalList;
-            item.dataset.originalIndex = originalIndex;
-            list.appendChild(item);
+    let placeholder;  // CLAUDE 추가: placeholder 변수를 여기서 선언
+    
+    if (list.id !== 'deleted-list') { // CLAUDE 추가
+    placeholder = document.createElement("li");  // CLAUDE 수정: const를 let으로 변경
+    placeholder.className = "todo-item placeholder";
+    placeholder.textContent = placeholderText;
+    placeholder.setAttribute("draggable", "true");
+    placeholder.addEventListener("dragstart", (e) => {
+        e.preventDefault();
+        console.log('Drag prevented for placeholder');
+    }); // claude 수정
+    placeholder.addEventListener("dragover", handleDragOver);
+    placeholder.addEventListener("drop", handleDrop);
+    placeholder.addEventListener("dragend", handleDragEnd);        
+    placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //B 수정
+    list.appendChild(placeholder);
+
+        // CLAUDE 추가: 항목이 없을 때만 플레이스홀더 추가
+        if (items.length === 0) {
+            list.appendChild(placeholder);
+        }
+    } // CLAUDE 추가
+
+    const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
+    
+    sortedItems.forEach(({ text, completed, elapsedTime, isDeleted, originalList, originalIndex }) => { // 클로드 추가
+        console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted, originalList, originalIndex }); // 클로드 추가
+        const targetList = document.getElementById(originalList); // 클로드 추가
+        const item = createTodoItem(text, targetList, isDeleted, completed, elapsedTime);
+        if (isDeleted) {
+            item.dataset.originalList = originalList; // CLAUDE 추가
+            item.dataset.originalIndex = originalIndex; // CLAUDE 추가
+            deletedList.appendChild(item);
         } else {
-            const insertIndex = Math.min(originalIndex, list.children.length);
-            list.insertBefore(item, list.children[insertIndex]);
+            const insertIndex = Math.min(originalIndex, targetList.children.length); // CLAUDE 추가
+            targetList.insertBefore(item, targetList.children[insertIndex]); // CLAUDE 수정
         }
     });
     updateTodoNumbers(list);
+if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
+    list.insertBefore(placeholder, list.firstChild);
+}
+// CLAUDE 추가: 삭제된 리스트에 대해서는 checkEmptyPlaceholder를 호출하지 않음
     if (list.id !== 'deleted-list') {
         checkEmptyPlaceholder(list);
     }
+
+    
 }
 
-function parseTime(timeString) {
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
-    return (hours * 3600 + minutes * 60 + seconds) * 1000;
-}
+    function parseTime(timeString) {
+        const [hours, minutes, seconds] = timeString.split(':').map(Number);
+        return (hours * 3600 + minutes * 60 + seconds) * 1000;
+    }
 });
