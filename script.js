@@ -263,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkEmptyPlaceholder(list) {
         let placeholder = list.querySelector(".placeholder");
-        if (!placeholder) {
+        if (!placeholder && list.querySelectorAll('.todo-item').length === 0) { //◎
             placeholder = document.createElement("li");
             placeholder.className = "todo-item placeholder";
             placeholder.setAttribute("draggable", "true");
