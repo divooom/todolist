@@ -259,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(deleteBtn);
         }
 
+        console.log('Created todo item:', { text, isDeleted }); //◆◇◆
         return li;
     }
 
