@@ -61,10 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isCompleted) {
         li.classList.add("completed");
     }
-            // 아래 추가된 코드
-    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
-    // 위에 추가된 코드
-
+  
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px";
