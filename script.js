@@ -376,7 +376,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: titleInput.value, // ♠
             listA: serializeList(todoListA), // ♠
             listB: serializeList(todoListB), // ♠
-            deleted: serializeList(deletedList) // ♠
+            deleted: serializeList(deletedList), // ♠
             placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '', //◇◎◇
             placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : '' //◇◎◇
         };
@@ -389,8 +389,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Loading data:', data); //♠♠
         if (data) { // ♠
             titleInput.value = data.title; // ♠
-            deserializeList(todoListA, data.listA); // ♠
-            deserializeList(todoListB, data.listB); // ♠
             deserializeList(todoListA, data.listA, data.placeholderTextA); //◇◎◇
             deserializeList(todoListB, data.listB, data.placeholderTextB); //◇◎◇
             deserializeList(deletedList, data.deleted); // ♠
@@ -398,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function serializeList(list) { // ♠
-        return Array.from(list.querySelectorAll('.todo-item')).map(item => ({
+        const serialized = Array.from(list.querySelectorAll('.todo-item')).map(item => ({
             text: item.querySelector('.text') ? item.querySelector('.text').textContent : '', //◐
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false, //◐
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 //◐
@@ -416,9 +414,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // ♠
         console.log('Deserialized list:', items); //◈
         updateTodoNumbers(list); // ♠
-        if (items.length === 0 && placeholder) { //●◎
-            placeholder.textContent = placeholderText; //◇◎◇
-            list.appendChild(placeholder); //●◎
+        if (items.length === 0) { //●◎ 수정된 조건문
+        const placeholder = document.createElement("li"); //●◎
+        placeholder.className = "todo-item placeholder"; //●◎
+        placeholder.textContent = placeholderText; //◇◎◇
+        placeholder.setAttribute("draggable", "true"); //●◎
+        placeholder.addEventListener("dragstart", handleDragStart); //●◎
+        placeholder.addEventListener("dragover", handleDragOver); //●◎
+        placeholder.addEventListener("drop", handleDrop); //●◎
+        placeholder.addEventListener("dragend", handleDragEnd); //●◎
+        list.appendChild(placeholder); //●◎
     } else { //●◎
         checkEmptyPlaceholder(list); // ♠
     } //●◎
