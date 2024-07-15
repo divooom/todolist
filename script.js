@@ -460,7 +460,7 @@ function handlePlaceholderDragStart(e) {
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
             isDeleted: item.closest('#deleted-list') ? true : false,
             originalIndex: item.dataset.originalIndex ? parseInt(item.dataset.originalIndex) : index,
-            originalList: list.id
+            originalList: item.dataset.originalList || list.id  // 클로드-수정: 원래 리스트 ID 유지
         }));
     }
 
