@@ -377,6 +377,8 @@ document.addEventListener("DOMContentLoaded", () => {
             listA: serializeList(todoListA), // ♠
             listB: serializeList(todoListB), // ♠
             deleted: serializeList(deletedList) // ♠
+            placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '', //◇◎◇
+            placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : '' //◇◎◇
         };
         console.log('Saving data:', data); //♠♠
         localStorage.setItem('todoData', JSON.stringify(data)); // ♠
@@ -389,6 +391,8 @@ document.addEventListener("DOMContentLoaded", () => {
             titleInput.value = data.title; // ♠
             deserializeList(todoListA, data.listA); // ♠
             deserializeList(todoListB, data.listB); // ♠
+            deserializeList(todoListA, data.listA, data.placeholderTextA); //◇◎◇
+            deserializeList(todoListB, data.listB, data.placeholderTextB); //◇◎◇
             deserializeList(deletedList, data.deleted); // ♠
         } // ♠
     }
@@ -403,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return serialized;
     }
 
-    function deserializeList(list, items) { // ♠
+    function deserializeList(list, items, placeholderText) { //◇◎◇
         const placeholder = list.querySelector(".placeholder"); //●◎
         list.innerHTML = ''; // ♠
         items.forEach(({ text, completed, elapsedTime }) => { // ♠
@@ -413,7 +417,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Deserialized list:', items); //◈
         updateTodoNumbers(list); // ♠
         if (items.length === 0 && placeholder) { //●◎
-        list.appendChild(placeholder); //●◎
+            placeholder.textContent = placeholderText; //◇◎◇
+            list.appendChild(placeholder); //●◎
     } else { //●◎
         checkEmptyPlaceholder(list); // ♠
     } //●◎
