@@ -233,8 +233,11 @@ document.addEventListener("DOMContentLoaded", () => {
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 const originalListId = li.dataset.originalList;
+                const originalIndex = parseInt(li.dataset.originalIndex); // CLAUDE 추가
                 const originalList = document.getElementById(originalListId);
                 originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked, elapsed));
+                const insertIndex = Math.min(originalIndex, originalList.children.length); // CLAUDE 추가
+                originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // CLAUDE 수정
                 updateTodoNumbers(originalList);
                 checkEmptyPlaceholder(originalList);
                 saveToLocalStorage();
@@ -363,9 +366,11 @@ function handlePlaceholderDragStart(e) {
         const list = this.closest("ul");
         const li = this.closest(".todo-item");
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
+        const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
         list.removeChild(li);
         const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
+        deletedItem.dataset.originalIndex = originalIndex; // CLAUDE 추가
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list);
@@ -444,6 +449,7 @@ function handlePlaceholderDragStart(e) {
 
 function deserializeList(list, items, placeholderText) {
     list.innerHTML = '';
+    if (list.id !== 'deleted-list') { // CLAUDE 추가
     const placeholder = document.createElement("li");
     placeholder.className = "todo-item placeholder";
     placeholder.textContent = placeholderText;
@@ -457,6 +463,7 @@ function deserializeList(list, items, placeholderText) {
     placeholder.addEventListener("dragend", handleDragEnd);
     placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //B 수정
     list.appendChild(placeholder);
+    } // CLAUDE 추가
 
     const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
     
@@ -465,13 +472,19 @@ function deserializeList(list, items, placeholderText) {
         const targetList = document.getElementById(originalList); // 클로드 추가
         const item = createTodoItem(text, targetList, isDeleted, completed, elapsedTime);
         if (isDeleted) {
+            item.dataset.originalList = originalList; // CLAUDE 추가
+            item.dataset.originalIndex = originalIndex; // CLAUDE 추가
             deletedList.appendChild(item);
         } else {
-            targetList.insertBefore(item, targetList.children[originalIndex]); // 클로드 추가
+            const insertIndex = Math.min(originalIndex, targetList.children.length); // CLAUDE 추가
+            targetList.insertBefore(item, targetList.children[insertIndex]); // CLAUDE 수정
         }
     });
     updateTodoNumbers(list);
     list.insertBefore(placeholder, list.firstChild); //●▷
+    if (list.id !== 'deleted-list') { // CLAUDE 추가
+        list.insertBefore(list.querySelector(".placeholder"), list.firstChild);
+    } // CLAUDE 추가
     checkEmptyPlaceholder(list); //▷
     
 }
