@@ -434,6 +434,7 @@ function deserializeList(list, items, placeholderText) {
     placeholder.addEventListener("dragend", handleDragEnd);
     list.appendChild(placeholder);
     items.forEach(({ text, completed, elapsedTime, isDeleted }) => {
+        console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted }); // 디버깅용 로그
         const item = createTodoItem(text, list, isDeleted, completed, elapsedTime);
         list.appendChild(item);
     });
