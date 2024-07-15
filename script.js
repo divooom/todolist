@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function serializeList(list) {
-        return Array.from(list.querySelectorAll('.todo-item')).map(item => ({
+        return Array.from(list.querySelectorAll('.todo-item')).filter(item => !item.classList.contains('placeholder')).map(item => ({ //◆
             text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0
@@ -394,9 +394,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function deserializeList(list, items, placeholderText) {
         list.innerHTML = '';
+        const placeholder = document.createElement("li"); //◆
+        placeholder.className = "todo-item placeholder"; //◆
+        placeholder.textContent = placeholderText; //◆
+        placeholder.setAttribute("draggable", "true"); //◆
+        placeholder.addEventListener("dragstart", handleDragStart); //◆
+        placeholder.addEventListener("dragover", handleDragOver); //◆
+        placeholder.addEventListener("drop", handleDrop); //◆
+        placeholder.addEventListener("dragend", handleDragEnd); //◆
+        list.appendChild(placeholder); //◆
         items.forEach(({ text, completed, elapsedTime }) => {
-            const isPlaceholder = (text === 'A - List' || text === 'B - List'); //♠♠
-            const item = createTodoItem(text, list, false, completed, elapsedTime, isPlaceholder); //♠♠
+            const item = createTodoItem(text, list, false, completed, elapsedTime); // 기존 코드 유지
             list.appendChild(item);
         });
         updateTodoNumbers(list);
