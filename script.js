@@ -368,7 +368,7 @@ function handlePlaceholderDragStart(e) {
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
         deletedItem.dataset.originalIndex = originalIndex; // CLAUDE 추가
         deletedList.appendChild(deletedItem);
@@ -376,18 +376,6 @@ function handlePlaceholderDragStart(e) {
         checkEmptyPlaceholder(list);
         saveToLocalStorage();
     }
-
-    function restoreItem(item) {
-    const originalListId = item.dataset.originalList;
-    const originalIndex = parseInt(item.dataset.originalIndex);
-    const originalList = document.getElementById(originalListId);
-    const restoredItem = createTodoItem(item.querySelector('.text').textContent, originalList, false, item.querySelector('.checkbox').checked, parseTime(item.querySelector('.timer-display').textContent));
-    const insertIndex = Math.min(originalIndex, originalList.children.length);
-    originalList.insertBefore(restoredItem, originalList.children[insertIndex]);
-    updateTodoNumbers(originalList);
-    checkEmptyPlaceholder(originalList);
-    saveToLocalStorage();
-}
 
     function handleDragEnd() {
         setTimeout(() => {
@@ -412,14 +400,6 @@ function handlePlaceholderDragStart(e) {
     topButton.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
-
-    document.getElementById('restoreButton').addEventListener('click', function() {
-    while (deletedList.firstChild) {
-        const item = deletedList.firstChild;
-        restoreItem(item);
-        deletedList.removeChild(item);
-    }
-});
 
     descriptionButton.addEventListener("click", () => {
         alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.");
