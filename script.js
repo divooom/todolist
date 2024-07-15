@@ -275,6 +275,9 @@ document.addEventListener("DOMContentLoaded", () => {
             placeholder.addEventListener("dragend", handleDragEnd);
             list.insertBefore(placeholder, list.firstChild);
         }
+        else if (list.querySelectorAll('.todo-item').length === 1 && placeholder) { //◇●
+        list.appendChild(placeholder); //◇●
+    }
     }
 
     function handleDragStart(e) {
@@ -377,12 +380,14 @@ document.addEventListener("DOMContentLoaded", () => {
             placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '',
             placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : ''
         };
+        console.log('Saving to localStorage:', data); // 디버깅용 로그
         localStorage.setItem('todoData', JSON.stringify(data));
     }
 
     function loadFromLocalStorage() {
         const data = JSON.parse(localStorage.getItem('todoData'));
         if (data) {
+            console.log('Loading from localStorage:', data); // 디버깅용 로그
             titleInput.value = data.title;
             deserializeList(todoListA, data.listA, data.placeholderTextA);
             deserializeList(todoListB, data.listB, data.placeholderTextB);
