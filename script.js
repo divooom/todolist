@@ -52,10 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function toggleVisibility(element, isVisible) {
-        element.style.display = isVisible ? "block" : "none";
-    }
-    
     function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
     const li = document.createElement("li");
     li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
@@ -69,13 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px";
-        toggleVisibility(number, !isDeleted); //◎◎
+        if (isDeleted) {
+        number.style.display = "none"; //◐△
+    }
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
-        toggleVisibility(dragHandle, !isDeleted); //◎◎
-        if (!isDeleted) {
+        if (isDeleted) {
+            dragHandle.style.display = "none";
+        } else {
             dragHandle.setAttribute("draggable", "true");
             dragHandle.addEventListener("dragstart", handleDragStart);
             dragHandle.addEventListener("dragover", handleDragOver);
@@ -87,7 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
         checkbox.checked = isCompleted;
-        toggleVisibility(checkbox, !isDeleted); //◎◎
+        if (isDeleted) {
+        checkbox.style.display = "none"; //◐△
+    }
         checkbox.addEventListener("change", () => {
             if (checkbox.checked) {
                 li.classList.add("completed");
@@ -126,7 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const stopwatchContainer = document.createElement("div");
         stopwatchContainer.className = "stopwatch-container";
-        toggleVisibility(stopwatchContainer, !isDeleted); //◎◎
+        if (isDeleted) {
+    stopwatchContainer.style.display = "none"; //◆◇◆
+}
 
         const playPauseButton = document.createElement("button");
         playPauseButton.className = "stopwatch-btn play-pause-btn";
