@@ -9,18 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const topButton = document.getElementById("top-button");
     const descriptionButton = document.getElementById("description-button");
     const cpalinkButton = document.getElementById("cpalink-button");
-    const titleInput = document.getElementById("title-input"); // ♠
+    const titleInput = document.getElementById("title-input");
 
-    let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
+    let currentList = todoListA;
     let draggedItem = null;
     let dragging = false;
 
-    // 초기 상태를 "Hide Deleted"로 설정
-    deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
-    showDeletedBtn.textContent = "Hide Deleted"; // 버튼 텍스트 변경
+    deletedList.style.display = "block";
+    showDeletedBtn.textContent = "Hide Deleted";
 
-    // Load saved data from localStorage // ♠
-    loadFromLocalStorage(); // ♠
+    loadFromLocalStorage();
 
     addABtn.addEventListener("click", () => {
         currentList = todoListA;
@@ -35,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
     todoInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
             addTodoToList(todoListA);
-            e.preventDefault(); // 기본 Enter 동작 방지
+            e.preventDefault();
         } else if (e.key === "Enter" && e.shiftKey) {
             addTodoToList(todoListB);
-            e.preventDefault(); // 기본 Enter 동작 방지
+            e.preventDefault();
         }
     });
 
@@ -49,13 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
             list.appendChild(todoItem);
             todoInput.value = "";
             updateTodoNumbers(list);
-            checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
-            console.log('Item added to list:', list.id); //◈
-            saveToLocalStorage(); // ♠
+            checkEmptyPlaceholder(list);
+            saveToLocalStorage();
         }
     }
 
-    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0) { // ♠
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0) {
         const li = document.createElement("li");
         li.className = "todo-item";
         li.style.display = "flex";
@@ -67,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const number = document.createElement("span");
         number.className = "todo-number";
-        number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
+        number.style.marginRight = "10px";
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
@@ -92,8 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 li.classList.remove("completed");
             }
-            console.log('Checkbox changed'); //◈
-            saveToLocalStorage(); // ♠
+            saveToLocalStorage();
         });
 
         const span = document.createElement("span");
@@ -114,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         detailText.textContent = input.value;
                         li.appendChild(detailText);
                         input.remove();
-                        saveToLocalStorage(); // ♠
+                        saveToLocalStorage();
                     }
                 });
 
@@ -123,7 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
 
-        // 스탑워치 기능 추가 시작
         const stopwatchContainer = document.createElement("div");
         stopwatchContainer.className = "stopwatch-container";
 
@@ -139,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const timerDisplay = document.createElement("span");
         timerDisplay.className = "timer-display";
-        timerDisplay.textContent = formatTime(elapsedTime); // ♠
+        timerDisplay.textContent = formatTime(elapsedTime);
 
         stopwatchContainer.appendChild(playPauseButton);
         stopwatchContainer.appendChild(timerDisplay);
@@ -147,7 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let stopwatchInterval;
         let running = false;
-        let startTime, elapsed = elapsedTime; // ♠
+        let startTime, elapsed = elapsedTime;
 
         function toggleStopwatch() {
             if (running) {
@@ -167,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerDisplay.style.backgroundColor = "white";
                 timerDisplay.style.border = "5px solid #0074ff";
             }
-            saveToLocalStorage(); //♠♠
+            saveToLocalStorage();
         }
 
         function resetStopwatch() {
@@ -178,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
             playPauseButton.innerHTML = "▶️";
             timerDisplay.style.backgroundColor = "#797979";
             timerDisplay.style.border = "none";
-            saveToLocalStorage(); //♠♠
+            saveToLocalStorage();
         }
 
         function formatTime(ms) {
@@ -188,39 +183,37 @@ document.addEventListener("DOMContentLoaded", () => {
             const seconds = String(totalSeconds % 60).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
         }
-        // 스탑워치 기능 추가 끝
 
         const editBtn = document.createElement("button");
         editBtn.className = "edit-btn";
-        editBtn.innerHTML = "&#9998;"; // 파란색 라인 아이콘
+        editBtn.innerHTML = "&#9998;";
         editBtn.addEventListener("click", () => {
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
                 span.textContent = newText.trim();
-                console.log('Edit button clicked'); //◈
-                saveToLocalStorage(); // ♠
+                saveToLocalStorage();
             }
         });
 
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "delete-btn";
-        deleteBtn.innerHTML = "&#128465;"; // 🗑 아이콘
+        deleteBtn.innerHTML = "&#128465;";
         deleteBtn.style.marginLeft = "10px";
         deleteBtn.addEventListener("click", handleDelete);
 
         if (isDeleted) {
             const restoreBtn = document.createElement("button");
             restoreBtn.className = "restore-btn";
-            restoreBtn.innerHTML = "&#8635;"; // ↺ 아이콘
+            restoreBtn.innerHTML = "&#8635;";
             restoreBtn.style.marginLeft = "10px";
             restoreBtn.addEventListener("click", () => {
                 deletedList.removeChild(li);
                 const originalListId = li.dataset.originalList;
                 const originalList = document.getElementById(originalListId);
-                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked, elapsed)); // ♠
+                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked, elapsed));
                 updateTodoNumbers(originalList);
                 checkEmptyPlaceholder(originalList);
-                saveToLocalStorage(); // ♠
+                saveToLocalStorage();
             });
 
             const spacer = document.createElement("span");
@@ -263,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkEmptyPlaceholder(list) {
         let placeholder = list.querySelector(".placeholder");
-        if (!placeholder && list.querySelectorAll('.todo-item').length === 0) { //◎
+        if (!placeholder && list.querySelectorAll('.todo-item').length === 0) {
             placeholder = document.createElement("li");
             placeholder.className = "todo-item placeholder";
             placeholder.setAttribute("draggable", "true");
@@ -318,21 +311,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const deleteBtn = draggedItem.querySelector('.delete-btn');
         deleteBtn.removeEventListener("click", handleDelete);
         deleteBtn.addEventListener('click', handleDelete);
-        saveToLocalStorage(); // ♠
+        saveToLocalStorage();
     }
 
     function handleDelete() {
         const list = this.closest("ul");
         const li = this.closest(".todo-item");
-        const elapsed = parseTime(li.querySelector('.timer-display').textContent); //♠♠
+        const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed); //♠♠
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list);
-        console.log('Item deleted from list:', list.id); //◈
-        saveToLocalStorage(); // ♠
+        saveToLocalStorage();
     }
 
     function handleDragEnd() {
@@ -342,7 +334,6 @@ document.addEventListener("DOMContentLoaded", () => {
             draggedItem = null;
             checkEmptyPlaceholder(todoListA);
             checkEmptyPlaceholder(todoListB);
-            console.log('Deserialized list:', list); //♠♠
         }, 0);
     }
 
@@ -371,66 +362,60 @@ document.addEventListener("DOMContentLoaded", () => {
     checkEmptyPlaceholder(todoListA);
     checkEmptyPlaceholder(todoListB);
 
-    function saveToLocalStorage() { // ♠
+    function saveToLocalStorage() {
         const data = {
-            title: titleInput.value, // ♠
-            listA: serializeList(todoListA), // ♠
-            listB: serializeList(todoListB), // ♠
-            deleted: serializeList(deletedList), // ♠
-            placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '', //◇◎◇
-            placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : '' //◇◎◇
+            title: titleInput.value,
+            listA: serializeList(todoListA),
+            listB: serializeList(todoListB),
+            deleted: serializeList(deletedList),
+            placeholderTextA: todoListA.querySelector('.placeholder') ? todoListA.querySelector('.placeholder').textContent : '',
+            placeholderTextB: todoListB.querySelector('.placeholder') ? todoListB.querySelector('.placeholder').textContent : ''
         };
-        console.log('Saving data:', data); //♠♠
-        localStorage.setItem('todoData', JSON.stringify(data)); // ♠
+        localStorage.setItem('todoData', JSON.stringify(data));
     }
 
-    function loadFromLocalStorage() { // ♠
-        const data = JSON.parse(localStorage.getItem('todoData')); // ♠
-        console.log('Loading data:', data); //♠♠
-        if (data) { // ♠
-            titleInput.value = data.title; // ♠
-            deserializeList(todoListA, data.listA, data.placeholderTextA); //◇◎◇
-            deserializeList(todoListB, data.listB, data.placeholderTextB); //◇◎◇
-            deserializeList(deletedList, data.deleted); // ♠
-        } // ♠
+    function loadFromLocalStorage() {
+        const data = JSON.parse(localStorage.getItem('todoData'));
+        if (data) {
+            titleInput.value = data.title;
+            deserializeList(todoListA, data.listA, data.placeholderTextA);
+            deserializeList(todoListB, data.listB, data.placeholderTextB);
+            deserializeList(deletedList, data.deleted);
+        }
     }
 
-    function serializeList(list) { // ♠
-        const serialized = Array.from(list.querySelectorAll('.todo-item')).map(item => ({
-            text: item.querySelector('.text') ? item.querySelector('.text').textContent : '', //◐
-            completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false, //◐
-            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 //◐
-        })); // ♠
-        console.log('Serialized list:', serialized); //◈
-        return serialized;
+    function serializeList(list) {
+        return Array.from(list.querySelectorAll('.todo-item')).map(item => ({
+            text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
+            completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
+            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0
+        }));
     }
 
-    function deserializeList(list, items, placeholderText) { //◇◎◇
-        const placeholder = list.querySelector(".placeholder"); //●◎
-        list.innerHTML = ''; // ♠
-        items.forEach(({ text, completed, elapsedTime }) => { // ♠
-            const item = createTodoItem(text, list, false, completed, elapsedTime); // ♠
-            list.appendChild(item); // ♠
-        }); // ♠
-        console.log('Deserialized list:', items); //◈
-        updateTodoNumbers(list); // ♠
-        if (items.length === 0) { //●◎ 수정된 조건문
-        const placeholder = document.createElement("li"); //●◎
-        placeholder.className = "todo-item placeholder"; //●◎
-        placeholder.textContent = placeholderText; //◇◎◇
-        placeholder.setAttribute("draggable", "true"); //●◎
-        placeholder.addEventListener("dragstart", handleDragStart); //●◎
-        placeholder.addEventListener("dragover", handleDragOver); //●◎
-        placeholder.addEventListener("drop", handleDrop); //●◎
-        placeholder.addEventListener("dragend", handleDragEnd); //●◎
-        list.appendChild(placeholder); //●◎
-    } else { //●◎
-        checkEmptyPlaceholder(list); // ♠
-    } //●◎
+    function deserializeList(list, items, placeholderText) {
+        list.innerHTML = '';
+        items.forEach(({ text, completed, elapsedTime }) => {
+            const item = createTodoItem(text, list, false, completed, elapsedTime);
+            list.appendChild(item);
+        });
+        updateTodoNumbers(list);
+        if (items.length === 0) {
+            const placeholder = document.createElement("li");
+            placeholder.className = "todo-item placeholder";
+            placeholder.textContent = placeholderText;
+            placeholder.setAttribute("draggable", "true");
+            placeholder.addEventListener("dragstart", handleDragStart);
+            placeholder.addEventListener("dragover", handleDragOver);
+            placeholder.addEventListener("drop", handleDrop);
+            placeholder.addEventListener("dragend", handleDragEnd);
+            list.appendChild(placeholder);
+        } else {
+            checkEmptyPlaceholder(list);
+        }
     }
 
-    function parseTime(timeString) { // ♠
-        const [hours, minutes, seconds] = timeString.split(':').map(Number); // ♠
-        return (hours * 3600 + minutes * 60 + seconds) * 1000; // ♠
+    function parseTime(timeString) {
+        const [hours, minutes, seconds] = timeString.split(':').map(Number);
+        return (hours * 3600 + minutes * 60 + seconds) * 1000;
     }
 });
