@@ -405,12 +405,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function deserializeList(list, items, placeholderText) {
     list.innerHTML = '';
-    items.forEach(({ text, completed, elapsedTime, isDeleted }) => { //△
-        const item = createTodoItem(text, list, isDeleted, completed, elapsedTime); //△
+    const placeholder = document.createElement("li");
+    placeholder.className = "todo-item placeholder";
+    placeholder.textContent = placeholderText;
+    placeholder.setAttribute("draggable", "true");
+    placeholder.addEventListener("dragstart", handleDragStart);
+    placeholder.addEventListener("dragover", handleDragOver);
+    placeholder.addEventListener("drop", handleDrop);
+    placeholder.addEventListener("dragend", handleDragEnd);
+    list.appendChild(placeholder);
+    items.forEach(({ text, completed, elapsedTime, isDeleted }) => {
+        const item = createTodoItem(text, list, isDeleted, completed, elapsedTime);
         list.appendChild(item);
     });
     updateTodoNumbers(list);
-    checkEmptyPlaceholder(list); //△
+    if (items.length === 0) {
+        const placeholder = document.createElement("li");
+        placeholder.className = "todo-item placeholder";
+        placeholder.textContent = placeholderText;
+        placeholder.setAttribute("draggable", "true");
+        placeholder.addEventListener("dragstart", handleDragStart);
+        placeholder.addEventListener("dragover", handleDragOver);
+        placeholder.addEventListener("drop", handleDrop);
+        placeholder.addEventListener("dragend", handleDragEnd);
+        list.appendChild(placeholder);
+    } else {
+        checkEmptyPlaceholder(list);
+    }
 }
 
     function parseTime(timeString) {
