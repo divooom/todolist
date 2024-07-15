@@ -315,6 +315,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function handlePlaceholderDragStart(e) {
     if (this.classList.contains('placeholder')) {
         e.preventDefault();
+        console.log('Drag prevented for placeholder'); // 로그 추가
     }
 } //A 수정
 
