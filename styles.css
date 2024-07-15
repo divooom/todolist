@@ -51,6 +51,10 @@ body {
     font-size: 1.3em;
 }
 
+.clear-btn i {
+    font-style: normal; /* 아이콘 기본 스타일 초기화 */
+}
+
 .clear-btn:hover {
     background-color: #7a7272;
 }
@@ -60,6 +64,7 @@ body {
     background-color: #898181;
     border-radius: 0 0 8px 8px;
     color: black;
+    margin-right: 4px;
     font-size: 1.3em;
 }
 
