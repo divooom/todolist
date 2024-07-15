@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.classList.add("completed");
         }
             // 아래 추가된 코드
-    li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
     // 위에 추가된 코드
 
         const number = document.createElement("span");
