@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const number = item.querySelector('.todo-number');
             if (number) {
                 if (!item.classList.contains('placeholder')) { //♠
-            number.textContent = `${actualIndex}. `;
+            number.textContent = ${actualIndex}. ;
             actualIndex++;
         } else {
             number.textContent = '0. ';
