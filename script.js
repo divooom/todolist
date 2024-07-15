@@ -452,6 +452,7 @@ function deserializeList(list, items, placeholderText) {
     placeholder.addEventListener("dragover", handleDragOver);
     placeholder.addEventListener("drop", handleDrop);
     placeholder.addEventListener("dragend", handleDragEnd);
+    placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //B 수정
     list.appendChild(placeholder);
 
     const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
