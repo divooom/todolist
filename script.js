@@ -311,6 +311,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 0);
     }
 
+   
+function handlePlaceholderDragStart(e) {
+    if (this.classList.contains('placeholder')) {
+        e.preventDefault();
+    }
+} //A 수정
+
     function handleDragOver(e) {
         e.preventDefault();
     }
@@ -440,6 +447,7 @@ function deserializeList(list, items, placeholderText) {
     placeholder.className = "todo-item placeholder";
     placeholder.textContent = placeholderText;
     placeholder.setAttribute("draggable", "true");
+    placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //A 수정
     placeholder.addEventListener("dragstart", handleDragStart);
     placeholder.addEventListener("dragover", handleDragOver);
     placeholder.addEventListener("drop", handleDrop);
