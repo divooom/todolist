@@ -65,16 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px";
-        if (isDeleted) {
-        number.style.display = "none"; //◐△
-    }
+        toggleVisibility(number, !isDeleted); //◎◎
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
         dragHandle.innerHTML = "&#9776;";
-        if (isDeleted) {
-            dragHandle.style.display = "none";
-        } else {
+        toggleVisibility(dragHandle, !isDeleted); //◎◎
+        else {
             dragHandle.setAttribute("draggable", "true");
             dragHandle.addEventListener("dragstart", handleDragStart);
             dragHandle.addEventListener("dragover", handleDragOver);
@@ -86,9 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
         checkbox.checked = isCompleted;
-        if (isDeleted) {
-        checkbox.style.display = "none"; //◐△
-    }
+        toggleVisibility(checkbox, !isDeleted); //◎◎
         checkbox.addEventListener("change", () => {
             if (checkbox.checked) {
                 li.classList.add("completed");
@@ -127,9 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const stopwatchContainer = document.createElement("div");
         stopwatchContainer.className = "stopwatch-container";
-        if (isDeleted) {
-    stopwatchContainer.style.display = "none"; //◆◇◆
-}
+        toggleVisibility(stopwatchContainer, !isDeleted); //◎◎
 
         const playPauseButton = document.createElement("button");
         playPauseButton.className = "stopwatch-btn play-pause-btn";
@@ -419,6 +412,7 @@ document.addEventListener("DOMContentLoaded", () => {
             text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0
+            isDeleted: item.closest('#deleted-list') ? true : false //◆◇◆
         }));
     }
 
