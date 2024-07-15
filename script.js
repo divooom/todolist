@@ -61,6 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCompleted) {
             li.classList.add("completed");
         }
+            // 아래 추가된 코드
+    li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
+    // 위에 추가된 코드
 
         const number = document.createElement("span");
         number.className = "todo-number";
@@ -244,12 +247,12 @@ document.addEventListener("DOMContentLoaded", () => {
         items.forEach((item) => {
             const number = item.querySelector('.todo-number');
             if (number) {
-                if (item.classList.contains('placeholder')) {
-                    number.textContent = '0. ';
-                } else {
-                    number.textContent = `${actualIndex}. `;
-                    actualIndex++;
-                }
+                if (!item.classList.contains('placeholder')) { //♠
+            number.textContent = `${actualIndex}. `;
+            actualIndex++;
+        } else {
+            number.textContent = '0. ';
+        }
             }
         });
     }
