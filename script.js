@@ -395,7 +395,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function deserializeList(list, items, placeholderText) {
         list.innerHTML = '';
         items.forEach(({ text, completed, elapsedTime }) => {
-            const item = createTodoItem(text, list, false, completed, elapsedTime);
+            const isPlaceholder = (text === 'A - List' || text === 'B - List'); //♠♠
+            const item = createTodoItem(text, list, false, completed, elapsedTime, isPlaceholder); //♠♠
             list.appendChild(item);
         });
         updateTodoNumbers(list);
