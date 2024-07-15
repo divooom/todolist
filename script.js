@@ -236,6 +236,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const originalIndex = parseInt(li.dataset.originalIndex); // CLAUDE 추가
                 const originalList = document.getElementById(originalListId);
                 const restoredItem = createTodoItem(text, originalList, false, checkbox.checked, elapsed);
+
+                restoredItem.dataset.originalList = originalListId;
+                restoredItem.dataset.originalIndex = originalIndex;
+                
                 const insertIndex = Math.min(originalIndex, originalList.children.length); // CLAUDE 추가
                 originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // CLAUDE 수정
                 updateTodoNumbers(originalList);
@@ -442,7 +446,7 @@ function handlePlaceholderDragStart(e) {
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
             isDeleted: item.closest('#deleted-list') ? true : false,
-            originalIndex: index, // 클로드 추가
+            originalIndex: item.dataset.originalIndex ? parseInt(item.dataset.originalIndex) : index,
             originalList: list.id
         }));
     }
