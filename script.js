@@ -462,9 +462,14 @@ function deserializeList(list, items, placeholderText) {
     }); // claude 수정
     placeholder.addEventListener("dragover", handleDragOver);
     placeholder.addEventListener("drop", handleDrop);
-    placeholder.addEventListener("dragend", handleDragEnd);
+    placeholder.addEventListener("dragend", handleDragEnd);        
     placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //B 수정
     list.appendChild(placeholder);
+
+        // CLAUDE 추가: 항목이 없을 때만 플레이스홀더 추가
+        if (items.length === 0) {
+            list.appendChild(placeholder);
+        }
     } // CLAUDE 추가
 
     const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
@@ -483,10 +488,14 @@ function deserializeList(list, items, placeholderText) {
         }
     });
     updateTodoNumbers(list);
-if (list.id !== 'deleted-list' && placeholder) {  // CLAUDE 수정: placeholder가 존재할 때만 실행
+if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
     list.insertBefore(placeholder, list.firstChild);
 }
-checkEmptyPlaceholder(list); //▷
+// CLAUDE 추가: 삭제된 리스트에 대해서는 checkEmptyPlaceholder를 호출하지 않음
+    if (list.id !== 'deleted-list') {
+        checkEmptyPlaceholder(list);
+    }
+
     
 }
 
