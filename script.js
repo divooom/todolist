@@ -411,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }); // ♠
         console.log('Deserialized list:', items); //◈
         updateTodoNumbers(list); // ♠
-        if (items.length === 0) { //◎◎
         checkEmptyPlaceholder(list); // ♠
     }
 
