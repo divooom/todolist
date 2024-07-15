@@ -65,6 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px";
+        if (isDeleted) {
+        number.style.display = "none"; //◐△
+    }
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
@@ -83,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
         checkbox.type = "checkbox";
         checkbox.className = "checkbox";
         checkbox.checked = isCompleted;
+        if (isDeleted) {
+        checkbox.style.display = "none"; //◐△
+    }
         checkbox.addEventListener("change", () => {
             if (checkbox.checked) {
                 li.classList.add("completed");
@@ -125,16 +131,25 @@ document.addEventListener("DOMContentLoaded", () => {
         const playPauseButton = document.createElement("button");
         playPauseButton.className = "stopwatch-btn play-pause-btn";
         playPauseButton.innerHTML = "▶️";
+        if (isDeleted) {
+        playPauseButton.style.display = "none"; //◐△
+    }
         playPauseButton.addEventListener("click", toggleStopwatch);
 
         const resetButton = document.createElement("button");
         resetButton.className = "stopwatch-btn reset-btn";
         resetButton.innerHTML = "&#x21bb;";
+        if (isDeleted) {
+        resetButton.style.display = "none"; //◐△
+    }
         resetButton.addEventListener("click", resetStopwatch);
 
         const timerDisplay = document.createElement("span");
         timerDisplay.className = "timer-display";
         timerDisplay.textContent = formatTime(elapsedTime);
+        if (isDeleted) {
+        timerDisplay.style.display = "none"; //◐△
+    }
 
         stopwatchContainer.appendChild(playPauseButton);
         stopwatchContainer.appendChild(timerDisplay);
