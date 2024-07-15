@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkEmptyPlaceholder(list) {
         let placeholder = list.querySelector(".placeholder");
-        if (!placeholder && list.querySelectorAll('.todo-item').length === 0) {
+        if (!placeholder && list.querySelectorAll('.todo-item:not(.placeholder)').length === 0) { //▷
             placeholder = document.createElement("li");
             placeholder.className = "todo-item placeholder";
             placeholder.setAttribute("draggable", "true");
@@ -419,19 +419,8 @@ function deserializeList(list, items, placeholderText) {
         list.appendChild(item);
     });
     updateTodoNumbers(list);
-    if (items.length === 0) {
-        const placeholder = document.createElement("li");
-        placeholder.className = "todo-item placeholder";
-        placeholder.textContent = placeholderText;
-        placeholder.setAttribute("draggable", "true");
-        placeholder.addEventListener("dragstart", handleDragStart);
-        placeholder.addEventListener("dragover", handleDragOver);
-        placeholder.addEventListener("drop", handleDrop);
-        placeholder.addEventListener("dragend", handleDragEnd);
-        list.appendChild(placeholder);
-    } else {
-        checkEmptyPlaceholder(list);
-    }
+    checkEmptyPlaceholder(list); //▷
+    
 }
 
     function parseTime(timeString) {
