@@ -418,7 +418,7 @@ function handlePlaceholderDragStart(e) {
     });
 
     descriptionButton.addEventListener("click", () => {
-        alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.\n\n페이지 초기화를 원하시는 경우 화면 우측 상단의 <i class="fa-solid fa-rotate"></i>을 눌러주세요.");
+        alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.\n\n페이지 초기화를 원하시는 경우 화면 우측 상단의 🔄을 눌러주세요.");
     });
 
     cpalinkButton.addEventListener("click", () => {
