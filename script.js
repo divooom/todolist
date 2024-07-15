@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const topButton = document.getElementById("top-button");
     const descriptionButton = document.getElementById("description-button");
     const cpalinkButton = document.getElementById("cpalink-button");
+    const titleInput = document.getElementById("title-input"); // ♠
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
     let draggedItem = null;
@@ -17,6 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 초기 상태를 "Hide Deleted"로 설정
     deletedList.style.display = "block"; // 삭제된 목록을 보이도록 설정
     showDeletedBtn.textContent = "Hide Deleted"; // 버튼 텍스트 변경
+
+    // Load saved data from localStorage // ♠
+    loadFromLocalStorage(); // ♠
 
     addABtn.addEventListener("click", () => {
         currentList = todoListA;
@@ -46,10 +50,11 @@ document.addEventListener("DOMContentLoaded", () => {
             todoInput.value = "";
             updateTodoNumbers(list);
             checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+            saveToLocalStorage(); // ♠
         }
     }
 
-    function createTodoItem(text, list, isDeleted = false, isCompleted = false) {
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0) { // ♠
         const li = document.createElement("li");
         li.className = "todo-item";
         li.style.display = "flex";
@@ -62,9 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
-
-        // 콘솔 로그 추가
-console.log('number element:', number);
 
         const dragHandle = document.createElement("span");
         dragHandle.className = "drag-handle";
@@ -89,6 +91,7 @@ console.log('number element:', number);
             } else {
                 li.classList.remove("completed");
             }
+            saveToLocalStorage(); // ♠
         });
 
         const span = document.createElement("span");
@@ -109,6 +112,7 @@ console.log('number element:', number);
                         detailText.textContent = input.value;
                         li.appendChild(detailText);
                         input.remove();
+                        saveToLocalStorage(); // ♠
                     }
                 });
 
@@ -117,72 +121,72 @@ console.log('number element:', number);
             }
         });
 
+        // 스탑워치 기능 추가 시작
+        const stopwatchContainer = document.createElement("div");
+        stopwatchContainer.className = "stopwatch-container";
 
- // 스탑워치 기능 추가 시작
-    const stopwatchContainer = document.createElement("div"); // 스탑워치 컨테이너 생성
-    stopwatchContainer.className = "stopwatch-container"; // 클래스 설정
+        const playPauseButton = document.createElement("button");
+        playPauseButton.className = "stopwatch-btn play-pause-btn";
+        playPauseButton.innerHTML = "▶️";
+        playPauseButton.addEventListener("click", toggleStopwatch);
 
-    const playPauseButton = document.createElement("button"); // 재생/일시정지 버튼 생성
-    playPauseButton.className = "stopwatch-btn play-pause-btn"; // 클래스 설정
-    playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 설정
-    playPauseButton.addEventListener("click", toggleStopwatch); // 클릭 이벤트 설정
+        const resetButton = document.createElement("button");
+        resetButton.className = "stopwatch-btn reset-btn";
+        resetButton.innerHTML = "&#x21bb;";
+        resetButton.addEventListener("click", resetStopwatch);
 
-    const resetButton = document.createElement("button"); // 리셋 버튼 생성
-    resetButton.className = "stopwatch-btn reset-btn"; // 클래스 설정
-    resetButton.innerHTML = "&#x21bb;"; // 리셋 아이콘 (🔄)
-    resetButton.addEventListener("click", resetStopwatch); // 클릭 이벤트 설정
+        const timerDisplay = document.createElement("span");
+        timerDisplay.className = "timer-display";
+        timerDisplay.textContent = formatTime(elapsedTime); // ♠
 
-    const timerDisplay = document.createElement("span"); // 시계 표시 요소 생성
-    timerDisplay.className = "timer-display"; // 클래스 설정
-    timerDisplay.textContent = "00:00:00"; // 초기 시계 텍스트 설정
+        stopwatchContainer.appendChild(playPauseButton);
+        stopwatchContainer.appendChild(timerDisplay);
+        stopwatchContainer.appendChild(resetButton);
 
-    stopwatchContainer.appendChild(playPauseButton); // 컨테이너에 재생/일시정지 버튼 추가
-    stopwatchContainer.appendChild(timerDisplay); // 컨테이너에 시계 표시 추가
-    stopwatchContainer.appendChild(resetButton); // 컨테이너에 리셋 버튼 추가
+        let stopwatchInterval;
+        let running = false;
+        let startTime, elapsed = elapsedTime; // ♠
 
-    let stopwatchInterval; // 스탑워치 인터벌 변수
-    let running = false; // 스탑워치 실행 여부
-    let startTime, elapsedTime = 0; // 시작 시간과 경과 시간 변수
-
-    function toggleStopwatch() { // 스탑워치 재생/일시정지 함수
-        if (running) {
-            clearInterval(stopwatchInterval); // 실행 중이면 인터벌 해제
-            running = false; // 실행 상태 false
-            playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
-            timerDisplay.style.backgroundColor = "#797979"; // 멈춤 상태 배경 색상 수정
-            timerDisplay.style.border = "none"; // 테두리 제거
-        } else {
-            startTime = Date.now() - elapsedTime; // 시작 시간 설정
-            stopwatchInterval = setInterval(() => {
-                elapsedTime = Date.now() - startTime; // 경과 시간 계산
-                timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
-            }, 1000);
-            running = true; // 실행 상태 true
-            playPauseButton.innerHTML = "&#10074;&#10074;"; // 일시정지 아이콘 (⏸️)
-            timerDisplay.style.backgroundColor = "white"; // 돌아가는 상태 배경 색상 유지
-            timerDisplay.style.border = "5px solid #0074ff"; // 돌아가는 상태 테두리 설정
+        function toggleStopwatch() {
+            if (running) {
+                clearInterval(stopwatchInterval);
+                running = false;
+                playPauseButton.innerHTML = "▶️";
+                timerDisplay.style.backgroundColor = "#797979";
+                timerDisplay.style.border = "none";
+            } else {
+                startTime = Date.now() - elapsed;
+                stopwatchInterval = setInterval(() => {
+                    elapsed = Date.now() - startTime;
+                    timerDisplay.textContent = formatTime(elapsed);
+                }, 1000);
+                running = true;
+                playPauseButton.innerHTML = "&#10074;&#10074;";
+                timerDisplay.style.backgroundColor = "white";
+                timerDisplay.style.border = "5px solid #0074ff";
+            }
+            saveToLocalStorage(); // ♠
         }
-    }
 
-    function resetStopwatch() { // 스탑워치 리셋 함수
-        clearInterval(stopwatchInterval); // 인터벌 해제
-        running = false; // 실행 상태 false
-        elapsedTime = 0; // 경과 시간 초기화
-        timerDisplay.textContent = "00:00:00"; // 시계 텍스트 초기화
-        playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
-        timerDisplay.style.backgroundColor = "#797979"; // 리셋 후 배경 색상 수정
-        timerDisplay.style.border = "none"; // 테두리 제거
-    }
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            running = false;
+            elapsed = 0;
+            timerDisplay.textContent = "00:00:00";
+            playPauseButton.innerHTML = "▶️";
+            timerDisplay.style.backgroundColor = "#797979";
+            timerDisplay.style.border = "none";
+            saveToLocalStorage(); // ♠
+        }
 
-    function formatTime(ms) { // 시간 포맷 함수
-        const totalSeconds = Math.floor(ms / 1000); // 총 초 계산
-        const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0'); // 시간 계산
-        const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0'); // 분 계산
-        const seconds = String(totalSeconds % 60).padStart(2, '0'); // 초 계산
-        return `${hours}:${minutes}:${seconds}`; // 포맷된 시간 반환
-    }
-    // 스탑워치 기능 추가 끝
-        
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            return `${hours}:${minutes}:${seconds}`;
+        }
+        // 스탑워치 기능 추가 끝
 
         const editBtn = document.createElement("button");
         editBtn.className = "edit-btn";
@@ -191,6 +195,7 @@ console.log('number element:', number);
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
                 span.textContent = newText.trim();
+                saveToLocalStorage(); // ♠
             }
         });
 
@@ -209,9 +214,10 @@ console.log('number element:', number);
                 deletedList.removeChild(li);
                 const originalListId = li.dataset.originalList;
                 const originalList = document.getElementById(originalListId);
-                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked));
+                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked, elapsed)); // ♠
                 updateTodoNumbers(originalList);
-                checkEmptyPlaceholder(originalList); // 빈 항목(플레이스홀더) 확인
+                checkEmptyPlaceholder(originalList);
+                saveToLocalStorage(); // ♠
             });
 
             const spacer = document.createElement("span");
@@ -228,52 +234,46 @@ console.log('number element:', number);
             li.appendChild(checkbox);
             li.appendChild(number);
             li.appendChild(span);
-            li.appendChild(stopwatchContainer); // 스탑워치 컨테이너 추가
+            li.appendChild(stopwatchContainer);
             li.appendChild(editBtn);
             li.appendChild(deleteBtn);
         }
 
-    // 콘솔 로그 추가
-    console.log('Added number element:', li);
-        
         return li;
     }
 
-function updateTodoNumbers(list) {
-    const items = list.querySelectorAll('.todo-item');
-    let actualIndex = 1; // 실제 항목의 번호를 매기기 위한 변수
-    items.forEach((item) => {
-        const number = item.querySelector('.todo-number');
-        if (number) {
-            if (item.classList.contains('placeholder')) {
-                number.textContent = '0. ';
-            } else {
-                number.textContent = `${actualIndex}. `;
-                actualIndex++; // 실제 항목에 대해서만 증가
+    function updateTodoNumbers(list) {
+        const items = list.querySelectorAll('.todo-item');
+        let actualIndex = 1;
+        items.forEach((item) => {
+            const number = item.querySelector('.todo-number');
+            if (number) {
+                if (item.classList.contains('placeholder')) {
+                    number.textContent = '0. ';
+                } else {
+                    number.textContent = `${actualIndex}. `;
+                    actualIndex++;
+                }
             }
-        }
-    });
-}
-
-function checkEmptyPlaceholder(list) {
-    let placeholder = list.querySelector(".placeholder");
-    if (!placeholder) {
-        placeholder = document.createElement("li");
-        placeholder.className = "todo-item placeholder";
-        placeholder.setAttribute("draggable", "true");
-
-        // A와 B 목록에 따라 텍스트 설정
-        placeholder.textContent = list.id === "todo-list-a" ? "A - List" : "B - List";
-
-        placeholder.addEventListener("dragstart", handleDragStart);
-        placeholder.addEventListener("dragover", handleDragOver);
-        placeholder.addEventListener("drop", handleDrop);
-        placeholder.addEventListener("dragend", handleDragEnd);
-        list.insertBefore(placeholder, list.firstChild); // 항상 첫 번째 자식으로 추가
+        });
     }
-}
 
+    function checkEmptyPlaceholder(list) {
+        let placeholder = list.querySelector(".placeholder");
+        if (!placeholder) {
+            placeholder = document.createElement("li");
+            placeholder.className = "todo-item placeholder";
+            placeholder.setAttribute("draggable", "true");
 
+            placeholder.textContent = list.id === "todo-list-a" ? "A - List" : "B - List";
+
+            placeholder.addEventListener("dragstart", handleDragStart);
+            placeholder.addEventListener("dragover", handleDragOver);
+            placeholder.addEventListener("drop", handleDrop);
+            placeholder.addEventListener("dragend", handleDragEnd);
+            list.insertBefore(placeholder, list.firstChild);
+        }
+    }
 
     function handleDragStart(e) {
         draggedItem = this.closest(".todo-item");
@@ -307,25 +307,27 @@ function checkEmptyPlaceholder(list) {
         }
         
         updateTodoNumbers(targetList);
-        updateTodoNumbers(todoListA); // 추가된 부분
-        updateTodoNumbers(todoListB); // 추가된 부분
+        updateTodoNumbers(todoListA);
+        updateTodoNumbers(todoListB);
         checkEmptyPlaceholder(todoListA);
         checkEmptyPlaceholder(todoListB);
 
         const deleteBtn = draggedItem.querySelector('.delete-btn');
         deleteBtn.removeEventListener("click", handleDelete);
         deleteBtn.addEventListener('click', handleDelete);
+        saveToLocalStorage(); // ♠
     }
 
     function handleDelete() {
         const list = this.closest("ul");
         const li = this.closest(".todo-item");
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed); // ♠
         deletedItem.dataset.originalList = list.id;
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
-        checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+        checkEmptyPlaceholder(list);
+        saveToLocalStorage(); // ♠
     }
 
     function handleDragEnd() {
@@ -333,8 +335,9 @@ function checkEmptyPlaceholder(list) {
             draggedItem.style.display = 'flex';
             dragging = false;
             draggedItem = null;
-            checkEmptyPlaceholder(todoListA); // 빈 항목(플레이스홀더) 확인
-            checkEmptyPlaceholder(todoListB); // 빈 항목(플레이스홀더) 확인
+            checkEmptyPlaceholder(todoListA);
+            checkEmptyPlaceholder(todoListB);
+            saveToLocalStorage(); // ♠
         }, 0);
     }
 
@@ -360,7 +363,49 @@ function checkEmptyPlaceholder(list) {
         window.open("https://iryan.kr/t7rbs8lqau", "_blank");
     });
 
-    // 초기 빈 항목(플레이스홀더) 추가
     checkEmptyPlaceholder(todoListA);
     checkEmptyPlaceholder(todoListB);
+
+    function saveToLocalStorage() { // ♠
+        const data = {
+            title: titleInput.value, // ♠
+            listA: serializeList(todoListA), // ♠
+            listB: serializeList(todoListB), // ♠
+            deleted: serializeList(deletedList) // ♠
+        };
+        localStorage.setItem('todoData', JSON.stringify(data)); // ♠
+    }
+
+    function loadFromLocalStorage() { // ♠
+        const data = JSON.parse(localStorage.getItem('todoData')); // ♠
+        if (data) { // ♠
+            titleInput.value = data.title; // ♠
+            deserializeList(todoListA, data.listA); // ♠
+            deserializeList(todoListB, data.listB); // ♠
+            deserializeList(deletedList, data.deleted); // ♠
+        } // ♠
+    }
+
+    function serializeList(list) { // ♠
+        return Array.from(list.querySelectorAll('.todo-item')).map(item => ({
+            text: item.querySelector('.text').textContent, // ♠
+            completed: item.querySelector('.checkbox').checked, // ♠
+            elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 // ♠
+        })); // ♠
+    }
+
+    function deserializeList(list, items) { // ♠
+        list.innerHTML = ''; // ♠
+        items.forEach(({ text, completed, elapsedTime }) => { // ♠
+            const item = createTodoItem(text, list, false, completed, elapsedTime); // ♠
+            list.appendChild(item); // ♠
+        }); // ♠
+        updateTodoNumbers(list); // ♠
+        checkEmptyPlaceholder(list); // ♠
+    }
+
+    function parseTime(timeString) { // ♠
+        const [hours, minutes, seconds] = timeString.split(':').map(Number); // ♠
+        return (hours * 3600 + minutes * 60 + seconds) * 1000; // ♠
+    }
 });
