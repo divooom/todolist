@@ -499,19 +499,12 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
     
 }
 
-    function handleDelete() {
-    const list = this.closest("ul");
-    const li = this.closest(".todo-item");
-    const elapsed = parseTime(li.querySelector('.timer-display').textContent);
-    const originalIndex = Array.from(list.children).indexOf(li);
-    list.removeChild(li);
-    const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
-    deletedItem.dataset.originalList = list.id;  // 원래 리스트 ID를 저장
-    deletedItem.dataset.originalIndex = originalIndex;
-    deletedList.appendChild(deletedItem);
-    updateTodoNumbers(list);
-    checkEmptyPlaceholder(list);
-    saveToLocalStorage();
+
+    function parseTime(timeString) {
+
+        const [hours, minutes, seconds] = timeString.split(':').map(Number);
+
+        return (hours * 3600 + minutes * 60 + seconds) * 1000;
 }
     }
 });
