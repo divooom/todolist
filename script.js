@@ -187,6 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const editBtn = document.createElement("button");
         editBtn.className = "edit-btn";
         editBtn.innerHTML = "&#9998;";
+        if (isDeleted) {
+        editBtn.style.display = "none"; //◐
+    }
         editBtn.addEventListener("click", () => {
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
@@ -199,6 +202,9 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteBtn.className = "delete-btn";
         deleteBtn.innerHTML = "&#128465;";
         deleteBtn.style.marginLeft = "10px";
+        if (isDeleted) {
+        deleteBtn.style.display = "none"; //◐
+    }
         deleteBtn.addEventListener("click", handleDelete);
 
         if (isDeleted) {
@@ -403,8 +409,8 @@ document.addEventListener("DOMContentLoaded", () => {
         placeholder.addEventListener("drop", handleDrop); //◆
         placeholder.addEventListener("dragend", handleDragEnd); //◆
         list.appendChild(placeholder); //◆
-        items.forEach(({ text, completed, elapsedTime }) => {
-            const item = createTodoItem(text, list, false, completed, elapsedTime); // 기존 코드 유지
+        items.forEach(({ text, completed, elapsedTime, isDeleted }) => { //◐
+        const item = createTodoItem(text, list, isDeleted, completed, elapsedTime); //◐
             list.appendChild(item);
         });
         updateTodoNumbers(list);
