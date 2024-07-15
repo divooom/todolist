@@ -127,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const stopwatchContainer = document.createElement("div");
         stopwatchContainer.className = "stopwatch-container";
+        if (isDeleted) {
+    stopwatchContainer.style.display = "none"; //◆◇◆
+}
 
         const playPauseButton = document.createElement("button");
         playPauseButton.className = "stopwatch-btn play-pause-btn";
