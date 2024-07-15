@@ -368,7 +368,7 @@ function handlePlaceholderDragStart(e) {
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
         deletedItem.dataset.originalIndex = originalIndex; // CLAUDE 추가
         deletedList.appendChild(deletedItem);
