@@ -415,13 +415,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function serializeList(list) {
-        return Array.from(list.querySelectorAll('.todo-item')).filter(item => !item.classList.contains('placeholder')).map(item => ({ //◆
+        return Array.from(list.querySelectorAll('.todo-item')).filter(item => !item.classList.contains('placeholder')).map((item, index) => ({ // 클로드 수정
             text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
             isDeleted: item.closest('#deleted-list') ? true : false,
             originalIndex: index, // 클로드 추가
-            originalList: list.id // 클로드 추가
+            originalList: list.id
         }));
     }
 
