@@ -343,9 +343,9 @@ function handlePlaceholderDragStart(e) {
         }
         targetList.insertBefore(targetList.querySelector(".placeholder"), targetList.firstChild); //●▷
 
- if (draggedItem.classList.contains('placeholder')) { //●▷
-            return; //●▷
-        } //●▷
+    if (draggedItem.classList.contains('placeholder')) { // claude 추가
+        return; // claude 추가
+    } // claude 추가
         
         updateTodoNumbers(targetList);
         updateTodoNumbers(todoListA);
@@ -448,8 +448,10 @@ function deserializeList(list, items, placeholderText) {
     placeholder.className = "todo-item placeholder";
     placeholder.textContent = placeholderText;
     placeholder.setAttribute("draggable", "true");
-    placeholder.addEventListener("dragstart", (e) => e.preventDefault()); //A 수정
-    placeholder.addEventListener("dragstart", handleDragStart);
+    placeholder.addEventListener("dragstart", (e) => {
+        e.preventDefault();
+        console.log('Drag prevented for placeholder');
+    }); // claude 수정
     placeholder.addEventListener("dragover", handleDragOver);
     placeholder.addEventListener("drop", handleDrop);
     placeholder.addEventListener("dragend", handleDragEnd);
