@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             todoInput.value = "";
             updateTodoNumbers(list);
             checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
+            console.log('Item added to list:', list.id); //◈
             saveToLocalStorage(); // ♠
         }
     }
@@ -91,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 li.classList.remove("completed");
             }
+            console.log('Checkbox changed'); //◈
             saveToLocalStorage(); // ♠
         });
 
@@ -195,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
                 span.textContent = newText.trim();
+                console.log('Edit button clicked'); //◈
                 saveToLocalStorage(); // ♠
             }
         });
@@ -328,6 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list);
+        console.log('Item deleted from list:', list.id); //◈
         saveToLocalStorage(); // ♠
     }
 
@@ -395,6 +399,8 @@ document.addEventListener("DOMContentLoaded", () => {
             completed: item.querySelector('.checkbox').checked, // ♠
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0 // ♠
         })); // ♠
+        console.log('Serialized list:', serialized); //◈
+        return serialized;
     }
 
     function deserializeList(list, items) { // ♠
@@ -403,6 +409,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const item = createTodoItem(text, list, false, completed, elapsedTime); // ♠
             list.appendChild(item); // ♠
         }); // ♠
+        console.log('Deserialized list:', items); //◈
         updateTodoNumbers(list); // ♠
         checkEmptyPlaceholder(list); // ♠
     }
