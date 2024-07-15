@@ -367,6 +367,12 @@ function handlePlaceholderDragStart(e) {
         const li = this.closest(".todo-item");
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
+
+    // 원래 위치 정보를 데이터 속성으로 저장
+    const itemId = li.id; // 추가됨
+    li.dataset.originalList = list.id; // 추가됨
+    li.dataset.originalIndex = originalIndex; // 추가됨
+        
         list.removeChild(li);
         const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
@@ -401,6 +407,22 @@ function handlePlaceholderDragStart(e) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
+    document.getElementById('restoreButton').addEventListener('click', function() { // 추가됨
+    while (deletedList.firstChild) { // 추가됨
+        const item = deletedList.firstChild; // 추가됨
+        const originalListId = item.dataset.originalList; // 추가됨
+        const originalIndex = parseInt(item.dataset.originalIndex); // 추가됨
+        const originalList = document.getElementById(originalListId); // 추가됨
+        const restoredItem = createTodoItem(item.querySelector('.text').textContent, originalList, false, item.querySelector('.checkbox').checked, parseTime(item.querySelector('.timer-display').textContent)); // 추가됨
+        const insertIndex = Math.min(originalIndex, originalList.children.length); // 추가됨
+        originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // 추가됨
+        deletedList.removeChild(item); // 추가됨
+        updateTodoNumbers(originalList); // 추가됨
+        checkEmptyPlaceholder(originalList); // 추가됨
+        saveToLocalStorage(); // 추가됨
+    }
+});
+
     descriptionButton.addEventListener("click", () => {
         alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.");
     });
@@ -425,6 +447,8 @@ function handlePlaceholderDragStart(e) {
         localStorage.setItem('todoData', JSON.stringify(data));
     }
 
+    ///////
+
     function loadFromLocalStorage() {
         const data = JSON.parse(localStorage.getItem('todoData'));
         if (data) {
@@ -442,8 +466,8 @@ function handlePlaceholderDragStart(e) {
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
             isDeleted: item.closest('#deleted-list') ? true : false,
-            originalIndex: index, // 클로드 추가
-            originalList: list.id
+            originalIndex: item.dataset.originalIndex || index, // 수정됨
+            originalList: item.dataset.originalList || list.id // 수정됨
         }));
     }
 
@@ -472,21 +496,21 @@ function deserializeList(list, items, placeholderText) {
         }
     } // CLAUDE 추가
 
-    const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
-    
-    sortedItems.forEach(({ text, completed, elapsedTime, isDeleted, originalList, originalIndex }) => { // 클로드 추가
-        console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted, originalList, originalIndex }); // 클로드 추가
-        const targetList = document.getElementById(originalList); // 클로드 추가
-        const item = createTodoItem(text, targetList, isDeleted, completed, elapsedTime);
-        if (isDeleted) {
-            item.dataset.originalList = originalList; // CLAUDE 추가
-            item.dataset.originalIndex = originalIndex; // CLAUDE 추가
-            deletedList.appendChild(item);
-        } else {
-            const insertIndex = Math.min(originalIndex, targetList.children.length); // CLAUDE 추가
-            targetList.insertBefore(item, targetList.children[insertIndex]); // CLAUDE 수정
-        }
-    });
+const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 수정됨: 항목을 원래 인덱스로 정렬
+
+sortedItems.forEach(({ text, completed, elapsedTime, isDeleted, originalList, originalIndex }) => {
+    const item = createTodoItem(text, list, isDeleted, completed, elapsedTime); // 수정됨: 항목 생성
+    item.dataset.originalList = originalList; // 수정됨: 데이터 속성에 원래 리스트 ID 저장
+    item.dataset.originalIndex = originalIndex; // 수정됨: 데이터 속성에 원래 인덱스 저장
+
+    if (isDeleted) {
+        deletedList.appendChild(item); // 수정됨: 삭제된 항목을 deletedList에 추가
+    } else {
+        const targetList = document.getElementById(originalList); // 수정됨: 원래 리스트를 찾기 위해 originalList ID 사용
+        const insertIndex = Math.min(originalIndex, targetList.children.length); // 수정됨: 원래 인덱스 위치에 항목 삽입
+        targetList.insertBefore(item, targetList.children[insertIndex]); // 수정됨: 항목을 원래 리스트의 지정된 인덱스에 삽입
+    }
+});
     updateTodoNumbers(list);
 if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
     list.insertBefore(placeholder, list.firstChild);
@@ -498,6 +522,7 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
 
     
 }
+
 
 
     function parseTime(timeString) {
