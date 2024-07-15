@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentList = todoListA;
     let draggedItem = null;
     let dragging = false;
-    let originalPositions = {}; // 추가됨
 
     deletedList.style.display = "block";
     showDeletedBtn.textContent = "Hide Deleted";
@@ -368,10 +367,8 @@ function handlePlaceholderDragStart(e) {
         const li = this.closest(".todo-item");
         const elapsed = parseTime(li.querySelector('.timer-display').textContent);
         const originalIndex = Array.from(list.children).indexOf(li); // CLAUDE 추가
-        const itemId = li.id; // 추가됨
-        originalPositions[itemId] = { listId: list.id, index: originalIndex }; // 추가됨
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed);
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, deletedList, true, li.querySelector('.checkbox').checked, elapsed);
         deletedItem.dataset.originalList = list.id;
         deletedItem.dataset.originalIndex = originalIndex; // CLAUDE 추가
         deletedList.appendChild(deletedItem);
@@ -404,35 +401,10 @@ function handlePlaceholderDragStart(e) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-
-document.getElementById('restoreButton').addEventListener('click', function() { // 추가됨
-    while (deletedList.firstChild) { // 추가됨
-        const item = deletedList.firstChild; // 추가됨
-        const itemId = item.id; // 추가됨
-
-        if (originalPositions[itemId]) { // 추가됨
-            const { listId, index } = originalPositions[itemId]; // 추가됨
-            const originalList = document.getElementById(listId); // 추가됨
-            const restoredItem = createTodoItem(item.querySelector('.text').textContent, originalList, false, item.querySelector('.checkbox').checked, parseTime(item.querySelector('.timer-display').textContent)); // 추가됨
-            restoredItem.id = itemId; // 추가됨
-
-            const insertIndex = Math.min(index, originalList.children.length); // 추가됨
-            originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // 추가됨
-
-            delete originalPositions[itemId]; // 추가됨
-        }
-
-        deletedList.removeChild(item); // 추가됨
-        updateTodoNumbers(originalList); // 추가됨
-        checkEmptyPlaceholder(originalList); // 추가됨
-        saveToLocalStorage(); // 추가됨
-    }
-});
-    
     descriptionButton.addEventListener("click", () => {
         alert("ToDo-List 간단 사용법:\n\n- 그냥 엔터를 치면 A로 갑니다.\n- SHIFT+ENTER를 치면 B로 갑니다.");
     });
-    
+
     cpalinkButton.addEventListener("click", () => {
         window.open("https://iryan.kr/t7rbs8lqau", "_blank");
     });
@@ -526,6 +498,7 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
 
     
 }
+
 
     function parseTime(timeString) {
         const [hours, minutes, seconds] = timeString.split(':').map(Number);
