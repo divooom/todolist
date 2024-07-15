@@ -466,16 +466,7 @@ function deserializeList(list, items, placeholderText) {
     });
     updateTodoNumbers(list);
     list.insertBefore(placeholder, list.firstChild); //●▷
-   
-        // 불필요한 요소가 추가되지 않도록 확인 시작
-        const placeholders = list.querySelectorAll(".placeholder");
-    if (placeholders.length > 1) {
-        placeholders.forEach((el, index) => {
-            if (index > 0) el.remove(); // 추가된 불필요한 placeholder 제거
-        });
-       } 
-          // 불필요한 요소가 추가되지 않도록 확인 끝
-        checkEmptyPlaceholder(list); //▷
+    checkEmptyPlaceholder(list); //▷
     
 }
 
