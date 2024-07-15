@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const originalListId = li.dataset.originalList;
                 const originalIndex = parseInt(li.dataset.originalIndex); // CLAUDE 추가
                 const originalList = document.getElementById(originalListId);
-                originalList.appendChild(createTodoItem(text, originalList, false, checkbox.checked, elapsed));
+                const restoredItem = createTodoItem(text, originalList, false, checkbox.checked, elapsed);
                 const insertIndex = Math.min(originalIndex, originalList.children.length); // CLAUDE 추가
                 originalList.insertBefore(restoredItem, originalList.children[insertIndex]); // CLAUDE 수정
                 updateTodoNumbers(originalList);
@@ -449,8 +449,10 @@ function handlePlaceholderDragStart(e) {
 
 function deserializeList(list, items, placeholderText) {
     list.innerHTML = '';
+    let placeholder;  // CLAUDE 추가: placeholder 변수를 여기서 선언
+    
     if (list.id !== 'deleted-list') { // CLAUDE 추가
-    const placeholder = document.createElement("li");
+    placeholder = document.createElement("li");  // CLAUDE 수정: const를 let으로 변경
     placeholder.className = "todo-item placeholder";
     placeholder.textContent = placeholderText;
     placeholder.setAttribute("draggable", "true");
@@ -481,11 +483,10 @@ function deserializeList(list, items, placeholderText) {
         }
     });
     updateTodoNumbers(list);
-    list.insertBefore(placeholder, list.firstChild); //●▷
-    if (list.id !== 'deleted-list') { // CLAUDE 추가
-        list.insertBefore(list.querySelector(".placeholder"), list.firstChild);
-    } // CLAUDE 추가
-    checkEmptyPlaceholder(list); //▷
+if (list.id !== 'deleted-list' && placeholder) {  // CLAUDE 수정: placeholder가 존재할 때만 실행
+    list.insertBefore(placeholder, list.firstChild);
+}
+checkEmptyPlaceholder(list); //▷
     
 }
 
