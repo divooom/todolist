@@ -52,15 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0) {
-        const li = document.createElement("li");
-        li.className = "todo-item";
-        li.style.display = "flex";
-        li.style.alignItems = "center";
-        li.style.justifyContent = "space-between";
-        if (isCompleted) {
-            li.classList.add("completed");
-        }
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
+    const li = document.createElement("li");
+    li.className = isPlaceholder ? "todo-item placeholder" : "todo-item"; //♠
+    li.style.display = "flex";
+    li.style.alignItems = "center";
+    li.style.justifyContent = "space-between";
+    if (isCompleted) {
+        li.classList.add("completed");
+    }
             // 아래 추가된 코드
     function createTodoItem(text, list, isDeleted = false, isCompleted = false, elapsedTime = 0, isPlaceholder = false) { //♠
     // 위에 추가된 코드
