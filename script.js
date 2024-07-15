@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             placeholder.textContent = list.id === "todo-list-a" ? "A - List" : "B - List";
 
-            placeholder.addEventListener("dragstart", handleDragStart);
+            placeholder.addEventListener("dragstart", handlePlaceholderDragStart); //●▷
             placeholder.addEventListener("dragover", handleDragOver);
             placeholder.addEventListener("drop", handleDrop);
             placeholder.addEventListener("dragend", handleDragEnd);
@@ -298,6 +298,10 @@ document.addEventListener("DOMContentLoaded", () => {
         list.appendChild(placeholder); //◇●
     }
     }
+
+    function handlePlaceholderDragStart(e) { //●▷
+        e.preventDefault(); //●▷
+    } //●▷
 
     function handleDragStart(e) {
         draggedItem = this.closest(".todo-item");
@@ -329,6 +333,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (targetItem.classList.contains('placeholder')) {
             targetList.insertBefore(draggedItem, targetItem.nextSibling);
         }
+        targetList.insertBefore(targetList.querySelector(".placeholder"), targetList.firstChild); //●▷
+
+ if (draggedItem.classList.contains('placeholder')) { //●▷
+            return; //●▷
+        } //●▷
         
         updateTodoNumbers(targetList);
         updateTodoNumbers(todoListA);
@@ -450,6 +459,7 @@ function deserializeList(list, items, placeholderText) {
         }
     });
     updateTodoNumbers(list);
+    list.insertBefore(placeholder, list.firstChild); //●▷
     checkEmptyPlaceholder(list); //▷
     
 }
