@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 timerDisplay.style.backgroundColor = "white";
                 timerDisplay.style.border = "5px solid #0074ff";
             }
-            saveToLocalStorage(); // ♠
+            saveToLocalStorage(); //♠♠
         }
 
         function resetStopwatch() {
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
             playPauseButton.innerHTML = "▶️";
             timerDisplay.style.backgroundColor = "#797979";
             timerDisplay.style.border = "none";
-            saveToLocalStorage(); // ♠
+            saveToLocalStorage(); //♠♠
         }
 
         function formatTime(ms) {
@@ -321,8 +321,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleDelete() {
         const list = this.closest("ul");
         const li = this.closest(".todo-item");
+        const elapsed = parseTime(li.querySelector('.timer-display').textContent); //♠♠
         list.removeChild(li);
-        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed); // ♠
+        const deletedItem = createTodoItem(li.querySelector('.text').textContent, list, true, li.querySelector('.checkbox').checked, elapsed); //♠♠
         deletedItem.dataset.originalList = list.id;
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
@@ -337,7 +338,7 @@ document.addEventListener("DOMContentLoaded", () => {
             draggedItem = null;
             checkEmptyPlaceholder(todoListA);
             checkEmptyPlaceholder(todoListB);
-            saveToLocalStorage(); // ♠
+            console.log('Deserialized list:', list); //♠♠
         }, 0);
     }
 
@@ -373,11 +374,13 @@ document.addEventListener("DOMContentLoaded", () => {
             listB: serializeList(todoListB), // ♠
             deleted: serializeList(deletedList) // ♠
         };
+        console.log('Saving data:', data); //♠♠
         localStorage.setItem('todoData', JSON.stringify(data)); // ♠
     }
 
     function loadFromLocalStorage() { // ♠
         const data = JSON.parse(localStorage.getItem('todoData')); // ♠
+        console.log('Loading data:', data); //♠♠
         if (data) { // ♠
             titleInput.value = data.title; // ♠
             deserializeList(todoListA, data.listA); // ♠
