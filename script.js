@@ -1,22 +1,14 @@
-let todoListA, todoListB, deletedList; // ★ 전역 변수 선언
-
 document.addEventListener("DOMContentLoaded", () => {
-
-    console.log("DOM fully loaded and parsed"); // 콘솔 로그 추가
-    
     const todoInput = document.getElementById("todo-input");
     const addABtn = document.getElementById("add-a-btn");
     const addBBtn = document.getElementById("add-b-btn");
-    todoListA = document.getElementById("todo-list-a"); // ★ 변수 초기화
-    todoListB = document.getElementById("todo-list-b"); // ★ 변수 초기화
+    const todoListA = document.getElementById("todo-list-a");
+    const todoListB = document.getElementById("todo-list-b");
     const showDeletedBtn = document.getElementById("show-deleted-btn");
-    deletedList = document.getElementById("deleted-list"); // ★ 변수 초기화
+    const deletedList = document.getElementById("deleted-list");
     const topButton = document.getElementById("top-button");
     const descriptionButton = document.getElementById("description-button");
     const cpalinkButton = document.getElementById("cpalink-button");
-    const titleInput = document.getElementById("title-input"); // ★ 타이틀 입력 필드 추가
-
-    console.log(todoInput, addABtn, addBBtn, todoListA, todoListB, showDeletedBtn, deletedList); // 콘솔 로그 추가
 
     let currentList = todoListA; // 기본적으로 A 목록에 추가되도록 설정
     let draggedItem = null;
@@ -54,11 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
             todoInput.value = "";
             updateTodoNumbers(list);
             checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
-            saveTodos(); // 추가
         }
     }
 
-     function createTodoItem(text, list, isDeleted = false, isCompleted = false, initialElapsedTime = 0) {
+    function createTodoItem(text, list, isDeleted = false, isCompleted = false) {
         const li = document.createElement("li");
         li.className = "todo-item";
         li.style.display = "flex";
@@ -68,8 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             li.classList.add("completed");
         }
 
-        let elapsedTime = initialElapsedTime;
-         
         const number = document.createElement("span");
         number.className = "todo-number";
         number.style.marginRight = "10px"; // 텍스트와 번호 사이에 간격 추가
@@ -100,7 +89,6 @@ console.log('number element:', number);
             } else {
                 li.classList.remove("completed");
             }
-            saveTodos(); // 추가
         });
 
         const span = document.createElement("span");
@@ -146,8 +134,7 @@ console.log('number element:', number);
 
     const timerDisplay = document.createElement("span"); // 시계 표시 요소 생성
     timerDisplay.className = "timer-display"; // 클래스 설정
-    timerDisplay.textContent = formatTime(elapsedTime); // ★ 초기 시계 텍스트 설정
-    timerDisplay.setAttribute("data-time", elapsedTime); // ★ 데이터 속성으로 경과 시간 설정
+    timerDisplay.textContent = "00:00:00"; // 초기 시계 텍스트 설정
 
     stopwatchContainer.appendChild(playPauseButton); // 컨테이너에 재생/일시정지 버튼 추가
     stopwatchContainer.appendChild(timerDisplay); // 컨테이너에 시계 표시 추가
@@ -155,8 +142,7 @@ console.log('number element:', number);
 
     let stopwatchInterval; // 스탑워치 인터벌 변수
     let running = false; // 스탑워치 실행 여부
-    let startTime; // ★ 시작 시간 변수
-    let elapsedTime = 0; // ★ 경과 시간 변수
+    let startTime, elapsedTime = 0; // 시작 시간과 경과 시간 변수
 
     function toggleStopwatch() { // 스탑워치 재생/일시정지 함수
         if (running) {
@@ -165,10 +151,8 @@ console.log('number element:', number);
             playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
             timerDisplay.style.backgroundColor = "#797979"; // 멈춤 상태 배경 색상 수정
             timerDisplay.style.border = "none"; // 테두리 제거
-            timerDisplay.setAttribute("data-time", elapsedTime); // ★ 경과 시간 저장
-            saveTodos(); // ★ 추가
         } else {
-            startTime = Date.now() - parseInt(timerDisplay.getAttribute("data-time"));
+            startTime = Date.now() - elapsedTime; // 시작 시간 설정
             stopwatchInterval = setInterval(() => {
                 elapsedTime = Date.now() - startTime; // 경과 시간 계산
                 timerDisplay.textContent = formatTime(elapsedTime); // 시계 텍스트 업데이트
@@ -185,11 +169,9 @@ console.log('number element:', number);
         running = false; // 실행 상태 false
         elapsedTime = 0; // 경과 시간 초기화
         timerDisplay.textContent = "00:00:00"; // 시계 텍스트 초기화
-        timerDisplay.setAttribute("data-time", elapsedTime); // ★ 경과 시간 저장
         playPauseButton.innerHTML = "▶️"; // 버튼 텍스트 변경
         timerDisplay.style.backgroundColor = "#797979"; // 리셋 후 배경 색상 수정
         timerDisplay.style.border = "none"; // 테두리 제거
-        saveTodos(); // ★ 추가
     }
 
     function formatTime(ms) { // 시간 포맷 함수
@@ -209,7 +191,6 @@ console.log('number element:', number);
             const newText = prompt("Edit your todo:", span.textContent);
             if (newText !== null && newText.trim() !== "") {
                 span.textContent = newText.trim();
-                saveTodos(); // 추가
             }
         });
 
@@ -345,7 +326,6 @@ function checkEmptyPlaceholder(list) {
         deletedList.appendChild(deletedItem);
         updateTodoNumbers(list);
         checkEmptyPlaceholder(list); // 빈 항목(플레이스홀더) 확인
-        saveTodos(); // 추가
     }
 
     function handleDragEnd() {
@@ -383,66 +363,4 @@ function checkEmptyPlaceholder(list) {
     // 초기 빈 항목(플레이스홀더) 추가
     checkEmptyPlaceholder(todoListA);
     checkEmptyPlaceholder(todoListB);
-
-    // 여기에 loadTodos() 함수 호출을 추가합니다
-    loadTodos();
-
-    // 타이틀 불러오기 ★ 타이틀 불러오기
-if (localStorage.getItem('title')) {
-    titleInput.value = localStorage.getItem('title');
-}
-
-// 타이틀 변경 시 저장 ★ 타이틀 저장
-titleInput.addEventListener('input', () => {
-    localStorage.setItem('title', titleInput.value);
 });
-
-});
-
-// 맨 아래에 추가
-function saveTodos() {
-    console.log("saveTodos 함수 호출됨");
-    const todoA = Array.from(todoListA.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
-        text: item.querySelector('.text').textContent,
-        completed: item.querySelector('.checkbox').checked,
-        elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
-    }));
-    const todoB = Array.from(todoListB.querySelectorAll('.todo-item:not(.placeholder)')).map(item => ({
-        text: item.querySelector('.text').textContent,
-        completed: item.querySelector('.checkbox').checked,
-        elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
-    }));
-    const deletedItems = Array.from(deletedList.querySelectorAll('.todo-item')).map(item => ({
-        text: item.querySelector('.text').textContent,
-        completed: item.querySelector('.checkbox').checked,
-        originalList: item.dataset.originalList,
-        elapsedTime: item.querySelector('.timer-display')?.getAttribute('data-time') || 0 // ★ 타이머 값 저장
-    }));
-    localStorage.setItem('todos', JSON.stringify({ todoA, todoB, deletedItems }));
-}
-
-function loadTodos() {
-    console.log("loadTodos 함수 호출됨");
-    const savedTodos = localStorage.getItem('todos');
-    console.log("불러온 데이터:", savedTodos);
-    if (savedTodos) {
-        const { todoA, todoB, deletedItems } = JSON.parse(savedTodos);
-        todoA.forEach(item => {
-            const todoItem = createTodoItem(item.text, todoListA, false, item.completed, item.elapsedTime); // ★ 타이머 값 추가
-            todoListA.appendChild(todoItem);
-        });
-        todoB.forEach(item => {
-            const todoItem = createTodoItem(item.text, todoListB, false, item.completed, item.elapsedTime); // ★ 타이머 값 추가
-            todoListB.appendChild(todoItem);
-        });
-        deletedItems.forEach(item => {
-            const todoItem = createTodoItem(item.text, deletedList, true, item.completed, item.elapsedTime); // ★ 타이머 값 추가
-            todoItem.dataset.originalList = item.originalList;
-            deletedList.appendChild(todoItem);
-        });
-        updateTodoNumbers(todoListA);
-        updateTodoNumbers(todoListB);
-        checkEmptyPlaceholder(todoListA);
-        checkEmptyPlaceholder(todoListB);
-    }
-}
