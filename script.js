@@ -419,7 +419,9 @@ document.addEventListener("DOMContentLoaded", () => {
             text: item.querySelector('.text') ? item.querySelector('.text').textContent : '',
             completed: item.querySelector('.checkbox') ? item.querySelector('.checkbox').checked : false,
             elapsedTime: item.querySelector('.timer-display') ? parseTime(item.querySelector('.timer-display').textContent) : 0,
-            isDeleted: item.closest('#deleted-list') ? true : false //◆◇◆
+            isDeleted: item.closest('#deleted-list') ? true : false,
+            originalIndex: index, // 클로드 추가
+            originalList: list.id // 클로드 추가
         }));
     }
 
@@ -434,10 +436,18 @@ function deserializeList(list, items, placeholderText) {
     placeholder.addEventListener("drop", handleDrop);
     placeholder.addEventListener("dragend", handleDragEnd);
     list.appendChild(placeholder);
-    items.forEach(({ text, completed, elapsedTime, isDeleted }) => {
-        console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted }); // 디버깅용 로그
-        const item = createTodoItem(text, list, isDeleted, completed, elapsedTime);
-        list.appendChild(item);
+
+    const sortedItems = items.sort((a, b) => a.originalIndex - b.originalIndex); // 클로드 추가
+    
+    sortedItems.forEach(({ text, completed, elapsedTime, isDeleted, originalList, originalIndex }) => { // 클로드 추가
+        console.log('Deserializing item:', { text, completed, elapsedTime, isDeleted, originalList, originalIndex }); // 클로드 추가
+        const targetList = document.getElementById(originalList); // 클로드 추가
+        const item = createTodoItem(text, targetList, isDeleted, completed, elapsedTime);
+        if (isDeleted) {
+            deletedList.appendChild(item);
+        } else {
+            targetList.insertBefore(item, targetList.children[originalIndex]); // 클로드 추가
+        }
     });
     updateTodoNumbers(list);
     checkEmptyPlaceholder(list); //▷
