@@ -97,6 +97,7 @@ body {
 
 .title-area {
     width: 1150px;
+    height: 68px;
     background-color: black;
     color: #fee140;
     padding: 20px 46px 20px 40px;
@@ -106,7 +107,6 @@ body {
     resize: none;
     white-space: pre-wrap;
     overflow-wrap: break-word;
-    height: 70px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
     line-height: 1.5;
