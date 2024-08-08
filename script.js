@@ -253,6 +253,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 saveToLocalStorage();
             });
 
+            // 완전삭제 버튼 추가 시작
+      
+        const deletePermanentlyBtn = document.createElement("button");
+        deletePermanentlyBtn.className = "delete-btn";
+        deletePermanentlyBtn.innerHTML = "&#128465;";
+        deletePermanentlyBtn.style.marginLeft = "10px";
+        deletePermanentlyBtn.addEventListener("click", () => {
+            const isConfirmed = confirm('해당 리스트를 완전히 삭제하시겠습니까?\nAre you sure you want to delete the list completely?');
+            if (isConfirmed) {
+                deletedList.removeChild(li);
+                saveToLocalStorage();
+            }
+        });
+            // 완전삭제 버튼 끝
+
             const spacer = document.createElement("span");
             spacer.style.flexGrow = "1";
 
@@ -262,6 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.appendChild(span);
             li.appendChild(spacer);
             li.appendChild(restoreBtn);
+            li.appendChild(deletePermanentlyBtn);
         } else {
             li.appendChild(dragHandle);
             li.appendChild(checkbox);
