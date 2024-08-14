@@ -551,7 +551,7 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
 
 // 방문자 카운트 -- 시작
 // IP 주소 가져오기
-fetch('https://api.ipify.org?format=json')
+fetch('https://ipapi.co/json/')
     .then(response => response.json())
     .then(data => {
         const myIP = data.ip; // 현재 IP 주소 가져오기
@@ -569,7 +569,7 @@ fetch('https://api.ipify.org?format=json')
         let todayVisitCount = visitData[today] || 0;
 
         // IP 주소 가져오기 (다시 방문 IP 확인)
-        fetch('https://api.ipify.org?format=json')
+        fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
                 const visitorIP = data.ip;
@@ -606,7 +606,13 @@ fetch('https://api.ipify.org?format=json')
                 } else {
                     console.log("자신의 IP 방문은 카운트하지 않습니다.");
                 }
+            })
+            .catch(error => {
+                console.error('Error fetching visitor IP:', error);
             });
+    })
+    .catch(error => {
+        console.error('Error fetching my IP:', error);
     });
 
 // 방문자 카운트 -- 끝
