@@ -601,15 +601,14 @@ fetch('https://ipapi.co/json/')
                     localStorage.setItem('visitData', JSON.stringify(visitData));
                     localStorage.setItem('totalVisitCount', totalVisitCount);
 
-                    // 지난 9일간의 방문자 수 계산
-                    let last9DaysCount = 0;
+                    // 지난 9일간의 날짜별 방문자 수 출력
+                    console.log('[Visitor Count] 지난 9일간의 날짜별 방문자 수:');
                     for (let i = dates.length - 1; i >= 0 && i >= dates.length - 9; i--) {
-                        last9DaysCount += visitData[dates[i]];
+                        console.log(`[Visitor Count] ${dates[i]}: ${visitData[dates[i]]}명`);
                     }
 
-                    // 콘솔에 결과 출력
+                    // 콘솔에 최종 결과 출력
                     console.log(`[Visitor Count] 오늘의 방문자 수: ${todayVisitCount}`);
-                    console.log(`[Visitor Count] 지난 9일간의 방문자 수: ${last9DaysCount}`);
                     console.log(`[Visitor Count] 총 누적 방문자 수: ${totalVisitCount}`);
                 } else {
                     console.log("자신의 IP 방문은 카운트하지 않습니다.");
