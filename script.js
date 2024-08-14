@@ -546,3 +546,67 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
         return (hours * 3600 + minutes * 60 + seconds) * 1000;
     }
 });
+
+
+
+// 방문자 카운트 -- 시작
+// IP 주소 가져오기
+fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+        const myIP = data.ip; // 현재 IP 주소 가져오기
+
+        // 오늘 날짜 가져오기 (YYYY-MM-DD 형식)
+        const today = new Date().toISOString().split('T')[0];
+
+        // 로컬 스토리지에서 방문 기록 가져오기
+        let visitData = JSON.parse(localStorage.getItem('visitData')) || {};
+
+        // 총 누적 방문자 수 가져오기
+        let totalVisitCount = localStorage.getItem('totalVisitCount') || 0;
+
+        // 오늘 날짜에 해당하는 방문자 수 가져오기
+        let todayVisitCount = visitData[today] || 0;
+
+        // IP 주소 가져오기 (다시 방문 IP 확인)
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const visitorIP = data.ip;
+
+                // 자신의 IP와 방문자의 IP가 다를 경우에만 카운트 증가
+                if (visitorIP !== myIP) {
+                    // 방문자 수 증가
+                    todayVisitCount++;
+                    totalVisitCount++;
+
+                    // 방문 기록 업데이트
+                    visitData[today] = todayVisitCount;
+
+                    // 9일보다 오래된 데이터 삭제
+                    const dates = Object.keys(visitData);
+                    if (dates.length > 10) { // 10일간의 데이터 유지 (오늘 포함)
+                        delete visitData[dates[0]];
+                    }
+
+                    // 로컬 스토리지에 업데이트된 방문 기록 저장
+                    localStorage.setItem('visitData', JSON.stringify(visitData));
+                    localStorage.setItem('totalVisitCount', totalVisitCount);
+
+                    // 지난 9일간의 방문자 수 계산
+                    let last9DaysCount = 0;
+                    for (let i = dates.length - 1; i >= 0 && i >= dates.length - 9; i--) {
+                        last9DaysCount += visitData[dates[i]];
+                    }
+
+                    // 콘솔에 결과 출력
+                    console.log(`오늘의 방문자 수: ${todayVisitCount}`);
+                    console.log(`지난 9일간의 방문자 수: ${last9DaysCount}`);
+                    console.log(`총 누적 방문자 수: ${totalVisitCount}`);
+                } else {
+                    console.log("자신의 IP 방문은 카운트하지 않습니다.");
+                }
+            });
+    });
+
+// 방문자 카운트 -- 끝
