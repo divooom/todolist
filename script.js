@@ -550,76 +550,7 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
 
 
 // 방문자 카운트 -- 시작
-// IP 주소 가져오기
-console.log("Fetching IP...");
-fetch('https://ipapi.co/json/')
-    .then(response => response.json())
-    .then(data => {
-        console.log("IP Fetched: ", data.ip);
-        const myIP = data.ip; // 현재 IP 주소 가져오기
-
-        // 오늘 날짜 가져오기 (YYYY-MM-DD 형식)
-        const today = new Date().toISOString().split('T')[0];
-        console.log("Today: ", today);
-
-        // 로컬 스토리지에서 방문 기록 가져오기
-        let visitData = JSON.parse(localStorage.getItem('visitData')) || {};
-        console.log("Visit Data: ", visitData);
-
-        // 총 누적 방문자 수 가져오기
-        let totalVisitCount = localStorage.getItem('totalVisitCount') || 0;
-        console.log("Total Visit Count: ", totalVisitCount);
-
-        // 오늘 날짜에 해당하는 방문자 수 가져오기
-        let todayVisitCount = visitData[today] || 0;
-        console.log("Today's Visit Count: ", todayVisitCount);
-
-        // IP 주소 가져오기 (다시 방문 IP 확인)
-        fetch('https://ipapi.co/json/')
-            .then(response => response.json())
-            .then(data => {
-                console.log("Visitor IP Fetched: ", data.ip);
-                const visitorIP = data.ip;
-
-                // 자신의 IP와 방문자의 IP가 다를 경우에만 카운트 증가
-                if (visitorIP !== myIP) {
-                    console.log("Visitor IP is different from My IP.");
-                    // 방문자 수 증가
-                    todayVisitCount++;
-                    totalVisitCount++;
-
-                    // 방문 기록 업데이트
-                    visitData[today] = todayVisitCount;
-
-                    // 9일보다 오래된 데이터 삭제
-                    const dates = Object.keys(visitData);
-                    if (dates.length > 10) { // 10일간의 데이터 유지 (오늘 포함)
-                        delete visitData[dates[0]];
-                    }
-
-                    // 로컬 스토리지에 업데이트된 방문 기록 저장
-                    localStorage.setItem('visitData', JSON.stringify(visitData));
-                    localStorage.setItem('totalVisitCount', totalVisitCount);
-
-                    // 지난 9일간의 날짜별 방문자 수 출력
-                    console.log('[Visitor Count] 지난 9일간의 날짜별 방문자 수:');
-                    for (let i = dates.length - 1; i >= 0 && i >= dates.length - 9; i--) {
-                        console.log(`[Visitor Count] ${dates[i]}: ${visitData[dates[i]]}명`);
-                    }
-
-                    // 콘솔에 최종 결과 출력
-                    console.log(`[Visitor Count] 오늘의 방문자 수: ${todayVisitCount}`);
-                    console.log(`[Visitor Count] 총 누적 방문자 수: ${totalVisitCount}`);
-                } else {
-                    console.log("자신의 IP 방문은 카운트하지 않습니다.");
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching visitor IP:', error);
-            });
-    })
-    .catch(error => {
-        console.error('Error fetching my IP:', error);
-    });
+<script data-goatcounter="https://154685.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 // 방문자 카운트 -- 끝
