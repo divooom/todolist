@@ -608,9 +608,9 @@ fetch('https://ipapi.co/json/')
                     }
 
                     // 콘솔에 결과 출력
-                    console.log(`오늘의 방문자 수: ${todayVisitCount}`);
-                    console.log(`지난 9일간의 방문자 수: ${last9DaysCount}`);
-                    console.log(`총 누적 방문자 수: ${totalVisitCount}`);
+                    console.log(`[Visitor Count] 오늘의 방문자 수: ${todayVisitCount}`);
+                    console.log(`[Visitor Count] 지난 9일간의 방문자 수: ${last9DaysCount}`);
+                    console.log(`[Visitor Count] 총 누적 방문자 수: ${totalVisitCount}`);
                 } else {
                     console.log("자신의 IP 방문은 카운트하지 않습니다.");
                 }
