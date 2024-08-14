@@ -551,31 +551,39 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
 
 // 방문자 카운트 -- 시작
 // IP 주소 가져오기
+console.log("Fetching IP...");
 fetch('https://ipapi.co/json/')
     .then(response => response.json())
     .then(data => {
+        console.log("IP Fetched: ", data.ip);
         const myIP = data.ip; // 현재 IP 주소 가져오기
 
         // 오늘 날짜 가져오기 (YYYY-MM-DD 형식)
         const today = new Date().toISOString().split('T')[0];
+        console.log("Today: ", today);
 
         // 로컬 스토리지에서 방문 기록 가져오기
         let visitData = JSON.parse(localStorage.getItem('visitData')) || {};
+        console.log("Visit Data: ", visitData);
 
         // 총 누적 방문자 수 가져오기
         let totalVisitCount = localStorage.getItem('totalVisitCount') || 0;
+        console.log("Total Visit Count: ", totalVisitCount);
 
         // 오늘 날짜에 해당하는 방문자 수 가져오기
         let todayVisitCount = visitData[today] || 0;
+        console.log("Today's Visit Count: ", todayVisitCount);
 
         // IP 주소 가져오기 (다시 방문 IP 확인)
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
+                console.log("Visitor IP Fetched: ", data.ip);
                 const visitorIP = data.ip;
 
                 // 자신의 IP와 방문자의 IP가 다를 경우에만 카운트 증가
                 if (visitorIP !== myIP) {
+                    console.log("Visitor IP is different from My IP.");
                     // 방문자 수 증가
                     todayVisitCount++;
                     totalVisitCount++;
