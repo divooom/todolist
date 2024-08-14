@@ -547,10 +547,3 @@ if (list.id !== 'deleted-list' && placeholder && items.length > 0) {
     }
 });
 
-
-
-// 방문자 카운트 -- 시작
-<script data-goatcounter="https://154685.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
-
-// 방문자 카운트 -- 끝
