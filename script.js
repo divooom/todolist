@@ -438,7 +438,7 @@ function handlePlaceholderDragStart(e) {
     });
 
     cpalinkButton.addEventListener("click", () => {
-        window.open("https://iryan.kr/t7ro1h856s", "_blank");
+        window.open("http://dbdbdeep.com/ma/link.php?lncd=S00275812QC05795752Y", "_blank");
     });
 
     clearButton.addEventListener("click", () => {
